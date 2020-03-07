@@ -9,6 +9,4 @@ local.properties
 
 gradlew.bat
 
-gradlew
-
-gradle/
+gradle/wrapper/gradle-wrapper.jar
