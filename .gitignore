@@ -14,3 +14,5 @@ gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.jar
 
 build/
+
+app/app.iml
