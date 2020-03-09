@@ -1,8 +1,9 @@
 <resources>
     <dimen name="main_horizontal_margin">16dp</dimen>
     <dimen name="main_vertical_margin">80dp</dimen>
+    <dimen name="main_toolbar_horizontal_margin">8dp</dimen>
+    <dimen name="main_toolbar_top_margin">16dp</dimen>
     <dimen name="main_toolbar_height">40dp</dimen>
-    <dimen name="main_top_margin">16dp</dimen>
     <dimen name="pig_size">150dp</dimen>
     <dimen name="total_amount_label_font_size">15sp</dimen>
     <dimen name="total_amount_font_size">15sp</dimen>
@@ -11,4 +12,7 @@
     <dimen name="options_margin">10dp</dimen>
     <dimen name="options_height">100dp</dimen>
     <dimen name="options_icon_size">40dp</dimen>
+
+    <dimen name="transfers_title_font_size">15sp</dimen>
+    <dimen name="total_amount_main_font_size">35sp</dimen>
 </resources>

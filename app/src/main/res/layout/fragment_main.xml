@@ -10,19 +10,24 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="@dimen/main_toolbar_height"
-        android:layout_marginStart="@dimen/main_horizontal_margin"
-        android:layout_marginTop="@dimen/main_top_margin"
-        android:layout_marginEnd="@dimen/main_horizontal_margin"
+        android:layout_marginStart="@dimen/main_toolbar_horizontal_margin"
+        android:layout_marginTop="@dimen/main_toolbar_top_margin"
+        android:layout_marginEnd="@dimen/main_toolbar_horizontal_margin"
         android:orientation="horizontal"
+        android:scaleX="1"
+        android:scaleY="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/button_pig_back"
+            android:id="@+id/button_return"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
             android:backgroundTint="@android:color/white"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_arrowleftpig" />
 
         <Space
@@ -33,8 +38,11 @@
         <ImageButton
             android:id="@+id/button_info"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
             android:backgroundTint="@android:color/white"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_information" />
 
     </LinearLayout>
@@ -120,7 +128,7 @@
         android:layout_height="@dimen/options_height"
         android:clipToPadding="false"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/line2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent">
@@ -209,9 +217,9 @@
         android:layout_height="1dp"
         android:layout_weight="1"
         android:background="@color/colorLightGray"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/options_layout" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Space
         android:layout_width="wrap_content"
