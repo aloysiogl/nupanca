@@ -18,7 +18,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [insert_money.newInstance] factory method to
  * create an instance of this fragment.
  */
-class InsertMoneyFragment() : Fragment() {
+class InsertMoneyFragment() : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
 
@@ -48,6 +48,10 @@ class InsertMoneyFragment() : Fragment() {
             val mode = safeArgs.mode
             how_much_to_save.text = mode
         }
+    }
+
+    override fun onBackPressed(): Boolean {
+        return false
     }
 
     companion object {

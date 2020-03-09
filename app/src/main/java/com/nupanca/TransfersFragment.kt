@@ -10,13 +10,12 @@ import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_transfers.*
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_transfers.*
 
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class TransfersFragment : Fragment()/*, IOnBackPressed*/ {
+class TransfersFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +49,6 @@ class TransfersFragment : Fragment()/*, IOnBackPressed*/ {
             )
         }
 
-
         button_return.setOnClickListener {
             button_return.startAnimation(
                 AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
@@ -66,14 +64,9 @@ class TransfersFragment : Fragment()/*, IOnBackPressed*/ {
             )
         }
     }
-//
-//    override fun onBackPressed(): Boolean {
-//        view?.let {
-//            Snackbar.make(it, "Replace with this", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
-//        button_return.performClick()
-//        button_return.callOnClick()
-//        return true
-//    }
+
+    override fun onBackPressed(): Boolean {
+        button_return.performClick()
+        return true
+    }
 }
