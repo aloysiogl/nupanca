@@ -14,7 +14,9 @@
         <action
             android:id="@+id/action_MainFragment_to_TransfersFragment"
             app:destination="@id/TransfersFragment"
-            app:enterAnim="@anim/slide_in_up" />
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/TransfersFragment"
@@ -25,6 +27,21 @@
         <action
             android:id="@+id/action_TransfersFragment_to_MainFragment"
             app:destination="@id/MainFragment"
-            app:enterAnim="@anim/slide_in_down" />
+            app:enterAnim="@anim/stay"
+            app:exitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_TransfersFragment_to_InsertMoneyFragment"
+            app:destination="@id/InsertMoneyFragment"
+            app:launchSingleTop="false" >
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/InsertMoneyFragment"
+        android:name="com.nupanca.InsertMoneyFragment"
+        android:label="InsertMoneyFragment" >
+        <argument
+            android:name="mode"
+            app:argType="string"
+            android:defaultValue="Olarr" />
     </fragment>
 </navigation>

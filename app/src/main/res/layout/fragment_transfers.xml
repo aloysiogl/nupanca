@@ -2,24 +2,26 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_fragment_transfers"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TransfersFragment">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_top"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:background="@color/colorPrimary">
 
             <LinearLayout
@@ -39,6 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
+                    android:background="@color/colorPrimary"
                     android:backgroundTint="@color/colorPrimary"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
@@ -62,6 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
+                    android:background="@color/colorPrimary"
                     android:backgroundTint="@color/colorPrimary"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
@@ -73,7 +77,7 @@
             <TextView
                 android:id="@+id/total_amount"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/keep_calm_w01_book"
                 android:gravity="center"
@@ -91,19 +95,20 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_store_money"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_weight="3"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true">
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/transfers_options_image_width"
+                android:layout_height="0dp"
+                android:padding="@dimen/transfers_options_button_padding"
                 android:src="@drawable/ic_pig"
+                android:tint="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/store_money_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,19 +116,24 @@
                 android:id="@+id/store_money_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/keep_calm_medium"
                 android:text="@string/store_money_title"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/transfers_options_font_size"
                 app:layout_constraintBottom_toTopOf="@+id/store_money_text"
-                app:layout_constraintEnd_toStartOf="@id/imageView5"
-                app:layout_constraintStart_toEndOf="@id/imageView3"
-                app:layout_constraintTop_toBottomOf="@id/space1" />
+                app:layout_constraintStart_toStartOf="@id/store_money_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/store_money_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/keep_calm_w01_book"
                 android:text="@string/store_money_text"
-                app:layout_constraintBottom_toTopOf="@id/space2"
-                app:layout_constraintEnd_toStartOf="@id/imageView5"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/transfers_options_font_size"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toBottomOf="@id/store_money_title" />
 
@@ -131,29 +141,12 @@
                 android:id="@+id/imageView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/transfers_options_button_padding"
                 android:src="@drawable/ic_arrowright"
+                android:tint="@color/colorGray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/store_money_title"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <Space
-                android:id="@+id/space1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/store_money_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Space
-                android:id="@+id/space2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/store_money_text" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -166,12 +159,58 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_recover_money"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_weight="3"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true">
 
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="@dimen/transfers_options_image_width"
+                android:layout_height="0dp"
+                android:padding="@dimen/transfers_options_button_padding"
+                android:src="@drawable/ic_pig"
+                android:tint="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/recover_money_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/keep_calm_medium"
+                android:text="@string/recover_money_title"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/transfers_options_font_size"
+                app:layout_constraintBottom_toTopOf="@id/recover_money_text"
+                app:layout_constraintStart_toStartOf="@id/recover_money_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/recover_money_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/recover_money_text"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/transfers_options_font_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imageView2"
+                app:layout_constraintTop_toBottomOf="@id/recover_money_title" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/transfers_options_button_padding"
+                android:src="@drawable/ic_arrowright"
+                android:tint="@color/colorGray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

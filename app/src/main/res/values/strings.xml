@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Nupança</string>
     <string name="action_settings">Settings</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="main_fragment_label">First Fragment</string>
     <string name="transfers_fragment_label">Transfers Fragment</string>
@@ -16,8 +17,19 @@
     <string name="store_money_text">Economize seu dinheiro e deixe o \nporquinho dividir ele entre
         suas \nmetas</string>
     <string name="recover_money_title">Resgatar dinheiro</string>
-    <string name="recover_money_text"></string>
+    <string name="recover_money_text">Devolva um valor para o seu saldo e \ndeixe que o porquinho
+        redistribua o \nvalor retirado entre suas metas</string>
 
     <string name="hello_first_fragment">R$ 3.000,00</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <!--Globals-->
+    <string name="confirm_uppercase_text">CONFIRMAR</string>
+
+    <!--Strings used in the the save money fragment-->
+    <string name="insert_money_text">Quanto você quer guardar?</string>
+    <string name="money_sign">R$</string>
+    <string name="initial_value_to_save">0,00</string>
+    <string name="available_money_placeholder">Saldo disponível: 3.000,00</string>
+
 </resources>
