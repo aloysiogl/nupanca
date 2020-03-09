@@ -140,7 +140,7 @@
                 android:layout_width="@dimen/options_icon_size"
                 android:layout_height="@dimen/options_icon_size"
                 android:layout_margin="@dimen/options_margin"
-                android:src="@drawable/ic_pig"
+                android:src="@drawable/ic_metas"
                 android:tint="@color/colorPrimary" />
 
             <Space
@@ -181,7 +181,7 @@
                 android:layout_width="@dimen/options_icon_size"
                 android:layout_height="@dimen/options_icon_size"
                 android:layout_margin="@dimen/options_margin"
-                android:src="@drawable/ic_pig"
+                android:src="@drawable/ic_controle"
                 android:tint="@color/colorPrimary" />
 
             <Space
