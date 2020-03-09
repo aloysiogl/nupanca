@@ -1,10 +1,12 @@
 package com.nupanca
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_insert_money.*
@@ -45,11 +47,24 @@ class InsertMoneyFragment() : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         getView()?.let { ViewCompat.setTranslationZ(it, 2f) }
 
+//        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.showSoftInput(text_edit_money_to_remove, InputMethodManager.SHOW_IMPLICIT)
+//        imm.hideSoftInputFromWindow(view.windowToken, 0)
+//        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
         arguments?.let {
             val safeArgs = InsertMoneyFragmentArgs.fromBundle(it)
             val mode = safeArgs.mode
             how_much_to_save.text = mode
+        }
+
+        button_confirm.setOnClickListener{
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+//            imm.
+//            imm.showSoftInput(text_edit_money_to_remove, InputMethodManager.SHOW_FORCED)
+//            print("ola mund")
+            how_much_to_save.text="teste"
         }
     }
 

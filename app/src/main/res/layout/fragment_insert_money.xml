@@ -48,6 +48,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_spacing_insert_money_fragment"
                 android:layout_marginRight="@dimen/space_to_numbers_insert_money_fragment"
                 android:fontFamily="@font/keep_calm_w01_book"
                 android:text="@string/money_sign"
@@ -61,6 +62,7 @@
                 android:textSize="@dimen/save_withdraw_money_font_size">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_edit_money_to_remove"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -86,7 +88,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/button_return"
+        android:id="@+id/button_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"

@@ -22,7 +22,7 @@
     <dimen name="save_withdraw_money_font_size">30sp</dimen>
 
     <!--Saving screen-->
-    <dimen name="text_spacing_insert_money_fragment">10dp</dimen>
+    <dimen name="text_spacing_insert_money_fragment">15dp</dimen>
     <dimen name="space_to_numbers_insert_money_fragment">5dp</dimen>
     <dimen name="current_amount_insert_money_fragment_font_size">20sp</dimen>
     <dimen name="confirm_insert_money_fragment_margin">25dp</dimen>
