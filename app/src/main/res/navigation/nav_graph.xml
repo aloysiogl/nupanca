@@ -44,5 +44,10 @@
             android:name="mode"
             app:argType="string"
             android:defaultValue="Olarr" />
+        <action
+            android:id="@+id/action_InsertMoneyFragment_to_TransfersFragment"
+            app:destination="@id/TransfersFragment"
+            app:enterAnim="@anim/stay"
+            app:exitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>

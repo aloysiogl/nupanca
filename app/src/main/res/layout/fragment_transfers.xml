@@ -152,7 +152,7 @@
         <TextView
             android:id="@+id/line"
             style="?android:attr/listSeparatorTextViewStyle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorLightGray" />
 
@@ -166,7 +166,7 @@
             android:focusable="true">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/button_return"
                 android:layout_width="@dimen/transfers_options_image_width"
                 android:layout_height="0dp"
                 android:padding="@dimen/transfers_options_button_padding"
@@ -198,7 +198,7 @@
                 android:textColor="@color/colorGray"
                 android:textSize="@dimen/transfers_options_font_size"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
+                app:layout_constraintStart_toEndOf="@id/button_return"
                 app:layout_constraintTop_toBottomOf="@id/recover_money_title" />
 
             <ImageView

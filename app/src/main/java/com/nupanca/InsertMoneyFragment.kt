@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.ViewCompat
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_insert_money.*
+import kotlinx.android.synthetic.main.fragment_insert_money.button_return
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,10 +68,18 @@ class InsertMoneyFragment() : BaseFragment() {
 //            print("ola mund")
             how_much_to_save.text="teste"
         }
+
+        button_return.setOnClickListener {
+            button_return.startAnimation(
+                AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
+            )
+            findNavController().navigate(R.id.action_InsertMoneyFragment_to_TransfersFragment)
+        }
     }
 
     override fun onBackPressed(): Boolean {
-        return false
+        button_return.performClick()
+        return true
     }
 
     companion object {
