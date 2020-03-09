@@ -6,26 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="0dp"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="0dp">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/white"
-            android:elevation="0dp"
-            android:fitsSystemWindows="true"
-            app:navigationIcon="@drawable/ic_arrowleftpig"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <include
         layout="@layout/content_main"
         android:fitsSystemWindows="true" />

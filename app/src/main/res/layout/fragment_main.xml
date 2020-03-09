@@ -6,28 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".MainFragment">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/main_toolbar_height"
+        android:layout_marginStart="@dimen/main_horizontal_margin"
+        android:layout_marginTop="@dimen/main_top_margin"
+        android:layout_marginEnd="@dimen/main_horizontal_margin"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/button_pig_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:src="@drawable/ic_arrowleftpig" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/button_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:src="@drawable/ic_information" />
+
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/image_pig"
         android:layout_width="@dimen/pig_size"
         android:layout_height="@dimen/pig_size"
         android:layout_marginStart="@dimen/main_horizontal_margin"
-        android:layout_marginTop="@dimen/main_vertical_margin"
         android:layout_marginEnd="@dimen/main_horizontal_margin"
-        android:layout_marginBottom="@dimen/main_vertical_margin"
         android:src="@drawable/ic_bigpig"
         app:layout_constraintBottom_toTopOf="@+id/total_amount_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/total_amount_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/main_vertical_margin"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintBottom_toTopOf="@+id/options_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/image_pig">
@@ -87,13 +118,12 @@
         android:id="@+id/options_layout"
         android:layout_width="0dp"
         android:layout_height="@dimen/options_height"
-        android:layout_marginTop="@dimen/main_vertical_margin"
         android:clipToPadding="false"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/total_amount_layout">
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:id="@+id/goals_layout"
@@ -182,5 +212,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/options_layout" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/options_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_amount_layout" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/total_amount_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_pig" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/image_pig"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
