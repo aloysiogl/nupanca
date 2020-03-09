@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FirstFragment">
+    tools:context=".MainFragment">
 
     <ImageView
         android:id="@+id/image_pig"
@@ -65,7 +65,7 @@
             android:layout_width="@dimen/total_amount_arrow_size"
             android:layout_height="@dimen/total_amount_arrow_size"
             android:layout_marginEnd="@dimen/main_horizontal_margin"
-            android:src="@drawable/ic_next"
+            android:src="@drawable/ic_arrowright"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/total_amount_label"
@@ -88,10 +88,8 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/options_height"
         android:layout_marginTop="@dimen/main_vertical_margin"
-        android:layout_marginBottom="@dimen/main_vertical_margin"
         android:clipToPadding="false"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/button_first"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -184,15 +182,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/options_layout" />
-
-    <Button
-        android:id="@+id/button_first"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/options_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
