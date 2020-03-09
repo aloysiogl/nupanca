@@ -32,8 +32,9 @@
         <action
             android:id="@+id/action_TransfersFragment_to_InsertMoneyFragment"
             app:destination="@id/InsertMoneyFragment"
-            app:launchSingleTop="false" >
-        </action>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/stay"
+            app:launchSingleTop="false"></action>
     </fragment>
     <fragment
         android:id="@+id/InsertMoneyFragment"
