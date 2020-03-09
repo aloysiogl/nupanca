@@ -16,7 +16,8 @@
     <string name="store_money_text">Economize seu dinheiro e deixe o \nporquinho dividir ele entre
         suas \nmetas</string>
     <string name="recover_money_title">Resgatar dinheiro</string>
-    <string name="recover_money_text"></string>
+    <string name="recover_money_text">Devolva um valor para o seu saldo e \ndeixe que o porquinho
+        redistribua o \nvalor retirado entre suas metas</string>
 
     <string name="hello_first_fragment">R$ 3.000,00</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
