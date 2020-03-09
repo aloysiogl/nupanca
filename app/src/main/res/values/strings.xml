@@ -7,7 +7,10 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="total_amount_label">Total disponível</string>
+    <string name="total_amount_label">Dinheiro guardado</string>
+    <string name="goals_label">Metas</string>
+    <string name="control_label">Controle</string>
+
     <string name="hello_first_fragment">R$ 3000,00</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

@@ -8,45 +8,182 @@
 
     <ImageView
         android:id="@+id/image_pig"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/pig_horizontal_margin"
-        android:layout_marginEnd="@dimen/pig_horizontal_margin"
-        android:src="@drawable/ic_pig"
-        app:layout_constraintBottom_toTopOf="@+id/text_total_amount_label"
+        android:layout_width="@dimen/pig_size"
+        android:layout_height="@dimen/pig_size"
+        android:layout_marginStart="@dimen/main_horizontal_margin"
+        android:layout_marginTop="@dimen/main_vertical_margin"
+        android:layout_marginEnd="@dimen/main_horizontal_margin"
+        android:layout_marginBottom="@dimen/main_vertical_margin"
+        android:src="@drawable/ic_bigpig"
+        app:layout_constraintBottom_toTopOf="@+id/total_amount_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/text_total_amount_label"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/total_amount_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/main_left_margin"
-        android:layout_marginEnd="@dimen/main_right_margin"
-        android:text="@string/total_amount_label"
-        android:textColor="@color/colorGray"
-        android:textSize="@dimen/total_amount_label_font_size"
-        app:layout_constraintBottom_toTopOf="@id/button_first"
+        android:layout_marginTop="@dimen/main_vertical_margin"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/image_pig">
+
+        <TextView
+            android:id="@+id/total_amount_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/main_horizontal_margin"
+            android:fontFamily="@font/keep_calm_w01_book"
+            android:text="@string/total_amount_label"
+            android:textColor="@color/colorGray"
+            android:textSize="@dimen/total_amount_label_font_size"
+            app:layout_constraintBottom_toTopOf="@+id/total_amount"
+            app:layout_constraintEnd_toStartOf="@id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/total_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/main_horizontal_margin"
+            android:fontFamily="@font/keep_calm_w01_book"
+            android:text="@string/hello_first_fragment"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/total_amount_font_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/total_amount_label" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/total_amount_arrow_size"
+            android:layout_height="@dimen/total_amount_arrow_size"
+            android:layout_marginEnd="@dimen/main_horizontal_margin"
+            android:src="@drawable/ic_next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/total_amount_label"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/text_total_amount"
+        android:id="@+id/line1"
+        style="?android:attr/listSeparatorTextViewStyle"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/main_left_margin"
-        android:layout_marginEnd="@dimen/main_right_margin"
-        android:text="@string/hello_first_fragment"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/total_amount_font_size"
-        app:layout_constraintBottom_toTopOf="@+id/button_first"
+        android:layout_height="1dp"
+        android:background="@color/colorLightGray"
+        app:layout_constraintBottom_toTopOf="@+id/options_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/options_layout"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/options_height"
+        android:layout_marginTop="@dimen/main_vertical_margin"
+        android:layout_marginBottom="@dimen/main_vertical_margin"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/button_first"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_total_amount_label"
-        app:layout_constraintVertical_bias="0.806" />
+        app:layout_constraintTop_toBottomOf="@id/total_amount_layout">
+
+        <LinearLayout
+            android:id="@+id/goals_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/goals_icon"
+                android:layout_width="@dimen/options_icon_size"
+                android:layout_height="@dimen/options_icon_size"
+                android:layout_margin="@dimen/options_margin"
+                android:src="@drawable/ic_pig"
+                android:tint="@color/colorPrimary" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/goals_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/options_margin"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/goals_label"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/options_font_size" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/line3"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorLightGray" />
+
+        <LinearLayout
+            android:id="@+id/control_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/control_icon"
+                android:layout_width="@dimen/options_icon_size"
+                android:layout_height="@dimen/options_icon_size"
+                android:layout_margin="@dimen/options_margin"
+                android:src="@drawable/ic_pig"
+                android:tint="@color/colorPrimary" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/control_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/options_margin"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/control_label"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/options_font_size" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/line2"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:background="@color/colorLightGray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/options_layout" />
 
     <Button
         android:id="@+id/button_first"
@@ -56,6 +193,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_total_amount_label" />
+        app:layout_constraintTop_toBottomOf="@id/options_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
