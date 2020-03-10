@@ -10,8 +10,8 @@ import androidx.annotation.RequiresApi
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class GoalsDBHandler(context: Context, name: String?,
-                     factory: SQLiteDatabase.CursorFactory?, version: Int) :
+class GoalsDBHandler(context: Context,
+                     factory: SQLiteDatabase.CursorFactory?) :
         SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
     companion object {

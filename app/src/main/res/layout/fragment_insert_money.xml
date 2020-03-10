@@ -69,8 +69,8 @@
                     android:background="@null"
                     android:digits="0123456789,"
                     android:fontFamily="@font/keep_calm_w01_book"
-                    android:inputType="text"
-                    android:text=""
+                    android:inputType="number"
+                    android:text="@string/initial_value_to_save"
                     android:textSize="@dimen/total_amount_main_font_size" />
             </com.google.android.material.textfield.TextInputLayout>
 

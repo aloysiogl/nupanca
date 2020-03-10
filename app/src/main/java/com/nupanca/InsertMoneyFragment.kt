@@ -2,9 +2,7 @@ package com.nupanca
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
-import android.view.KeyEvent.ACTION_DOWN
 import android.view.KeyEvent.ACTION_UP
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,7 +14,10 @@ import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_insert_money.*
 import kotlinx.android.synthetic.main.fragment_insert_money.button_return
+import java.lang.Math.round
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,36 +44,20 @@ class InsertMoneyFragment() : BaseFragment() {
 
     private fun processKeyPress(event: KeyEvent): String {
         fun processDoubleAsPortugueseString(doubleValue: Double): String {
-            val doubleAsString = "%.2f".format(doubleValue)
-            var integerPart = ""
-            var decimalPart = ""
-            var foundDecimal = false
-            var decimalCount = 0
-            for (i in doubleAsString.indices){
-                if (foundDecimal){
-                    if (decimalCount == 2) break
-                    decimalPart += doubleAsString[i].toString()
-                    decimalCount++
-                }
-                else if (doubleAsString[i] == '.') foundDecimal = true
-                else integerPart += doubleAsString[i]
-            }
-            integerPart = integerPart.reversed()
-            var formattedIntergerPart = ""
-            for (i in integerPart.indices){
-                if (i%3 == 0 && i > 0 && i <= integerPart.indices.last)
-                    formattedIntergerPart += "."
-                formattedIntergerPart += integerPart[i]
-            }
-            formattedIntergerPart = formattedIntergerPart.reversed()
-            return "$formattedIntergerPart,$decimalPart"
+            val symb = DecimalFormatSymbols()
+            symb.decimalSeparator = ','
+            symb.groupingSeparator = '.'
+            val df = DecimalFormat("###,##0.00", symb)
+            return df.format(doubleValue)
         }
 
         // Getting keypress
-        if (KeyEvent.KEYCODE_0 <= event.keyCode && event.keyCode <= KeyEvent.KEYCODE_9){
-            valueInTextBox = valueInTextBox*10 + ((event.keyCode - KeyEvent.KEYCODE_0).toDouble())/100
-        }
-        else if (event.keyCode == KeyEvent.KEYCODE_DEL) valueInTextBox /= 10
+        if (KeyEvent.KEYCODE_0 <= event.keyCode && event.keyCode <= KeyEvent.KEYCODE_9)
+            valueInTextBox = valueInTextBox * 10 +
+                    ((event.keyCode - KeyEvent.KEYCODE_0).toDouble()) / 100
+        else if (event.keyCode == KeyEvent.KEYCODE_DEL)
+            valueInTextBox /= 10
+        valueInTextBox = (valueInTextBox * 100).toInt() / 100.0
 
         // Showing errors
         if (analyseCorrectness()) confirm_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
