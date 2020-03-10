@@ -39,5 +39,9 @@
     <dimen name="progressbar_height">20dp</dimen>
     <dimen name="progressbar_width">250dp</dimen>
 
+    <!--Goal fragment-->
+    <dimen name="goal_fragment_parameters_font_size">14sp</dimen>
+    <dimen name="goal_fragment_success_failure_font_size">14sp</dimen>
+
 </resources>
 
