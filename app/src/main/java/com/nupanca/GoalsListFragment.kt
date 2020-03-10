@@ -36,13 +36,13 @@ class GoalsListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         getView()?.let { ViewCompat.setTranslationZ(it, 1f) }
 
-        val goalsDBHandler = context?.let { GoalsDBHandler(it, null, null, 1) }
-        val goals = goalsDBHandler?.readDB()
-        if (goals != null) {
-            Log.d("TAG", "goaling")
-            goalsList = GoalAdapter(goals)
-            goals_list.adapter = goalsList
-        }
+        val goalsDBHandler = context?.let { GoalsDBHandler(it, null) }
+        var goals = goalsDBHandler?.readDB()
+        if (goals == null)
+            goals = mutableListOf()
+
+        goalsList = GoalAdapter(goals)
+        goals_list.adapter = goalsList
         goals_list.layoutManager = LinearLayoutManager(context)
 
         button_return.setOnClickListener {
@@ -61,7 +61,7 @@ class GoalsListFragment : BaseFragment() {
         }
 
         button_add_item.setOnClickListener {
-            val goalsDBHandler = context?.let { GoalsDBHandler(it, null, null, 1) }
+            val goalsDBHandler = context?.let { GoalsDBHandler(it, null) }
             val goal = Goal(
                 title = "Carro Próprio",
                 totalAmount = 3000.00,

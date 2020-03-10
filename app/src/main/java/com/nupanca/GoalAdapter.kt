@@ -9,6 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.nupanca.db.Goal
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
+import java.util.*
 
 
 class GoalAdapter(private val goals: MutableList<Goal>):
@@ -29,7 +32,10 @@ class GoalAdapter(private val goals: MutableList<Goal>):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val goal = goals[position]
-        val df = DecimalFormat("#,00")
+        val symb = DecimalFormatSymbols()
+        symb.decimalSeparator = ','
+        symb.groupingSeparator = '.'
+        val df = DecimalFormat("###,##0.00", symb)
         val text = "você já acumulou R$ " + df.format(goal.totalAmount) +
                 " e deve \ncompletar sua meta no dia " + goal.predictedEndDate.toString()
 
@@ -41,7 +47,6 @@ class GoalAdapter(private val goals: MutableList<Goal>):
     override fun getItemCount() = goals.size
 
     fun addGoal(goal: Goal) {
-        Log.d("TAG", "adding goal")
         goals.add(goal)
         this.notifyItemInserted(goals.size)
     }
