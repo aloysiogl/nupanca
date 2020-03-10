@@ -12,9 +12,10 @@
         android:id="@+id/button_return"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/main_horizontal_margin"
+        android:layout_marginStart="@dimen/return_button_margin"
         android:layout_marginTop="@dimen/main_toolbar_top_margin"
         android:hapticFeedbackEnabled="false"
+        android:padding="@dimen/return_button_padding"
         android:src="@drawable/ic_go_back_arrow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -68,8 +69,8 @@
                     android:background="@null"
                     android:digits="0123456789,"
                     android:fontFamily="@font/keep_calm_w01_book"
-                    android:inputType="numberDecimal"
-                    android:text="@string/initial_value_to_save"
+                    android:inputType="text"
+                    android:text=""
                     android:textSize="@dimen/total_amount_main_font_size" />
             </com.google.android.material.textfield.TextInputLayout>
 

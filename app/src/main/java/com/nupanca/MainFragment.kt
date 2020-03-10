@@ -41,8 +41,7 @@ class MainFragment : Fragment() {
         }
 
         goals_layout.setOnClickListener {
-            Snackbar.make(it, "Replace with this", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            findNavController().navigate(R.id.action_MainFragment_to_GoalsListFragment)
         }
 
         control_layout.setOnClickListener {

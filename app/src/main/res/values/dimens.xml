@@ -1,4 +1,5 @@
 <resources>
+    <!--Main fragment-->
     <dimen name="main_horizontal_margin">16dp</dimen>
     <dimen name="main_vertical_margin">80dp</dimen>
     <dimen name="main_toolbar_horizontal_margin">8dp</dimen>
@@ -13,7 +14,7 @@
     <dimen name="options_height">100dp</dimen>
     <dimen name="options_icon_size">40dp</dimen>
 
-
+    <!--Transfers fragment-->
     <dimen name="transfers_title_font_size">15sp</dimen>
     <dimen name="total_amount_main_font_size">30sp</dimen>
     <dimen name="transfers_options_font_size">14sp</dimen>"
@@ -27,5 +28,16 @@
     <dimen name="current_amount_insert_money_fragment_font_size">20sp</dimen>
     <dimen name="confirm_insert_money_fragment_margin">25dp</dimen>
     <dimen name="confirm_insert_money_fragment_font_size">13sp</dimen>
+    <dimen name="return_button_margin">8dp</dimen>
+    <dimen name="return_button_padding">8dp</dimen>
+
+    <!--Goals list fragment-->
+    <dimen name="title_height">175dp</dimen>
+    <dimen name="goal_widget_height">150dp</dimen>
+    <dimen name="goal_title_font_size">20sp</dimen>
+    <dimen name="goal_text_font_size">13sp</dimen>
+    <dimen name="progressbar_height">20dp</dimen>
+    <dimen name="progressbar_width">250dp</dimen>
+
 </resources>
 

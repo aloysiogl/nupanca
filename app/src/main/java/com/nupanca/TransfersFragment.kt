@@ -9,7 +9,6 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_transfers.*
-import com.google.android.material.snackbar.Snackbar
 
 
 /**
@@ -24,7 +23,6 @@ class TransfersFragment : BaseFragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_transfers, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

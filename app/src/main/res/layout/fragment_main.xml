@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/main_horizontal_margin"
             android:fontFamily="@font/keep_calm_w01_book"
-            android:text="@string/hello_first_fragment"
+            android:text="@string/total_amount"
             android:textColor="@android:color/black"
             android:textSize="@dimen/total_amount_font_size"
             app:layout_constraintBottom_toBottomOf="parent"
