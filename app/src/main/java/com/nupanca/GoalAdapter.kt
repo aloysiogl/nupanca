@@ -1,13 +1,11 @@
 package com.nupanca
 
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.nupanca.db.Goal
 import java.text.DecimalFormat
@@ -25,7 +23,7 @@ class GoalAdapter(private val goals: MutableList<Goal>):
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): GoalAdapter.ViewHolder {
         val goalView = LayoutInflater.from(parent.context).inflate(
-            R.layout.fragment_goal, parent, false)
+            R.layout.fragment_goal_minimized, parent, false)
         return ViewHolder(goalView)
     }
 
@@ -46,24 +44,5 @@ class GoalAdapter(private val goals: MutableList<Goal>):
         Log.d("TAG", "adding goal")
         goals.add(goal)
         this.notifyItemInserted(goals.size)
-    }
-}
-
-class GoalFragment : BaseFragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_goal, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getView()?.let { ViewCompat.setTranslationZ(it, 1f) }
-    }
-
-    override fun onBackPressed(): Boolean {
-        return false
     }
 }
