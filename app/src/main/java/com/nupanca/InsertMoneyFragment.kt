@@ -2,6 +2,10 @@ package com.nupanca
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
+import android.view.KeyEvent.ACTION_DOWN
+import android.view.KeyEvent.ACTION_UP
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +30,7 @@ private const val ARG_PARAM2 = "param2"
 class InsertMoneyFragment() : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
+    private var valueInTextBox: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +38,51 @@ class InsertMoneyFragment() : BaseFragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+    }
+
+    private fun processKeyPress(event: KeyEvent): String {
+        fun processDoubleAsPortugueseString(doubleValue: Double): String {
+            val doubleAsString = "%.2f".format(doubleValue)
+            var integerPart = ""
+            var decimalPart = ""
+            var foundDecimal = false
+            var decimalCount = 0
+            for (i in doubleAsString.indices){
+                if (foundDecimal){
+                    if (decimalCount == 2) break
+                    decimalPart += doubleAsString[i].toString()
+                    decimalCount++
+                }
+                else if (doubleAsString[i] == '.') foundDecimal = true
+                else integerPart += doubleAsString[i]
+            }
+            integerPart = integerPart.reversed()
+            var formattedIntergerPart = ""
+            for (i in integerPart.indices){
+                if (i%3 == 0 && i > 0 && i <= integerPart.indices.last)
+                    formattedIntergerPart += "."
+                formattedIntergerPart += integerPart[i]
+            }
+            formattedIntergerPart = formattedIntergerPart.reversed()
+            return "$formattedIntergerPart,$decimalPart"
+        }
+
+        // Getting keypress
+        if (KeyEvent.KEYCODE_0 <= event.keyCode && event.keyCode <= KeyEvent.KEYCODE_9){
+            valueInTextBox = valueInTextBox*10 + ((event.keyCode - KeyEvent.KEYCODE_0).toDouble())/100
+        }
+        else if (event.keyCode == KeyEvent.KEYCODE_DEL) valueInTextBox /= 10
+
+        // Showing errors
+        if (analyseCorrectness()) confirm_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
+        else confirm_button_text.setTextColor(resources.getColor(R.color.colorGray))
+
+        return processDoubleAsPortugueseString(valueInTextBox)
+    }
+
+    //TODO finish this method
+    private fun analyseCorrectness() :Boolean{
+        return valueInTextBox >= 0.01
     }
 
     override fun onCreateView(
@@ -43,16 +93,14 @@ class InsertMoneyFragment() : BaseFragment() {
         return inflater.inflate(R.layout.fragment_insert_money, container, false)
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getView()?.let { ViewCompat.setTranslationZ(it, 2f) }
 
-//        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        imm.showSoftInput(text_edit_money_to_remove, InputMethodManager.SHOW_IMPLICIT)
-//        imm.hideSoftInputFromWindow(view.windowToken, 0)
-//        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        //Show text input
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        text_edit_money_to_remove.requestFocus()
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
 
         arguments?.let {
             val safeArgs = InsertMoneyFragmentArgs.fromBundle(it)
@@ -61,12 +109,14 @@ class InsertMoneyFragment() : BaseFragment() {
         }
 
         button_confirm.setOnClickListener{
-            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
-//            imm.
-//            imm.showSoftInput(text_edit_money_to_remove, InputMethodManager.SHOW_FORCED)
-//            print("ola mund")
-            how_much_to_save.text="teste"
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
+        }
+
+        text_edit_money_to_remove.setOnKeyListener { v, keyCode, event ->
+            if (event.action == ACTION_UP)
+                text_edit_money_to_remove.setText(processKeyPress(event))
+
+            false
         }
 
         button_return.setOnClickListener {
