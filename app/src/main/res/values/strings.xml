@@ -53,4 +53,20 @@
      objetivos! </string>
     <string name="how_to_improve">COMO MELHORAR</string>
 
+    <!--Strings used in the the control fragment-->
+    <string name="control_title">Ajuste seus gastos</string>
+    <string name="suggestions_button_text">Sugestões</string>
+    <string name="food_label">Alimentação</string>
+    <string name="transport_label">Transporte</string>
+    <string name="shopping_label">Compras</string>
+    <string name="housing_label">Moradia</string>
+    <string name="others_label">Diversos</string>
+    <string name="savings_label">Economias</string>
+    <string name="food_value">R$ 0,00</string>
+    <string name="transport_value">R$ 0,00</string>
+    <string name="shopping_value">R$ 0,00</string>
+    <string name="housing_value">R$ 0,00</string>
+    <string name="others_value">R$ 0,00</string>
+    <string name="savings_value">R$ 0,00</string>
+
 </resources>

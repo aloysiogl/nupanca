@@ -43,5 +43,14 @@
     <dimen name="goal_fragment_parameters_font_size">14sp</dimen>
     <dimen name="goal_fragment_success_failure_font_size">14sp</dimen>
 
+    <!--Control fragment-->
+    <dimen name="control_title_height">75dp</dimen>
+    <dimen name="labels_font_size">18sp</dimen>
+    <dimen name="values_font_size">22sp</dimen>
+    <dimen name="labels_width">120dp</dimen>
+    <dimen name="horizontal_margin">30dp</dimen>
+    <dimen name="categories_height">125dp</dimen>
+    <dimen name="icon_width">40dp</dimen>
+
 </resources>
 

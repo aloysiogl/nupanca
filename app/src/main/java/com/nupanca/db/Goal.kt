@@ -11,6 +11,4 @@ data class Goal(
     var endDate: LocalDate,
     var predictedEndDate: LocalDate,
     var priority: Int
-) {
-
-}
+)

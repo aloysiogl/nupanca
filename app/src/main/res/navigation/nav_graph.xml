@@ -19,7 +19,12 @@
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_MainFragment_to_GoalsListFragment"
-            app:destination="@id/goalsListFragment"
+            app:destination="@id/GoalsListFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay" />
+        <action
+            android:id="@+id/action_MainFragment_to_ControlFragment"
+            app:destination="@id/ControlFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay" />
     </fragment>
@@ -56,12 +61,39 @@
             app:exitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/goalsListFragment"
+        android:id="@+id/GoalsListFragment"
         android:name="com.nupanca.GoalsListFragment"
         android:label="GoalsListFragment" >
         <action
             android:id="@+id/action_GoalsListFragment_to_MainFragment"
             app:destination="@id/MainFragment"
+            app:enterAnim="@anim/stay"
+            app:exitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_GoalsListFragment_to_GoalFragment"
+            app:destination="@id/GoalFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay" />
+    </fragment>
+    <fragment
+        android:id="@+id/ControlFragment"
+        android:name="com.nupanca.ControlFragment"
+        android:label="fragment_control"
+        tools:layout="@layout/fragment_control" >
+        <action
+            android:id="@+id/action_ControlFragment_to_MainFragment"
+            app:destination="@id/MainFragment"
+            app:enterAnim="@anim/stay"
+            app:exitAnim="@anim/slide_out_down" />
+    </fragment>
+    <fragment
+        android:id="@+id/GoalFragment"
+        android:name="com.nupanca.GoalFragment"
+        android:label="fragment_goal"
+        tools:layout="@layout/fragment_goal" >
+        <action
+            android:id="@+id/action_GoalFragment_to_GoalsListFragment"
+            app:destination="@id/GoalsListFragment"
             app:enterAnim="@anim/stay"
             app:exitAnim="@anim/slide_out_down" />
     </fragment>

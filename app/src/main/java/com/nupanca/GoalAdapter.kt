@@ -1,18 +1,16 @@
 package com.nupanca
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.nupanca.db.Goal
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.text.NumberFormat
-import java.util.*
-
 
 class GoalAdapter(private val goals: MutableList<Goal>):
         RecyclerView.Adapter<GoalAdapter.ViewHolder>() {
@@ -27,6 +25,11 @@ class GoalAdapter(private val goals: MutableList<Goal>):
                                     viewType: Int): GoalAdapter.ViewHolder {
         val goalView = LayoutInflater.from(parent.context).inflate(
             R.layout.fragment_goal_minimized, parent, false)
+
+        goalView.setOnClickListener {
+            parent.findNavController().navigate(R.id.action_GoalsListFragment_to_GoalFragment)
+        }
+
         return ViewHolder(goalView)
     }
 

@@ -45,8 +45,7 @@ class MainFragment : Fragment() {
         }
 
         control_layout.setOnClickListener {
-            Snackbar.make(it, "Replace with this", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            findNavController().navigate(R.id.action_MainFragment_to_ControlFragment)
         }
     }
 }
