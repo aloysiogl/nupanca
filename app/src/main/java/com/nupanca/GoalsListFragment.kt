@@ -37,12 +37,12 @@ class GoalsListFragment : BaseFragment() {
         getView()?.let { ViewCompat.setTranslationZ(it, 1f) }
 
         val goalsDBHandler = context?.let { GoalsDBHandler(it, null, null, 1) }
-        val goals = goalsDBHandler?.readDB()
-        if (goals != null) {
-            Log.d("TAG", "goaling")
-            goalsList = GoalAdapter(goals)
-            goals_list.adapter = goalsList
-        }
+        var goals = goalsDBHandler?.readDB()
+        if (goals == null)
+            goals = mutableListOf<Goal>()
+
+        goalsList = GoalAdapter(goals)
+        goals_list.adapter = goalsList
         goals_list.layoutManager = LinearLayoutManager(context)
 
         button_return.setOnClickListener {

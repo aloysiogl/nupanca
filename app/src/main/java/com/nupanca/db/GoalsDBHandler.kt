@@ -17,7 +17,7 @@ class GoalsDBHandler(context: Context, name: String?,
     companion object {
         private var id_counter = 0
 
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
         private const val DATABASE_NAME = "goalsDB.db"
         const val TABLE_GOALS = "goals"
 
@@ -32,8 +32,6 @@ class GoalsDBHandler(context: Context, name: String?,
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        Log.d("TAG", "creating db")
-
         val create_goals_table = ("CREATE TABLE " +
                 TABLE_GOALS + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY," +
@@ -53,6 +51,7 @@ class GoalsDBHandler(context: Context, name: String?,
         onCreate(db)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun addGoal(goal: Goal) {
         val values = ContentValues()
         goal.id = id_counter++
@@ -60,13 +59,13 @@ class GoalsDBHandler(context: Context, name: String?,
         values.put(COLUMN_TITLE, goal.title)
         values.put(COLUMN_TOTAL_AMOUNT, goal.totalAmount)
         values.put(COLUMN_CURRENT_AMOUNT, goal.currentAmount)
-        values.put(COLUMN_BEGIN_DATE, goal.beginDate.toString())
-        values.put(COLUMN_END_DATE, goal.endDate.toString())
-        values.put(COLUMNS_PREDICTED_END_DATE, goal.predictedEndDate.toString())
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        values.put(COLUMN_BEGIN_DATE, formatter.format(goal.beginDate))
+        values.put(COLUMN_END_DATE, formatter.format(goal.endDate))
+        values.put(COLUMNS_PREDICTED_END_DATE, formatter.format(goal.beginDate))
         values.put(COLUMN_PRIORITY, goal.priority)
 
         val db = this.writableDatabase
-        Log.d("TAG", "inserting in db")
         db.insert(TABLE_GOALS, null, values)
         db.close()
     }
