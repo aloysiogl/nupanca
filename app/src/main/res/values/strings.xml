@@ -16,7 +16,7 @@
     <!--Strings used in the the main fragment-->
     <string name="total_amount_label">Dinheiro guardado</string>
     <string name="goals_label">Metas</string>
-    <string name="control_label">Controle</string>
+    <string name="control_label">Planejamento de gastos</string>
 
     <!--Strings used in the the transfers fragment-->
     <string name="transfers_title">Dinheiro guardado</string>
@@ -55,7 +55,7 @@
     <string name="objective_name_placeholder">META</string>
 
     <!--Strings used in the the control fragment-->
-    <string name="control_title">Ajuste seus gastos</string>
+    <string name="control_title">Planeje seus gastos</string>
     <string name="suggestions_button_text">Sugestões</string>
     <string name="food_label">Alimentação</string>
     <string name="transport_label">Transporte</string>

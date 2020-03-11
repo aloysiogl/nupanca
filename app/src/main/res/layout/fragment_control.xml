@@ -87,34 +87,34 @@
                 android:layout_height="@dimen/categories_height">
 
                 <ImageView
-                    android:id="@+id/savings_icon"
+                    android:id="@+id/food_icon"
                     android:layout_width="@dimen/icon_width"
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/horizontal_margin"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_pig"
+                    android:src="@drawable/ic_fork"
                     android:tint="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/savings_label"
+                    android:id="@+id/food_label"
                     android:layout_width="@dimen/labels_width"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/horizontal_margin"
                     android:layout_weight="1"
                     android:fontFamily="@font/keep_calm_w01_book"
-                    android:text="@string/savings_label"
+                    android:text="@string/food_label"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/labels_font_size"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/savings_icon"
+                    app:layout_constraintStart_toEndOf="@+id/food_icon"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/savingsInputLayout"
+                    android:id="@+id/foodInputLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/horizontal_margin"
@@ -122,19 +122,20 @@
                     android:clipToPadding="false"
                     app:hintEnabled="false"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/savings_label"
+                    app:layout_constraintStart_toEndOf="@+id/food_label"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/savings_value"
+                        android:id="@+id/food_value"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:digits="0123456789,"
                         android:fontFamily="@font/keep_calm_w01_book"
                         android:inputType="number"
-                        android:text="@string/savings_value"
+                        android:text="@string/food_value"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/values_font_size" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -149,7 +150,7 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/horizontal_margin"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_pig"
+                    android:src="@drawable/ic_car"
                     android:tint="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -206,7 +207,7 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/horizontal_margin"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_pig"
+                    android:src="@drawable/ic_fashion"
                     android:tint="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -263,7 +264,7 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/horizontal_margin"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_pig"
+                    android:src="@drawable/ic_house"
                     android:tint="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -320,7 +321,7 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/horizontal_margin"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_pig"
+                    android:src="@drawable/ic_puzzle"
                     android:tint="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -361,6 +362,63 @@
                         android:fontFamily="@font/keep_calm_w01_book"
                         android:inputType="number"
                         android:text="@string/others_value"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/values_font_size" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/categories_height">
+
+                <ImageView
+                    android:id="@+id/savings_icon"
+                    android:layout_width="@dimen/icon_width"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/horizontal_margin"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_pig"
+                    android:tint="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/savings_label"
+                    android:layout_width="@dimen/labels_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/horizontal_margin"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/keep_calm_w01_book"
+                    android:text="@string/savings_label"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/labels_font_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/savings_icon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/savingsInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/horizontal_margin"
+                    android:background="@null"
+                    android:clipToPadding="false"
+                    app:hintEnabled="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/savings_label"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/savings_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789,"
+                        android:fontFamily="@font/keep_calm_w01_book"
+                        android:inputType="number"
+                        android:text="@string/savings_value"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/values_font_size" />
                 </com.google.android.material.textfield.TextInputLayout>
