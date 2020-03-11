@@ -62,7 +62,7 @@ tools:context=".GoalFragment">
                 android:backgroundTint="@color/colorPrimary"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_information"
+                android:src="@drawable/ic_edit_icon"
                 android:tint="@android:color/white" />
 
         </LinearLayout>
@@ -401,7 +401,7 @@ tools:context=".GoalFragment">
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.5" />
+                        app:layout_constraintGuide_percent="0.59" />
 
                     <TextView
                         android:id="@+id/ttst9"
@@ -418,16 +418,20 @@ tools:context=".GoalFragment">
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Spinner
-                        android:id="@+id/spinner1"
-                        android:layout_width="@dimen/goal_fragment_dropdown_width"
-                        android:layout_height="@dimen/goal_fragment_dropdown_height"
-                        android:background="@android:drawable/btn_dropdown"
-                        android:spinnerMode="dropdown"
+                    <TextView
+                        android:id="@+id/ttst10"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/keep_calm_w01_book"
+                        android:text="@string/total_amount"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/goal_fragment_parameters_font_size"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="@+id/guideline9"
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

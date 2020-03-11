@@ -42,7 +42,7 @@
     <string name="medium_priority_text">Média</string>
     <string name="high_priority_text">Alta</string>
     <string name="add_item_button_text">Adicionar Meta</string>
-    
+
     <!--Strings used in the goal fragment-->
     <string name="deposited_money">Dinheiro depositado</string>
     <string name="money_left">Dinheiro restante</string>
@@ -53,6 +53,9 @@
      objetivos! </string>
     <string name="how_to_improve">COMO MELHORAR?</string>
     <string name="objective_name_placeholder">META</string>
+
+    <!--Strings used in the goal fragment-->
+    <string name="confirm_goal_edit">CONFIRMAR EDIÇÃO</string>
 
     <!--Strings used in the the control fragment-->
     <string name="control_title">Planeje seus gastos</string>
