@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import androidx.core.view.ViewCompat
+import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.fragment_goal.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -16,7 +20,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [GoalFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class GoalFragment : Fragment() {
+class GoalFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -35,6 +39,31 @@ class GoalFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_goal, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getView()?.let { ViewCompat.setTranslationZ(it, 2f) }
+
+        button_return.setOnClickListener {
+            button_return.startAnimation(
+                AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
+            )
+            findNavController().navigate(R.id.action_GoalFragment_to_GoalsListFragment)
+        }
+
+        button_info.setOnClickListener {
+            button_info.startAnimation(
+                AnimationUtils.loadAnimation(
+                    context, R.anim.alpha_reduction
+                )
+            )
+        }
+    }
+
+    override fun onBackPressed(): Boolean {
+        button_return.performClick()
+        return true
     }
 
     companion object {
