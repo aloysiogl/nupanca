@@ -72,7 +72,7 @@
         <action
             android:id="@+id/action_GoalsListFragment_to_GoalFragment"
             app:destination="@id/GoalFragment"
-            app:enterAnim="@anim/slide_in_up"
+            app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/stay" />
     </fragment>
     <fragment
@@ -95,6 +95,6 @@
             android:id="@+id/action_GoalFragment_to_GoalsListFragment"
             app:destination="@id/GoalsListFragment"
             app:enterAnim="@anim/stay"
-            app:exitAnim="@anim/slide_out_down" />
+            app:exitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>
