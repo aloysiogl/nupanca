@@ -95,4 +95,7 @@
     <string name="start_control_text">"Adicione metas para os seus gastos em cada categoria. Então tente seguir seus planos!\n\nVocê pode usar nossas sugestões personalizadas para te ajudar no seu planejamento."</string>
     <string name="start">COMEÇAR</string>
 
+    <!--Strings used in the the start goals fragment-->
+    <string name="start_goal">Você ainda não possui nenhuma meta criada. Clique no botão abaixo para adicionar a sua primeira!</string>
+
 </resources>
