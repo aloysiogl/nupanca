@@ -27,6 +27,11 @@
             app:destination="@id/ControlFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay" />
+        <action
+            android:id="@+id/action_MainFragment_to_ControlStartFragment"
+            app:destination="@id/ControlStartFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/stay" />
     </fragment>
     <fragment
         android:id="@+id/TransfersFragment"
@@ -94,6 +99,21 @@
         <action
             android:id="@+id/action_GoalFragment_to_GoalsListFragment"
             app:destination="@id/GoalsListFragment"
+            app:enterAnim="@anim/stay"
+            app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/ControlStartFragment"
+        android:name="com.nupanca.ControlStartFragment"
+        android:label="ControlStartFragment" >
+        <action
+            android:id="@+id/action_ControlStartFragment_to_ControlFragment"
+            app:destination="@id/ControlFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay" />
+        <action
+            android:id="@+id/action_ControlStartFragment_to_MainFragment"
+            app:destination="@id/MainFragment"
             app:enterAnim="@anim/stay"
             app:exitAnim="@anim/slide_out_right" />
     </fragment>

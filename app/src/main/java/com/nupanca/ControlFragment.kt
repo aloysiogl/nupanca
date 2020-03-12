@@ -33,7 +33,7 @@ class ControlFragment : BaseFragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getView()?.let { ViewCompat.setTranslationZ(it, 1f) }
+        getView()?.let { ViewCompat.setTranslationZ(it, 2f) }
 
         val accountInfoDBHandler = context?.let { AccountInfoDBHandler(it, null) }
         var account = accountInfoDBHandler?.findAccount(1)

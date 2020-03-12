@@ -36,7 +36,7 @@
     <!--Strings used in the the goals list fragment-->
     <string name="goals_list_title">Dinheiro em Metas</string>
     <string name="goal_title">Casa Própria</string>
-    <string name="goal_text">você já acumulou R$ 3.000, e deve \ncompletar sua meta no dia
+    <string name="goal_text">você já acumulou R$ 3.000, e deve\ncompletar sua meta no dia
         01/01/2030</string>
     <string name="low_priority_text">Baixa</string>
     <string name="medium_priority_text">Média</string>
@@ -90,5 +90,9 @@
     <string name="savings_spendings">000</string>
     <string name="savings_plan">000</string>
     <string name="savings_suggestion">000</string>
+
+    <!--Strings used in the the start control fragment-->
+    <string name="start_control_text">"Adicione metas para os seus gastos em cada categoria. Então tente seguir seus planos!\n\nVocê pode usar nossas sugestões personalizadas para te ajudar no seu planejamento."</string>
+    <string name="start">COMEÇAR</string>
 
 </resources>

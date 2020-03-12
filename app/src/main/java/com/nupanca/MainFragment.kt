@@ -45,7 +45,7 @@ class MainFragment : BaseFragment() {
         }
 
         control_layout.setOnClickListener {
-            findNavController().navigate(R.id.action_MainFragment_to_ControlFragment)
+            findNavController().navigate(R.id.action_MainFragment_to_ControlStartFragment)
         }
     }
 

@@ -59,5 +59,8 @@
     <dimen name="dividing_line_margin">20dp</dimen>
     <dimen name="savings_top_margin">20dp</dimen>
 
+    <!--Control start fragment-->
+    <dimen name="control_start_font_size">23sp</dimen>
+
 </resources>
 
