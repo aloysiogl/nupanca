@@ -56,18 +56,36 @@
 
     <!--Strings used in the the control fragment-->
     <string name="control_title">Planeje seus gastos</string>
-    <string name="suggestions_button_text">Sugestões</string>
-    <string name="food_label">Alimentação</string>
-    <string name="transport_label">Transporte</string>
-    <string name="shopping_label">Compras</string>
-    <string name="housing_label">Moradia</string>
-    <string name="others_label">Diversos</string>
-    <string name="savings_label">Economias</string>
-    <string name="food_value">R$ 0,00</string>
-    <string name="transport_value">R$ 0,00</string>
-    <string name="shopping_value">R$ 0,00</string>
-    <string name="housing_value">R$ 0,00</string>
-    <string name="others_value">R$ 0,00</string>
-    <string name="savings_value">R$ 0,00</string>
+    <string name="suggestions_button_text">Exibir Sugestões</string>
+    <string name="suggestions_button_text_2">Ocultar Sugestões</string>
+    <string name="plan_label">Plano</string>
+    <string name="spendings_label">Gastos este mês</string>
+    <string name="suggestion_label">Sugestão:</string>
+    <string name="add_plan_label">Adicione uma meta de gastos!</string>
+    <string name="brl">R$</string>
+    <string name="food_title">Alimentação</string>
+    <string name="food_spendings">000</string>
+    <string name="food_plan">000</string>
+    <string name="food_suggestion">000</string>
+    <string name="transport_title">Transporte</string>
+    <string name="transport_spendings">000</string>
+    <string name="transport_plan">000</string>
+    <string name="transport_suggestion">000</string>
+    <string name="shopping_title">Compras</string>
+    <string name="shopping_spendings">000</string>
+    <string name="shopping_plan">000</string>
+    <string name="shopping_suggestion">000</string>
+    <string name="housing_title">Moradia</string>
+    <string name="housing_spendings">000</string>
+    <string name="housing_plan">000</string>
+    <string name="housing_suggestion">000</string>
+    <string name="others_title">Diversos</string>
+    <string name="others_spendings">000</string>
+    <string name="others_plan">000</string>
+    <string name="others_suggestion">000</string>
+    <string name="savings_title">Economias</string>
+    <string name="savings_spendings">000</string>
+    <string name="savings_plan">000</string>
+    <string name="savings_suggestion">000</string>
 
 </resources>

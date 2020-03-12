@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment() {
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -47,5 +47,9 @@ class MainFragment : Fragment() {
         control_layout.setOnClickListener {
             findNavController().navigate(R.id.action_MainFragment_to_ControlFragment)
         }
+    }
+
+    override fun onBackPressed(): Boolean {
+        return true
     }
 }
