@@ -44,7 +44,8 @@
             app:layout_constraintEnd_toStartOf="@id/button_delete"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.3">
+            app:layout_constraintVertical_bias="0.35"
+            android:background="@null">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/title_goal_edit"
@@ -57,7 +58,8 @@
                 android:maxLength="30"
                 android:textCursorDrawable="@null"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/transfers_title_font_size" />
+                android:textSize="@dimen/transfers_title_font_size"
+                android:background="@null"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
@@ -163,19 +165,54 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
+                android:id="@+id/txt1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/confirm_insert_money_fragment_margin"
                 android:fontFamily="@font/keep_calm_medium"
                 android:gravity="center_horizontal"
-                android:text="teste1"
-                android:textAllCaps="true"
+                android:text="@string/how_much_do_you_want_to_save"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/confirm_insert_money_fragment_font_size"
+                android:textSize="@dimen/goal_edit_fragment_questions_font_size"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintVertical_bias="0.3"/>
+
+            <TextView
+                android:id="@+id/money1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/keep_calm_medium"
+                android:gravity="center_horizontal"
+                android:text="@string/money_sign"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/goal_edit_fragment_questions_font_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/txt1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintVertical_bias="0.7"/>
+
+            <EditText
+                android:id="@+id/goal_final_value_text_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/keep_calm_medium"
+                android:inputType="numberDecimal"
+                android:text="@string/initial_value_to_save"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/goal_edit_fragment_questions_font_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/money1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.01"
+                app:layout_constraintVertical_bias="0.7"
+                android:background="@null"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -203,19 +240,38 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
+                android:id="@+id/txt2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/confirm_insert_money_fragment_margin"
                 android:fontFamily="@font/keep_calm_medium"
                 android:gravity="center_horizontal"
-                android:text="teste2"
-                android:textAllCaps="true"
+                android:text="@string/when_do_you_want_to_withdraw"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/confirm_insert_money_fragment_font_size"
+                android:textSize="@dimen/goal_edit_fragment_questions_font_size"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintVertical_bias="0.3"/>
+
+            <EditText
+                android:id="@+id/goal_date_text_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/keep_calm_medium"
+                android:inputType="date"
+
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/goal_edit_fragment_questions_font_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/txt2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.01"
+                app:layout_constraintVertical_bias="0.7"
+                android:background="@null"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -243,20 +299,20 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/change_date_button"
+                android:id="@+id/txt3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/confirm_insert_money_fragment_margin"
                 android:fontFamily="@font/keep_calm_medium"
                 android:gravity="center_horizontal"
-                android:text="teste3"
-                android:textAllCaps="true"
+                android:text="@string/whats_the_priority"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/confirm_insert_money_fragment_font_size"
+                android:textSize="@dimen/goal_edit_fragment_questions_font_size"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintVertical_bias="0.3"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

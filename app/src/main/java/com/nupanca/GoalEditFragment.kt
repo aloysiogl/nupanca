@@ -61,6 +61,28 @@ class GoalEditFragment : Fragment() {
             view.clearFocus()
         }
 
+        goal_end_date.setOnClickListener {
+            focus = FOCUS.DATE
+
+            // Toggling keyboard
+            toggleKeyboard()
+            view.clearFocus()
+        }
+
+        goal_priority.setOnClickListener {
+            focus = FOCUS.PRIORITY
+
+            // Toggling keyboard
+            toggleKeyboard()
+            view.clearFocus()
+        }
+
+//        goal_final_value_text_edit.setOnFocusChangeListener { v, hasFocus ->
+//            if (hasFocus && !isKeyboardSelected){
+//                focus = FOCUS.GOAL_MONEY
+//            }
+//        }
+
         title_goal_edit.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus){
                 focus = FOCUS.TITLE
@@ -76,15 +98,6 @@ class GoalEditFragment : Fragment() {
                 params.guideBegin = bottom - layout_top.height - button_confirm_edition.height
                 guideline_keyboard.layoutParams = params
 
-                // Setting focus variable
-                view.findFocus()
-//                focus = when (view.findFocus()){
-//                    title_goal_edit -> FOCUS.TITLE
-////                    goal_priority -> FOCUS.PRIORITY
-////                    goal_end_date -> FOCUS.DATE
-////                    goal_final_value -> FOCUS.GOAL_MONEY
-//                    else -> FOCUS.NONE
-//                }
 
                 // Setting animation and selected view
                 changeElementsOnKeyboardMovement(true)
@@ -118,14 +131,14 @@ class GoalEditFragment : Fragment() {
         }
     }
 
-    var oldSet: ConstraintSet = ConstraintSet()
-
     private fun changeElementsOnKeyboardMovement(keyboardSelected:Boolean) {
         if (keyboardSelected){
             val constraintSet = ConstraintSet()
 
             when(focus){
                 FOCUS.TITLE -> {
+//                    goal_final_value_text_edit.requestFocus()
+
                     goal_priority.visibility = View.GONE
                     goal_final_value.visibility = View.GONE
                     goal_end_date.visibility = View.GONE
@@ -145,6 +158,28 @@ class GoalEditFragment : Fragment() {
                     constraintSet.connect(goal_final_value.id, ConstraintSet.TOP,
                         ConstraintLayout.LayoutParams.PARENT_ID, ConstraintSet.TOP, 0)
                     constraintSet.connect(goal_final_value.id, ConstraintSet.BOTTOM,
+                        guideline_keyboard.id, ConstraintSet.TOP, 0)
+                }
+                FOCUS.DATE -> {
+                    goal_priority.visibility = View.GONE
+                    goal_edit_image.visibility = View.GONE
+                    goal_final_value.visibility = View.GONE
+
+                    constraintSet.clone(edit_goal_main_screen)
+                    constraintSet.connect(goal_end_date.id, ConstraintSet.TOP,
+                        ConstraintLayout.LayoutParams.PARENT_ID, ConstraintSet.TOP, 0)
+                    constraintSet.connect(goal_end_date.id, ConstraintSet.BOTTOM,
+                        guideline_keyboard.id, ConstraintSet.TOP, 0)
+                }
+                FOCUS.PRIORITY -> {
+                    goal_final_value.visibility = View.GONE
+                    goal_edit_image.visibility = View.GONE
+                    goal_end_date.visibility = View.GONE
+
+                    constraintSet.clone(edit_goal_main_screen)
+                    constraintSet.connect(goal_priority.id, ConstraintSet.TOP,
+                        ConstraintLayout.LayoutParams.PARENT_ID, ConstraintSet.TOP, 0)
+                    constraintSet.connect(goal_priority.id, ConstraintSet.BOTTOM,
                         guideline_keyboard.id, ConstraintSet.TOP, 0)
                 }
             }

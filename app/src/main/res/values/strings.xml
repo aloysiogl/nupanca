@@ -11,6 +11,8 @@
     <!--Globals-->
     <string name="confirm_uppercase_text">CONFIRMAR</string>
     <string name="total_amount">R$ 3.000,00</string>
+    <string name="initial_value_to_save">0,00</string>
+    <string name="money_sign">R$</string>
 
 
     <!--Strings used in the the main fragment-->
@@ -29,8 +31,6 @@
 
     <!--Strings used in the the save money fragment-->
     <string name="insert_money_text">Quanto você quer guardar?</string>
-    <string name="money_sign">R$</string>
-    <string name="initial_value_to_save">0,00</string>
     <string name="available_money_placeholder">Saldo disponível: 3.000,00</string>
 
     <!--Strings used in the the goals list fragment-->
@@ -56,6 +56,9 @@
 
     <!--Strings used in the goal fragment-->
     <string name="confirm_goal_edit">CONFIRMAR EDIÇÃO</string>
+    <string name="how_much_do_you_want_to_save">Quanto você quer juntar?</string>
+    <string name="when_do_you_want_to_withdraw">Até quando você deseja juntar?</string>
+    <string name="whats_the_priority">Qual a prioridade da sua meta?</string>
 
     <!--Strings used in the the control fragment-->
     <string name="control_title">Planeje seus gastos</string>
