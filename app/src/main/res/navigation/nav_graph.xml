@@ -135,6 +135,11 @@
             app:destination="@id/MainFragment"
             app:enterAnim="@anim/stay"
             app:exitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_GoalStartFragment_to_goalEditFragment"
+            app:destination="@id/goalEditFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay" />
     </fragment>
     <fragment
         android:id="@+id/goalEditFragment"

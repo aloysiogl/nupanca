@@ -36,7 +36,13 @@ class GoalStartFragment : BaseFragment() {
         }
 
         button_start.setOnClickListener {
-            findNavController().navigate(R.id.action_ControlStartFragment_to_ControlFragment)
+//            findNavController().navigate(R.id.action_ControlStartFragment_to_ControlFragment)
+            val bundle = Bundle()
+            bundle.putInt("mode", -1)
+            findNavController().navigate(
+                R.id.action_GoalStartFragment_to_goalEditFragment,
+                bundle
+            )
         }
     }
 
