@@ -1,0 +1,16 @@
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <explode/>-->
+    <changeBounds/>
+<!--    <changeTransform/>-->
+<!--    <changeClipBounds/>-->
+<!--    <changeImageTransform/>-->
+<!--    <changeBounds android:duration="15000" android:interpolator="@android:anim/bounce_interpolator"/>-->
+
+    <fade android:fadingMode="fade_in_out" android:duration="1000" />
+<!--    <fade android:fadingMode="fade_out" />-->
+<!--    <changeBounds />-->
+<!--    <fade android:fadingMode="fade_in" />-->
+
+<!--    </fade>-->
+
+</transitionSet>

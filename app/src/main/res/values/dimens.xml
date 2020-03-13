@@ -46,6 +46,9 @@
     <dimen name="goal_fragment_dropdown_width">100dp</dimen>
     <dimen name="goal_fragment_percentage_font_size">25sp</dimen>
 
+    <!--Goal Edit fragment-->
+
+
     <!--Control fragment-->
     <dimen name="control_title_height">75dp</dimen>
     <dimen name="labels_font_size">16sp</dimen>

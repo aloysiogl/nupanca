@@ -52,8 +52,7 @@
         android:label="InsertMoneyFragment" >
         <argument
             android:name="mode"
-            app:argType="string"
-            android:defaultValue="Olarr" />
+            app:argType="string"/>
         <action
             android:id="@+id/action_InsertMoneyFragment_to_TransfersFragment"
             app:destination="@id/TransfersFragment"
@@ -73,6 +72,11 @@
             android:id="@+id/action_GoalsListFragment_to_GoalFragment"
             app:destination="@id/GoalFragment"
             app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/stay" />
+        <action
+            android:id="@+id/action_GoalsListFragment_to_goalEditFragment"
+            app:destination="@id/goalEditFragment"
+            app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay" />
     </fragment>
     <fragment
@@ -96,5 +100,15 @@
             app:destination="@id/GoalsListFragment"
             app:enterAnim="@anim/stay"
             app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/goalEditFragment"
+        android:name="com.nupanca.GoalEditFragment"
+        android:label="fragment_goal_edit"
+        tools:layout="@layout/fragment_goal_edit" >
+        <argument
+            android:name="mode"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 </navigation>

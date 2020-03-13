@@ -61,17 +61,23 @@ class GoalsListFragment : BaseFragment() {
         }
 
         button_add_item.setOnClickListener {
-            val goalsDBHandler = context?.let { GoalsDBHandler(it, null) }
-            val goal = Goal(
-                title = "Carro Próprio",
-                totalAmount = 3000.00,
-                currentAmount = 1000.00,
-                beginDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                predictedEndDate = LocalDate.now(),
-                priority = 1)
-            goalsDBHandler?.addGoal(goal)
-            goalsList?.addGoal(goal)
+//            val goalsDBHandler = context?.let { GoalsDBHandler(it, null) }
+//            val goal = Goal(
+//                title = "Carro Próprio",
+//                totalAmount = 3000.00,
+//                currentAmount = 1000.00,
+//                beginDate = LocalDate.now(),
+//                endDate = LocalDate.now(),
+//                predictedEndDate = LocalDate.now(),
+//                priority = 1)
+//            goalsDBHandler?.addGoal(goal)
+//            goalsList?.addGoal(goal)
+            val bundle = Bundle()
+            bundle.putInt("mode", -1)
+            findNavController().navigate(
+                R.id.action_GoalsListFragment_to_goalEditFragment,
+                bundle
+            )
         }
     }
 
