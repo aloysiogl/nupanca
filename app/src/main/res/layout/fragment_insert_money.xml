@@ -84,7 +84,8 @@
             android:layout_weight="1"
             android:fontFamily="@font/keep_calm_w01_book"
             android:text="@string/available_money_placeholder"
-            android:textSize="@dimen/current_amount_insert_money_fragment_font_size" />
+            android:textSize="@dimen/current_amount_insert_money_fragment_font_size"
+            android:textColor="@color/colorGray"/>
 
     </LinearLayout>
 
@@ -119,7 +120,8 @@
             android:fontFamily="@font/keep_calm_medium"
             android:gravity="center_horizontal"
             android:text="@string/confirm_uppercase_text"
-            android:textSize="@dimen/confirm_insert_money_fragment_font_size" />
+            android:textSize="@dimen/confirm_insert_money_fragment_font_size"
+            android:textColor="@color/colorGray"/>
 
         <TextView
             android:id="@+id/line2"

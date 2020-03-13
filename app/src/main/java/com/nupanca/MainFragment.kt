@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment() {
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -41,11 +40,15 @@ class MainFragment : Fragment() {
         }
 
         goals_layout.setOnClickListener {
-            findNavController().navigate(R.id.action_MainFragment_to_GoalsListFragment)
+            findNavController().navigate(R.id.action_MainFragment_to_GoalStartFragment)
         }
 
         control_layout.setOnClickListener {
-            findNavController().navigate(R.id.action_MainFragment_to_ControlFragment)
+            findNavController().navigate(R.id.action_MainFragment_to_ControlStartFragment)
         }
+    }
+
+    override fun onBackPressed(): Boolean {
+        return true
     }
 }
