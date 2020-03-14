@@ -85,7 +85,7 @@
             app:exitAnim="@anim/stay" />
         <action
             android:id="@+id/action_GoalsListFragment_to_goalEditFragment"
-            app:destination="@id/goalEditFragment"
+            app:destination="@id/GoalEditFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay" />
     </fragment>
@@ -136,13 +136,13 @@
             app:enterAnim="@anim/stay"
             app:exitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_GoalStartFragment_to_goalEditFragment"
-            app:destination="@id/goalEditFragment"
+            android:id="@+id/action_GoalStartFragment_to_GoalEditFragment"
+            app:destination="@id/GoalEditFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay" />
     </fragment>
     <fragment
-        android:id="@+id/goalEditFragment"
+        android:id="@+id/GoalEditFragment"
         android:name="com.nupanca.GoalEditFragment"
         android:label="fragment_goal_edit"
         tools:layout="@layout/fragment_goal_edit" >
@@ -150,5 +150,10 @@
             android:name="mode"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_GoalEditFragment_to_MainFragment"
+            app:destination="@id/MainFragment"
+            app:enterAnim="@anim/stay"
+            app:exitAnim="@anim/slide_out_down"/>
     </fragment>
 </navigation>

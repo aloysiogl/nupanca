@@ -12,13 +12,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_goal_edit.*
-
+import kotlinx.android.synthetic.main.fragment_goal_edit.button_return
+import kotlinx.android.synthetic.main.fragment_goal_minimized.*
+import kotlinx.android.synthetic.main.fragment_goals_start.*
 
 class GoalEditFragment : Fragment() {
 
@@ -46,10 +50,10 @@ class GoalEditFragment : Fragment() {
         getView()?.let { ViewCompat.setTranslationZ(it, 2f) }
 
         // Reading arguments
+        var fragmentMode = 0
         arguments?.let {
             val safeArgs = GoalEditFragmentArgs.fromBundle(it)
-            val ola = safeArgs.mode
-            title_goal_edit.setText(ola.toString())
+            fragmentMode = safeArgs.mode
         }
 
         // Setting default transition
@@ -62,6 +66,27 @@ class GoalEditFragment : Fragment() {
         val metrics = DisplayMetrics()
         view.display.getMetrics(metrics)
         displaySizeWithoutStatusBar = metrics.heightPixels - rectangle.top
+
+        // Setting texts
+        when(fragmentMode){
+            -2 -> setupStrings("INSIRA O NOME DA SUA META",
+                "0,00", "00/00/0000")
+        }
+
+        if (fragmentMode == -2){
+            button_return.setOnClickListener{
+                button_return.startAnimation(
+                    AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
+                )
+                findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
+            }
+            button_delete.setOnClickListener{
+                button_delete.startAnimation(
+                    AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
+                )
+                findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
+            }
+        }
 
         goal_final_value.setOnClickListener {
             // Toggling keyboard
@@ -211,5 +236,12 @@ class GoalEditFragment : Fragment() {
         //Show text input
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
+    }
+
+    private fun setupStrings(goal_title_string: String, goal_final_value_string: String,
+                             goal_date_string: String){
+        title_goal_edit.setText(goal_title_string)
+        goal_final_value_text_edit.setText(goal_final_value_string)
+        goal_date_text_edit.setText(goal_date_string)
     }
 }

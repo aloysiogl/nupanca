@@ -201,6 +201,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/keep_calm_medium"
+                android:digits="0123456789,"
                 android:inputType="numberDecimal"
                 android:text="@string/initial_value_to_save"
                 android:textColor="@color/colorPrimary"

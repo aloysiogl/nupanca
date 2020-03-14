@@ -41,7 +41,7 @@
     <string name="low_priority_text">Baixa</string>
     <string name="medium_priority_text">Média</string>
     <string name="high_priority_text">Alta</string>
-    <string name="add_item_button_text">Adicionar Meta</string>
+    <string name="add_item_button_text">ADICIONAR META</string>
 
     <!--Strings used in the goal fragment-->
     <string name="deposited_money">Dinheiro depositado</string>

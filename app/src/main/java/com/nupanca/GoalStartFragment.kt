@@ -1,6 +1,5 @@
 package com.nupanca
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,11 +35,10 @@ class GoalStartFragment : BaseFragment() {
         }
 
         button_start.setOnClickListener {
-//            findNavController().navigate(R.id.action_ControlStartFragment_to_ControlFragment)
             val bundle = Bundle()
-            bundle.putInt("mode", -1)
+            bundle.putInt("mode", -2)
             findNavController().navigate(
-                R.id.action_GoalStartFragment_to_goalEditFragment,
+                R.id.action_GoalStartFragment_to_GoalEditFragment,
                 bundle
             )
         }
