@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="left"
+    android:fontFamily="@font/keep_calm_medium"
+    android:textColor="@color/colorPrimary"
+    android:textSize="@dimen/goal_edit_fragment_questions_font_size"
+    android:padding="5dip"
+    />

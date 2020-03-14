@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="12px" viewBox="0 0 11 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Triangle</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Metas-detalhadas" transform="translate(-111.000122, -617.000000)" fill="#81269D">
+            <text id="Qual-a-prioridade-da" font-family="KeepCalm-Medium, Keep Calm" font-size="18" font-weight="normal">
+                <tspan x="14.0001221" y="579">Qual a prioridade da sua meta?</tspan>
+                <tspan x="14.0001221" y="604"></tspan>
+                <tspan x="14.0001221" y="629">Muito alta</tspan>
+            </text>
+            <path d="M116.358716,617.573127 C116.111748,617.573127 115.817563,618.093064 115.461711,618.628258 C114.901577,619.470688 114.282954,620.65545 113.73167,621.913586 C112.770493,624.107177 111.983511,626.533202 112.305466,627.965268 C112.430919,628.082139 112.607481,628.16156 112.811463,628.225926 C113.506558,628.445263 114.488662,628.460701 115.424421,628.462778 L116.01088,628.462703 C116.356373,628.462703 116.714283,628.472039 117.073037,628.481458 C118.092215,628.508215 119.121182,628.546971 119.849879,628.32715 C120.058372,628.264255 120.239295,628.181443 120.557157,627.689309 C120.764574,626.536466 119.995759,624.158326 119.046294,621.991465 C118.48918,620.720023 117.858141,619.517718 117.286296,618.660068 C116.91726,618.10659 116.610803,617.573127 116.358716,617.573127 Z" id="Triangle" stroke="#81269D" transform="translate(116.363470, 623.036564) rotate(180.000000) translate(-116.363470, -623.036564) "></path>
+        </g>
+    </g>
+</svg>

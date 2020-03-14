@@ -48,6 +48,10 @@
 
     <!--Goal Edit fragment-->
     <dimen name="goal_edit_fragment_questions_font_size">16sp</dimen>
+    <dimen name="goal_edit_fragment_dropdown_width">115dp</dimen>
+    <dimen name="goal_edit_fragment_dropdown_vertical_margin_up">5dp</dimen>
+    <dimen name="goal_edit_fragment_dropdown_vertical_margin_down">0dp</dimen>
+    <dimen name="goal_edit_fragment_dropdown_horizontal_margin">3dp</dimen>
 
     <!--Control fragment-->
     <dimen name="control_title_height">75dp</dimen>

@@ -1,6 +1,9 @@
 package com.nupanca
 
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Rect
 import android.os.Bundle
 import android.transition.Transition
@@ -11,29 +14,31 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_goal_edit.*
-import kotlinx.android.synthetic.main.fragment_goal_edit.button_return
-import kotlinx.android.synthetic.main.fragment_goal_minimized.*
-import kotlinx.android.synthetic.main.fragment_goals_start.*
+import java.text.SimpleDateFormat
+import java.util.*
 
-class GoalEditFragment : Fragment() {
+
+class GoalEditFragment : BaseFragment() {
 
     enum class FOCUS {
         DATE, PRIORITY, GOAL_MONEY, TITLE, NONE
     }
 
-    private var displaySizeWithoutStatusBar: Int = 0
+    private var displaySizeWithoutStatusBar: Int? = 0
     private var focus: FOCUS = FOCUS.NONE
     private var isKeyboardSelected: Boolean  = false
     private var transition: Transition? = null
+    private var isActionSelected: Boolean = false
+    private var currentSelection: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,12 +72,49 @@ class GoalEditFragment : Fragment() {
         view.display.getMetrics(metrics)
         displaySizeWithoutStatusBar = metrics.heightPixels - rectangle.top
 
+        // Getting current date
+        val myCalendar: Calendar = Calendar.getInstance()
+        val today = myCalendar.time
+
         // Setting texts
         when(fragmentMode){
-            -2 -> setupStrings("INSIRA O NOME DA SUA META",
-                "0,00", "00/00/0000")
+            -2 -> {
+                val newDate = today.clone() as Date
+                newDate.year += 1
+                setupStrings("INSIRA O NOME DA SUA META",
+                    "0,00", SimpleDateFormat("dd/MM/yyyy",
+                        Locale.US).format(newDate))
+                button_delete.visibility = View.INVISIBLE
+            }
         }
 
+
+        // Setting up dropdown
+        val items = arrayOf<String?>("Muito Baixa", "Baixa", "Média", "Alta", "Muito Alta")
+        currentSelection = items[0]
+
+        goal_priority_dropdown.adapter = ArrayAdapter(view.context, R.layout.dropdown_item, items)
+
+        goal_priority_dropdown?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                changeElementsToFocusMode(true)
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selected = parent?.getItemAtPosition(position).toString();
+                if (selected != currentSelection){
+                    currentSelection = selected
+                    changeElementsToFocusMode(false)
+                }
+            }
+        }
+
+//        dropdown_layout.isClickable = false
+//        goal_priority_dropdown.isEnabled = false
+
+        /* Listeners */
+
+        // Depending on fragment call
         if (fragmentMode == -2){
             button_return.setOnClickListener{
                 button_return.startAnimation(
@@ -88,45 +130,71 @@ class GoalEditFragment : Fragment() {
             }
         }
 
-        goal_final_value.setOnClickListener {
-            // Toggling keyboard
-            toggleKeyboard()
-            goal_final_value_text_edit.requestFocus()
-        }
-
         goal_end_date.setOnClickListener {
+            val date =
+            OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                myCalendar.set(Calendar.YEAR, year)
+                myCalendar.set(Calendar.MONTH, monthOfYear)
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                goal_date_text_edit.setText(SimpleDateFormat("dd/MM/yyyy", Locale.US)
+                    .format(myCalendar.time))
+                changeElementsToFocusMode(false)
+            }
+
+            val dialog = DatePickerDialog(
+                view.context, date, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)
+            )
+
+            dialog.setButton(
+                DialogInterface.BUTTON_NEGATIVE,
+                "cancel"
+            ) { _, which ->
+                if (which == DialogInterface.BUTTON_NEGATIVE)
+                    changeElementsToFocusMode(false)
+            }
+
+            dialog.show()
+
             focus = FOCUS.DATE
 
-            // Toggling keyboard
-            toggleKeyboard()
-            changeElementsOnKeyboardMovement(true)
+            // Changing view
+            changeElementsToFocusMode(true)
         }
 
-        goal_priority.setOnClickListener {
-            focus = FOCUS.PRIORITY
-
-            // Toggling keyboard
+        goal_final_value.setOnClickListener {
+            focus = FOCUS.GOAL_MONEY
+            goal_final_value.requestFocus()
             toggleKeyboard()
-            changeElementsOnKeyboardMovement(true)
+            changeElementsToFocusMode(true)
         }
 
         goal_final_value_text_edit.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus){
                 focus = FOCUS.GOAL_MONEY
-                changeElementsOnKeyboardMovement(true)
+                changeElementsToFocusMode(true)
             }
+        }
+
+        goal_priority.setOnClickListener {
+            focus = FOCUS.PRIORITY
+            changeElementsToFocusMode(true)
         }
 
         title_goal_edit.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus){
                 focus = FOCUS.TITLE
-                changeElementsOnKeyboardMovement(true)
+                changeElementsToFocusMode(true)
             }
         }
 
         view.addOnLayoutChangeListener { v, _, _, _, bottom, _, _, _, oldBottom ->
-
             if (oldBottom > bottom) {
+//                if (displaySizeWithoutStatusBar == null)
+//                    displaySizeWithoutStatusBar = oldBottom
+
                 isKeyboardSelected  = true
 
                 // Resetting guideline to keyboard size
@@ -136,19 +204,19 @@ class GoalEditFragment : Fragment() {
             }
             else if (oldBottom < bottom && bottom == displaySizeWithoutStatusBar) {
                 isKeyboardSelected  = false
-                changeElementsOnKeyboardMovement(false)
                 v.clearFocus()
+                goal_edit_image.requestFocus()
+                changeElementsToFocusMode(false)
             }
         }
     }
 
-    private fun changeElementsOnKeyboardMovement(keyboardSelected:Boolean) {
+    private fun changeElementsToFocusMode(keyboardSelected:Boolean) {
         if (keyboardSelected){
             val constraintSet = ConstraintSet()
-
+            isActionSelected = true
             when(focus){
                 FOCUS.TITLE -> {
-//                    goal_final_value_text_edit.requestFocus()
 
                     goal_priority.visibility = View.GONE
                     goal_final_value.visibility = View.GONE
@@ -181,23 +249,33 @@ class GoalEditFragment : Fragment() {
                     constraintSet.connect(goal_end_date.id, ConstraintSet.TOP,
                         ConstraintLayout.LayoutParams.PARENT_ID, ConstraintSet.TOP, 0)
                     constraintSet.connect(goal_end_date.id, ConstraintSet.BOTTOM,
-                        guideline_keyboard.id, ConstraintSet.TOP, 0)
+                        ConstraintLayout.LayoutParams.PARENT_ID, ConstraintSet.BOTTOM, 0)
                 }
                 FOCUS.PRIORITY -> {
                     goal_final_value.visibility = View.GONE
                     goal_edit_image.visibility = View.GONE
                     goal_end_date.visibility = View.GONE
+                    val params = dropdown_layout.layoutParams as ConstraintLayout.LayoutParams
+                    params.verticalBias = 0.5F
+                    dropdown_layout.layoutParams = params
 
                     constraintSet.clone(edit_goal_main_screen)
                     constraintSet.connect(goal_priority.id, ConstraintSet.TOP,
                         ConstraintLayout.LayoutParams.PARENT_ID, ConstraintSet.TOP, 0)
                     constraintSet.connect(goal_priority.id, ConstraintSet.BOTTOM,
-                        guideline_keyboard.id, ConstraintSet.TOP, 0)
+                        ConstraintLayout.LayoutParams.PARENT_ID, ConstraintSet.BOTTOM, 0)
+
+                    priority_text_box.visibility = View.GONE
+                    goal_priority_dropdown.visibility = View.VISIBLE
+                    goal_priority_dropdown.isEnabled = true
+                    goal_priority_dropdown.performClick()
                 }
             }
             TransitionManager.beginDelayedTransition(edit_goal_main_screen)
             constraintSet.applyTo(edit_goal_main_screen)
         } else {
+            isActionSelected = false
+
             // Animating upper image
             val constraintSet = ConstraintSet()
             constraintSet.clone(edit_goal_main_screen)
@@ -220,6 +298,9 @@ class GoalEditFragment : Fragment() {
                 guideline2.id, ConstraintSet.BOTTOM, 0)
             constraintSet.connect(goal_priority.id, ConstraintSet.BOTTOM,
                 ConstraintLayout.LayoutParams.PARENT_ID, ConstraintSet.BOTTOM, 0)
+            val params = dropdown_layout.layoutParams as ConstraintLayout.LayoutParams
+            params.verticalBias = 0.85F
+            dropdown_layout.layoutParams = params
             // Transition
             TransitionManager.beginDelayedTransition(edit_goal_main_screen, transition)
             constraintSet.applyTo(edit_goal_main_screen)
@@ -229,6 +310,11 @@ class GoalEditFragment : Fragment() {
             goal_priority.visibility = View.VISIBLE
             goal_final_value.visibility = View.VISIBLE
             goal_end_date.visibility = View.VISIBLE
+            priority_text_box.visibility = View.VISIBLE
+            goal_priority_dropdown.visibility = View.GONE
+
+            priority_text_box.text = currentSelection
+            goal_priority_dropdown.isEnabled = false
         }
     }
 
@@ -242,6 +328,12 @@ class GoalEditFragment : Fragment() {
                              goal_date_string: String){
         title_goal_edit.setText(goal_title_string)
         goal_final_value_text_edit.setText(goal_final_value_string)
-        goal_date_text_edit.setText(goal_date_string)
+        goal_date_text_edit.text = goal_date_string
+    }
+
+    override fun onBackPressed(): Boolean {
+        if (isActionSelected) changeElementsToFocusMode(false)
+        else findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
+        return true
     }
 }
