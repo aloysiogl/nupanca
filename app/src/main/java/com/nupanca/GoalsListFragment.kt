@@ -1,8 +1,8 @@
 package com.nupanca
 
+import android.app.Activity
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +12,9 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nupanca.db.Goal
 import com.nupanca.db.GoalsDBHandler
 import kotlinx.android.synthetic.main.fragment_goals_list.*
-import java.time.LocalDate
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.

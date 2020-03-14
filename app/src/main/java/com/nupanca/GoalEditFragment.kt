@@ -1,16 +1,18 @@
 package com.nupanca
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.transition.TransitionManager
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
+import android.view.Window
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
@@ -24,6 +26,7 @@ class GoalEditFragment : Fragment() {
         DATE, PRIORITY, GOAL_MONEY, TITLE, NONE
     }
 
+    private var displaySizeWithoutStatusBar: Int = 0
     private var focus: FOCUS = FOCUS.NONE
     private var isKeyboardSelected: Boolean  = false
     private var transition: Transition? = null
@@ -53,12 +56,17 @@ class GoalEditFragment : Fragment() {
         transition = TransitionInflater
             .from(activity).inflateTransition(R.transition.change_bounds_fade)
 
-        goal_final_value.setOnClickListener {
-            focus = FOCUS.GOAL_MONEY
+        // Getting display size without status bar
+        val rectangle = Rect()
+        activity?.window?.decorView?.getWindowVisibleDisplayFrame(rectangle)
+        val metrics = DisplayMetrics()
+        view.display.getMetrics(metrics)
+        displaySizeWithoutStatusBar = metrics.heightPixels - rectangle.top
 
+        goal_final_value.setOnClickListener {
             // Toggling keyboard
             toggleKeyboard()
-            view.clearFocus()
+            goal_final_value_text_edit.requestFocus()
         }
 
         goal_end_date.setOnClickListener {
@@ -66,7 +74,7 @@ class GoalEditFragment : Fragment() {
 
             // Toggling keyboard
             toggleKeyboard()
-            view.clearFocus()
+            changeElementsOnKeyboardMovement(true)
         }
 
         goal_priority.setOnClickListener {
@@ -74,22 +82,25 @@ class GoalEditFragment : Fragment() {
 
             // Toggling keyboard
             toggleKeyboard()
-            view.clearFocus()
+            changeElementsOnKeyboardMovement(true)
         }
 
-//        goal_final_value_text_edit.setOnFocusChangeListener { v, hasFocus ->
-//            if (hasFocus && !isKeyboardSelected){
-//                focus = FOCUS.GOAL_MONEY
-//            }
-//        }
+        goal_final_value_text_edit.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus){
+                focus = FOCUS.GOAL_MONEY
+                changeElementsOnKeyboardMovement(true)
+            }
+        }
 
         title_goal_edit.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus){
                 focus = FOCUS.TITLE
+                changeElementsOnKeyboardMovement(true)
             }
         }
 
-        view.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+        view.addOnLayoutChangeListener { v, _, _, _, bottom, _, _, _, oldBottom ->
+
             if (oldBottom > bottom) {
                 isKeyboardSelected  = true
 
@@ -97,36 +108,11 @@ class GoalEditFragment : Fragment() {
                 val params = guideline_keyboard.layoutParams as ConstraintLayout.LayoutParams
                 params.guideBegin = bottom - layout_top.height - button_confirm_edition.height
                 guideline_keyboard.layoutParams = params
-
-
-                // Setting animation and selected view
-                changeElementsOnKeyboardMovement(true)
-
-//                how_much_to_save.setConstraintSet()
-//                val constraintSet = ConstraintSet()
-//                constraintSet.clone(constraintLayout)
-//                constraintSet.connect(
-//                    R.id.how,
-//                    ConstraintSet.RIGHT,
-//                    R.id.check_answer2,
-//                    ConstraintSet.RIGHT,
-//                    0
-//                )
-//                constraintSet.connect(
-//                    R.id.imageView,
-//                    ConstraintSet.TOP,
-//                    R.id.check_answer2,
-//                    ConstraintSet.TOP,
-//                    0
-//                )
-//                val params = goal_priority.layoutParams as ConstraintLayout.LayoutParams
-//                params.topToTop = edit_goal_main_screen.id
-//                params.bottomToBottom = edit_goal_main_screen.id
-//                goal_priority.layoutParams = params
             }
-            else if (oldBottom < bottom) {
+            else if (oldBottom < bottom && bottom == displaySizeWithoutStatusBar) {
                 isKeyboardSelected  = false
                 changeElementsOnKeyboardMovement(false)
+                v.clearFocus()
             }
         }
     }
@@ -142,6 +128,7 @@ class GoalEditFragment : Fragment() {
                     goal_priority.visibility = View.GONE
                     goal_final_value.visibility = View.GONE
                     goal_end_date.visibility = View.GONE
+                    goal_edit_image.visibility = View.VISIBLE
 
                     constraintSet.clone(edit_goal_main_screen)
                     constraintSet.connect(goal_edit_image.id, ConstraintSet.BOTTOM,
