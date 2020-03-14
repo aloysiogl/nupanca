@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
@@ -41,7 +40,7 @@ class MainFragment : BaseFragment() {
         }
 
         goals_layout.setOnClickListener {
-            findNavController().navigate(R.id.action_MainFragment_to_GoalsListFragment)
+            findNavController().navigate(R.id.action_MainFragment_to_GoalStartFragment)
         }
 
         control_layout.setOnClickListener {

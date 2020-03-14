@@ -14,10 +14,8 @@ import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_insert_money.*
 import kotlinx.android.synthetic.main.fragment_insert_money.button_return
-import java.lang.Math.round
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
