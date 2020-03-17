@@ -97,7 +97,9 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toStartOf="@+id/guideline12"
             app:layout_constraintStart_toStartOf="@+id/guideline11"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline11"
@@ -139,7 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="20dp" />
+            app:layout_constraintGuide_begin="216dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/goal_final_value"
@@ -256,13 +258,11 @@
                 app:layout_constraintHorizontal_bias="0.1"
                 app:layout_constraintVertical_bias="0.3"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/goal_date_text_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/keep_calm_medium"
-                android:inputType="date"
-
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/goal_edit_fragment_questions_font_size"
                 app:layout_constraintTop_toTopOf="parent"
@@ -271,7 +271,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.01"
                 app:layout_constraintVertical_bias="0.7"
-                android:background="@null"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -314,6 +313,61 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.1"
                 app:layout_constraintVertical_bias="0.3"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dropdown_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/txt3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.85">
+
+                <Spinner
+                    android:id="@+id/goal_priority_dropdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:contextClickable="true"
+                    android:longClickable="true"
+                    android:spinnerMode="dropdown"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone">
+
+                </Spinner>
+
+                <TextView
+                    android:id="@+id/priority_text_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/keep_calm_medium"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/goal_edit_fragment_questions_font_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/goal_edit_fragment_dropdown_vertical_margin_up"
+                    android:layout_marginBottom="@dimen/goal_edit_fragment_dropdown_vertical_margin_down"
+                    android:layout_marginEnd="@dimen/goal_edit_fragment_dropdown_horizontal_margin"
+                    android:layout_marginStart="@dimen/goal_edit_fragment_dropdown_horizontal_margin"
+                    android:src="@drawable/ic_background_dropdown"
+                    app:layout_constraintStart_toEndOf="@id/priority_text_box"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.8"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
