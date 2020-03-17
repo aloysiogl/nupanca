@@ -1,14 +1,15 @@
 package com.nupanca
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlin.system.exitProcess
 
 
 /**
@@ -56,6 +57,8 @@ class MainFragment : BaseFragment() {
     }
 
     override fun onBackPressed(): Boolean {
-        return true
+        val fm = activity!!.supportFragmentManager
+        while (fm.popBackStackImmediate());
+        return false
     }
 }
