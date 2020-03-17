@@ -3,11 +3,13 @@ package com.nupanca
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_main.*
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -24,6 +26,9 @@ class MainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//        pig_happiness.progress = 25
+//        image_pig.setImageDrawable(context?.getDrawable(R.drawable.ic_bigpig_sad))
 
         button_return.setOnClickListener {
             button_return.startAnimation(AnimationUtils.loadAnimation(
@@ -46,6 +51,8 @@ class MainFragment : BaseFragment() {
         control_layout.setOnClickListener {
             findNavController().navigate(R.id.action_MainFragment_to_ControlStartFragment)
         }
+
+        pig_happiness.setOnTouchListener { _, _ -> true }
     }
 
     override fun onBackPressed(): Boolean {

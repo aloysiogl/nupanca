@@ -5,6 +5,7 @@
     android:id="@+id/layout_fragment_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".MainFragment">
 
     <LinearLayout
@@ -58,10 +59,49 @@
         android:layout_marginStart="@dimen/main_horizontal_margin"
         android:layout_marginEnd="@dimen/main_horizontal_margin"
         android:src="@drawable/ic_bigpig"
-        app:layout_constraintBottom_toTopOf="@+id/total_amount_layout"
+        app:layout_constraintBottom_toTopOf="@+id/pig_happiness_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/pig_happiness_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/keep_calm_w01_book"
+        android:text="@string/progress_bar_label"
+        android:textAlignment="center"
+        android:textColor="@color/colorGray"
+        android:textSize="@dimen/progress_bar_label_font_size"
+        app:layout_constraintBottom_toTopOf="@id/pig_happiness"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_pig" />
+
+    <SeekBar
+        android:id="@+id/pig_happiness"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="@dimen/progress_bar_width"
+        android:layout_height="@dimen/progress_bar_height"
+        android:progress="50"
+        android:progressBackgroundTint="@color/colorGray"
+        android:progressTint="@color/colorPrimary"
+        android:thumb="@drawable/ic_bar"
+        android:thumbTint="@color/colorGray"
+        app:layout_constraintBottom_toTopOf="@id/spacer2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pig_happiness_label" />
+
+    <Space
+        android:id="@+id/spacer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/total_amount_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pig_happiness" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/total_amount_layout"
@@ -73,7 +113,7 @@
         app:layout_constraintBottom_toTopOf="@+id/options_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image_pig">
+        app:layout_constraintTop_toBottomOf="@id/pig_happiness">
 
         <TextView
             android:id="@+id/total_amount_label"

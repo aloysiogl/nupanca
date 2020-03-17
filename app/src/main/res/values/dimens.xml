@@ -13,6 +13,9 @@
     <dimen name="options_margin">10dp</dimen>
     <dimen name="options_height">100dp</dimen>
     <dimen name="options_icon_size">40dp</dimen>
+    <dimen name="progress_bar_label_font_size">15sp</dimen>
+    <dimen name="progress_bar_width">250dp</dimen>
+    <dimen name="progress_bar_height">20dp</dimen>
 
     <!--Transfers fragment-->
     <dimen name="transfers_title_font_size">15sp</dimen>

@@ -19,6 +19,7 @@
     <string name="total_amount_label">Dinheiro guardado</string>
     <string name="goals_label">Metas</string>
     <string name="control_label">Planejamento de gastos</string>
+    <string name="progress_bar_label">Felicidade do porquinho</string>
 
     <!--Strings used in the the transfers fragment-->
     <string name="transfers_title">Dinheiro guardado</string>

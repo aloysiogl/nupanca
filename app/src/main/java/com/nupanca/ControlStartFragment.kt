@@ -31,7 +31,7 @@ class ControlStartFragment : BaseFragment() {
             button_return.startAnimation(
                 AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
             )
-            findNavController().navigate(R.id.action_GoalStartFragment_to_MainFragment)
+            findNavController().navigate(R.id.action_ControlStartFragment_to_MainFragment)
         }
 
         button_start.setOnClickListener {
