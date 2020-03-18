@@ -1,8 +1,8 @@
 package com.nupanca
 
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +12,19 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nupanca.db.GoalsDBHandler
+import com.nupanca.db.Goal
+import com.nupanca.db.GoalList
 import kotlinx.android.synthetic.main.fragment_goals_list.*
+import java.time.LocalDate
+import java.util.*
 
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class GoalsListFragment : BaseFragment() {
-    var goalsList: GoalAdapter? = null
+    var goalAdapter: GoalAdapter? = null
+    var goalList: GoalList? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,13 +39,10 @@ class GoalsListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         getView()?.let { ViewCompat.setTranslationZ(it, 1f) }
 
-        val goalsDBHandler = context?.let { GoalsDBHandler(it, null) }
-        var goals = goalsDBHandler?.readDB()
-        if (goals == null)
-            goals = mutableListOf()
+        val goalList = context?.let { GoalList(it) }
+        val goalAdapter = goalList?.let { GoalAdapter(it) }
 
-        goalsList = GoalAdapter(goals)
-        goals_list.adapter = goalsList
+        goals_list.adapter = goalAdapter
         goals_list.layoutManager = LinearLayoutManager(context)
 
         button_return.setOnClickListener {
@@ -60,23 +61,21 @@ class GoalsListFragment : BaseFragment() {
         }
 
         button_add_item.setOnClickListener {
-//            val goalsDBHandler = context?.let { GoalsDBHandler(it, null) }
-//            val goal = Goal(
-//                title = "Carro Próprio",
-//                totalAmount = 3000.00,
-//                currentAmount = 1000.00,
-//                beginDate = LocalDate.now(),
-//                endDate = LocalDate.now(),
-//                predictedEndDate = LocalDate.now(),
-//                priority = 1)
-//            goalsDBHandler?.addGoal(goal)
-//            goalsList?.addGoal(goal)
-            val bundle = Bundle()
-            bundle.putInt("mode", -1)
-            findNavController().navigate(
-                R.id.action_GoalsListFragment_to_goalEditFragment,
-                bundle
-            )
+            val goal = Goal(
+                title = "Carro Próprio",
+                totalAmount = 3000.00,
+                currentAmount = 1000.00,
+                beginDate = System.currentTimeMillis(),
+                endDate = System.currentTimeMillis(),
+                predictedEndDate = System.currentTimeMillis(),
+                priority = 1)
+            goalAdapter?.addGoal(goal)
+//            val bundle = Bundle()
+//            bundle.putInt("mode", -1)
+//            findNavController().navigate(
+//                R.id.action_GoalsListFragment_to_goalEditFragment,
+//                bundle
+//            )
         }
     }
 

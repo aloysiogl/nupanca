@@ -1,19 +1,26 @@
 package com.nupanca
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.nupanca.db.Goal
+import com.nupanca.db.GoalList
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
-class GoalAdapter(private val goals: MutableList<Goal>):
+class GoalAdapter(private val goalList: GoalList):
         RecyclerView.Adapter<GoalAdapter.ViewHolder>() {
+    var keyList = mutableListOf<String>()
+
+    init {
+        for (s in goalList.goals)
+            s.key?.let { keyList.add(it) }
+    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView = itemView.findViewById<TextView>(R.id.goal_title)
@@ -34,7 +41,10 @@ class GoalAdapter(private val goals: MutableList<Goal>):
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val goal = goals[position]
+        Log.d("TAG", "Position being viewed: $position")
+        Log.d("TAG", "Key being viewed: ${keyList[position]}")
+        Log.d("TAG", "Goal being viewed: ${goalList.goals[keyList[position]]}")
+        val goal = goalList.goals[keyList[position]] as Goal
         val symb = DecimalFormatSymbols()
         symb.decimalSeparator = ','
         symb.groupingSeparator = '.'
@@ -47,10 +57,14 @@ class GoalAdapter(private val goals: MutableList<Goal>):
         holder.barView.progress = (100 * goal.currentAmount / goal.totalAmount).toInt()
     }
 
-    override fun getItemCount() = goals.size
+    override fun getItemCount() = keyList.size
 
     fun addGoal(goal: Goal) {
-        goals.add(goal)
-        this.notifyItemInserted(goals.size)
+        Log.d("TAG", "Goal adapter adding goal")
+        goalList.addGoal(goal)
+        goal.key?.let { keyList.add(it) }
+        Log.d("TAG", "KeyList: $keyList")
+        Log.d("TAG", "Goal: $goal.key")
+        this.notifyItemInserted(keyList.size)
     }
 }

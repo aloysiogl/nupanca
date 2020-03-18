@@ -46,7 +46,7 @@ class MainFragment : BaseFragment() {
         }
 
         goals_layout.setOnClickListener {
-            findNavController().navigate(R.id.action_MainFragment_to_GoalStartFragment)
+            findNavController().navigate(R.id.action_MainFragment_to_GoalsListFragment)
         }
 
         control_layout.setOnClickListener {

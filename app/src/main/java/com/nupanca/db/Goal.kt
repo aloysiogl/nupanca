@@ -1,14 +1,13 @@
 package com.nupanca.db
 
-import java.time.LocalDate
 
 data class Goal(
-    var id: Int = 0,
+    var key: String? = "",
     var title: String,
     var totalAmount: Double,
     var currentAmount: Double,
-    var beginDate: LocalDate,
-    var endDate: LocalDate,
-    var predictedEndDate: LocalDate,
+    var beginDate: Long, // Saving as epoch. Use Date(long) to retrieve the date.
+    var endDate: Long,
+    var predictedEndDate: Long,
     var priority: Int
 )

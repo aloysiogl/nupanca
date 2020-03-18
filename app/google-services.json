@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "698859906203",
+    "firebase_url": "https://nupanca-5c70b.firebaseio.com",
+    "project_id": "nupanca-5c70b",
+    "storage_bucket": "nupanca-5c70b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698859906203:android:dd6c84941f91ac0f79923e",
+        "android_client_info": {
+          "package_name": "com.nupanca"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "698859906203-1qpbf1rrlrecdge7cghh5qpa0ek7f2ma.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nupanca",
+            "certificate_hash": "cd9e873b3e3624b776a7dcc190ab034492246f75"
+          }
+        },
+        {
+          "client_id": "698859906203-mgib2qpguhcrcbfbad5hv02eg3foj4b8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLw-j1o-5ke3A9s0Mgz2R7o-VFOFzalRw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "698859906203-mgib2qpguhcrcbfbad5hv02eg3foj4b8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
