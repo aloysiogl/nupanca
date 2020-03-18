@@ -45,8 +45,10 @@ class MainFragment : BaseFragment() {
             findNavController().navigate(R.id.action_MainFragment_to_TransfersFragment)
         }
 
+        // TODO change back to goal start
         goals_layout.setOnClickListener {
-            findNavController().navigate(R.id.action_MainFragment_to_GoalStartFragment)
+//            findNavController().navigate(R.id.action_MainFragment_to_GoalStartFragment)
+            findNavController().navigate(R.id.action_MainFragment_to_GoalsListFragment)
         }
 
         control_layout.setOnClickListener {

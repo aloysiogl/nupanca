@@ -98,11 +98,20 @@ class GoalEditFragment : BaseFragment() {
                     )
                     findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
                 }
-                button_delete.setOnClickListener{
-                    button_delete.startAnimation(
+            }
+            -1 -> {
+                setupStrings("INSIRA O NOME DA SUA META",
+                    "0,00", SimpleDateFormat("dd/MM/yyyy",
+                        Locale.US).format(selectionCalendar.time))
+
+                button_delete.visibility = View.INVISIBLE
+                disappearText = true
+
+                button_return.setOnClickListener{
+                    button_return.startAnimation(
                         AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
                     )
-                    findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
+                    findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
                 }
             }
         }
@@ -320,7 +329,7 @@ class GoalEditFragment : BaseFragment() {
                 disappearText = true
 
                 when(fragmentMode){
-                    -2 -> title_goal_edit.setText(R.string.placeholder_edit_text)
+                    -2, -1 -> title_goal_edit.setText(R.string.placeholder_edit_text)
                 }
             }
 
@@ -384,7 +393,7 @@ class GoalEditFragment : BaseFragment() {
             // Values which depend on validity
             if (validValues){
                 when(fragmentMode){
-                    -2 -> change_goal_button_text.setText(R.string.add_goal_edit)
+                    -2, -1 -> change_goal_button_text.setText(R.string.add_goal_edit)
                 }
             }
 
@@ -415,8 +424,14 @@ class GoalEditFragment : BaseFragment() {
     }
 
     override fun onBackPressed(): Boolean {
-        if (isActionSelected) changeElementsToFocusMode(false)
-        else findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
+        if (isActionSelected) {
+            changeElementsToFocusMode(false)
+            return true
+        }
+        when(fragmentMode) {
+            -2 -> findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
+            -1 -> findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
+        }
         return true
     }
 }

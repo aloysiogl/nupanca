@@ -3,6 +3,7 @@ package com.nupanca
 import android.app.Activity
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,6 +52,12 @@ class GoalsListFragment : BaseFragment() {
             findNavController().navigate(R.id.action_GoalsListFragment_to_MainFragment)
         }
 
+        for (goal in goals){
+            Log.d("My", goal.id.toString())
+        }
+//        goalsDBHandler?.deleteGoal(0)
+//        goalsDBHandler?.deleteGoal()
+
         button_info.setOnClickListener {
             button_info.startAnimation(
                 AnimationUtils.loadAnimation(
@@ -60,17 +67,6 @@ class GoalsListFragment : BaseFragment() {
         }
 
         button_add_item.setOnClickListener {
-//            val goalsDBHandler = context?.let { GoalsDBHandler(it, null) }
-//            val goal = Goal(
-//                title = "Carro Próprio",
-//                totalAmount = 3000.00,
-//                currentAmount = 1000.00,
-//                beginDate = LocalDate.now(),
-//                endDate = LocalDate.now(),
-//                predictedEndDate = LocalDate.now(),
-//                priority = 1)
-//            goalsDBHandler?.addGoal(goal)
-//            goalsList?.addGoal(goal)
             val bundle = Bundle()
             bundle.putInt("mode", -1)
             findNavController().navigate(

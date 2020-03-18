@@ -157,6 +157,8 @@
             app:exitAnim="@anim/slide_out_down"/>
         <action
             android:id="@+id/action_GoalEditFragment_to_GoalsListFragment"
-            app:destination="@id/GoalsListFragment" />
+            app:destination="@id/GoalsListFragment"
+            app:enterAnim="@anim/stay"
+            app:exitAnim="@anim/slide_out_down"/>
     </fragment>
 </navigation>
