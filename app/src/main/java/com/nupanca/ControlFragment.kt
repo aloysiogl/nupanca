@@ -3,7 +3,6 @@ package com.nupanca
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.nupanca.db.AccountInfo
-import com.nupanca.db.AccountInfoDBHandler
 import kotlinx.android.synthetic.main.fragment_control.*
 
 /**
@@ -35,12 +33,12 @@ class ControlFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         getView()?.let { ViewCompat.setTranslationZ(it, 2f) }
 
-        val accountInfoDBHandler = context?.let { AccountInfoDBHandler(it, null) }
-        var account = accountInfoDBHandler?.findAccount(1)
-        if (account == null) {
-            account = AccountInfo(1)
-            accountInfoDBHandler?.addAccount(account)
-        }
+//        val accountInfoDBHandler = context?.let { AccountInfoDBHandler(it, null) }
+//        var account = accountInfoDBHandler?.findAccount(1)
+//        if (account == null) {
+//            account = AccountInfo(1)
+//            accountInfoDBHandler?.addAccount(account)
+//        }
 
         button_return.setOnClickListener {
             button_return.startAnimation(
