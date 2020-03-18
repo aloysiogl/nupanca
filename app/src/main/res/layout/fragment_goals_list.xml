@@ -118,7 +118,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/add_item_button"
+            android:id="@+id/change_goal_button_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/confirm_insert_money_fragment_margin"
