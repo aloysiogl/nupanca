@@ -54,12 +54,13 @@
                 android:backgroundTint="@android:color/white"
                 android:fontFamily="@font/keep_calm_w01_book"
                 android:gravity="center"
-                android:inputType="textCapCharacters"
+                android:inputType="textCapCharacters|textNoSuggestions"
                 android:maxLength="30"
                 android:textCursorDrawable="@null"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/transfers_title_font_size"
-                android:background="@null"/>
+                android:background="@null"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
@@ -93,7 +94,7 @@
             android:id="@+id/goal_edit_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/ic_goal_success"
+            android:src="@drawable/ic_goal_edit"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toStartOf="@+id/guideline12"
             app:layout_constraintStart_toStartOf="@+id/guideline11"
@@ -323,7 +324,7 @@
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="@id/txt3"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.85">
+                app:layout_constraintVertical_bias="0.7">
 
                 <Spinner
                     android:id="@+id/goal_priority_dropdown"
@@ -354,6 +355,7 @@
                     app:layout_constraintHorizontal_bias="0.1"/>
 
                 <ImageView
+                    android:id="@+id/goal_edit_dropdown_arrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/goal_edit_fragment_dropdown_vertical_margin_up"
@@ -361,11 +363,12 @@
                     android:layout_marginEnd="@dimen/goal_edit_fragment_dropdown_horizontal_margin"
                     android:layout_marginStart="@dimen/goal_edit_fragment_dropdown_horizontal_margin"
                     android:src="@drawable/ic_background_dropdown"
-                    app:layout_constraintStart_toEndOf="@id/priority_text_box"
+                    app:layout_constraintStart_toEndOf="@id/goal_priority_dropdown"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.8"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -399,7 +402,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/add_item_button"
+            android:id="@+id/change_goal_button_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/confirm_insert_money_fragment_margin"

@@ -52,6 +52,12 @@ class GoalsListFragment : BaseFragment() {
             findNavController().navigate(R.id.action_GoalsListFragment_to_MainFragment)
         }
 
+        for (goal in goals){
+            Log.d("My", goal.id.toString())
+        }
+//        goalsDBHandler?.deleteGoal(0)
+//        goalsDBHandler?.deleteGoal()
+
         button_info.setOnClickListener {
             button_info.startAnimation(
                 AnimationUtils.loadAnimation(
@@ -76,6 +82,12 @@ class GoalsListFragment : BaseFragment() {
 //                R.id.action_GoalsListFragment_to_goalEditFragment,
 //                bundle
 //            )
+            val bundle = Bundle()
+            bundle.putInt("mode", -1)
+            findNavController().navigate(
+                R.id.action_GoalsListFragment_to_goalEditFragment,
+                bundle
+            )
         }
     }
 
