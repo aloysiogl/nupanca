@@ -10,7 +10,7 @@
 
     <!--Globals-->
     <string name="confirm_uppercase_text">CONFIRMAR</string>
-    <string name="total_amount">R$ 3.000,00</string>
+    <string name="total_amount">3.000,00</string>
     <string name="initial_value_to_save">0,00</string>
     <string name="money_sign">R$</string>
 
@@ -32,7 +32,7 @@
 
     <!--Strings used in the the save money fragment-->
     <string name="insert_money_text">Quanto você quer guardar?</string>
-    <string name="available_money_placeholder">Saldo disponível: 3.000,00</string>
+    <string name="available_money_placeholder">Saldo disponível: R$ 3.000,00</string>
 
     <!--Strings used in the the goals list fragment-->
     <string name="goals_list_title">Dinheiro em Metas</string>

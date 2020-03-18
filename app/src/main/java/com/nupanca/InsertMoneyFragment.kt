@@ -2,6 +2,7 @@ package com.nupanca
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.KeyEvent.ACTION_UP
 import androidx.fragment.app.Fragment
@@ -12,6 +13,11 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.nupanca.db.AccountInfo
 import kotlinx.android.synthetic.main.fragment_insert_money.*
 import kotlinx.android.synthetic.main.fragment_insert_money.button_return
 import java.text.DecimalFormat
@@ -31,6 +37,9 @@ class InsertMoneyFragment() : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var valueInTextBox: Double = 0.0
+    private val db = FirebaseDatabase.getInstance()
+    private val accountInfoRef = db.getReference("account_info")
+    private var accountInfo: AccountInfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,25 +89,46 @@ class InsertMoneyFragment() : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getView()?.let { ViewCompat.setTranslationZ(it, 2f) }
+        handleFirebase()
 
         //Show text input
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         text_edit_money_to_remove.requestFocus()
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
 
+        var mode = ""
         arguments?.let {
             val safeArgs = InsertMoneyFragmentArgs.fromBundle(it)
-            val mode = safeArgs.mode
+            mode = safeArgs.mode
             how_much_to_save.text = mode
         }
 
         button_confirm.setOnClickListener{
+            val symb = DecimalFormatSymbols()
+            symb.decimalSeparator = ','
+            symb.groupingSeparator = '.'
+            val df = DecimalFormat("###,##0.00", symb)
+            val amount = df.parse(text_edit_money_to_remove.text.toString())?.toDouble()
+
+            if (amount != null) {
+                if (mode == "Guardar dinheiro") {
+                    accountInfo?.savingsBalance = accountInfo?.savingsBalance?.plus(amount)!!
+                    accountInfo?.accountBalance = accountInfo?.accountBalance?.minus(amount)!!
+                } else {
+                    accountInfo?.savingsBalance = accountInfo?.savingsBalance?.minus(amount)!!
+                    accountInfo?.accountBalance = accountInfo?.accountBalance?.plus(amount)!!
+                }
+            }
+            Log.d("TAG", "New account info: $accountInfo")
+            accountInfoRef.setValue(accountInfo)
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
+            findNavController().navigate(R.id.action_InsertMoneyFragment_to_TransfersFragment)
         }
 
         text_edit_money_to_remove.setOnKeyListener { v, keyCode, event ->
             if (event.action == ACTION_UP)
                 text_edit_money_to_remove.setText(processKeyPress(event))
+            updateAvailableMoneyText()
 
             false
         }
@@ -108,6 +138,60 @@ class InsertMoneyFragment() : BaseFragment() {
                 AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
             )
             findNavController().navigate(R.id.action_InsertMoneyFragment_to_TransfersFragment)
+        }
+    }
+
+    fun handleFirebase() {
+        accountInfoRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                accountInfo = AccountInfo.fromMap(dataSnapshot.value as HashMap<String, Any>)
+                Log.d("TAG", "Account Info is: $accountInfo")
+                updateAvailableMoneyText()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read account info.", error.toException())
+            }
+        })
+    }
+
+    private fun updateAvailableMoneyText() {
+        val symb = DecimalFormatSymbols()
+        symb.decimalSeparator = ','
+        symb.groupingSeparator = '.'
+        val df = DecimalFormat("###,##0.00", symb)
+
+        var mode = ""
+        arguments?.let {
+            val safeArgs = InsertMoneyFragmentArgs.fromBundle(it)
+            mode = safeArgs.mode
+        }
+
+        var transactionPossible = false
+        if (text_edit_money_to_remove != null) {
+            val amount = df.parse(text_edit_money_to_remove.text.toString()).toDouble()
+            transactionPossible = if (mode == "Guardar dinheiro")
+                amount < accountInfo?.accountBalance!!
+            else amount < accountInfo?.savingsBalance!!
+        }
+
+        if (transactionPossible) {
+            // Updating total amount
+            var txt = "Saldo disponível: R$ "
+            if (mode == "Guardar dinheiro")
+                txt += df.format(accountInfo!!.accountBalance)
+            else txt += df.format(accountInfo!!.savingsBalance)
+
+            textView4?.text = txt
+            textView4?.setTextColor(getResources().getColor(R.color.colorGray))
+            button_confirm?.isClickable = true
+            confirm_button_text?.setTextColor(getResources().getColor(R.color.colorPrimary))
+        } else {
+            textView4?.text = "Você não possui saldo suficiente!"
+            textView4?.setTextColor(getResources().getColor(R.color.colorRed))
+            button_confirm?.isClickable = false
+            confirm_button_text?.setTextColor(getResources().getColor(R.color.colorGray))
         }
     }
 
