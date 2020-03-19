@@ -15,9 +15,11 @@ class Scaler {
     init {
         scalerRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val scaler = dataSnapshot.value as HashMap<String, HashMap<String, Double>>
-                mean = scaler["mean"]?.values?.toDoubleArray()!!
-                variance = scaler["var"]?.values?.toDoubleArray()!!
+                val scaler = dataSnapshot.value as HashMap<String, ArrayList<Double>>
+                Log.d("TAG", "$scaler")
+                Log.d("TAG", "${scaler["mean"]}")
+                mean = scaler["mean"]?.toDoubleArray()!!
+                variance = scaler["std"]?.toDoubleArray()!!
             }
 
             override fun onCancelled(error: DatabaseError) {

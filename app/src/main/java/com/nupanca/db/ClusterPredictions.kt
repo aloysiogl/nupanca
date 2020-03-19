@@ -14,11 +14,11 @@ class ClusterPredictions {
     init {
         clusterPredictionsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val p = dataSnapshot.value as HashMap<String, String>
+                val p = dataSnapshot.value as ArrayList<String>
                 predictions = mutableListOf()
-                for (k in p) {
-                    val map = k.value.split(",").associateTo(HashMap()) {
-                        val (left, right) = it.split(":")
+                for (s in p) {
+                    val map = s.split(",").associateTo(HashMap()) {
+                        val (left, right) = it.split(": ")
                         left.substring(1 until left.length) to right.toInt()
                     }
                     predictions.add(map)
