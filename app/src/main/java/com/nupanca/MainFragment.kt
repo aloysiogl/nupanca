@@ -21,6 +21,8 @@ import java.text.DecimalFormatSymbols
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class MainFragment : BaseFragment() {
+    var goals = hashMapOf<String?, Goal>()
+    var accountInfo = AccountInfo()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -50,12 +52,17 @@ class MainFragment : BaseFragment() {
 
         // TODO change back to goal start
         goals_layout.setOnClickListener {
-//            findNavController().navigate(R.id.action_MainFragment_to_GoalStartFragment)
-            findNavController().navigate(R.id.action_MainFragment_to_GoalsListFragment)
+            if (goals.isEmpty())
+                findNavController().navigate(R.id.action_MainFragment_to_GoalStartFragment)
+            else findNavController().navigate(R.id.action_MainFragment_to_GoalsListFragment)
         }
 
         control_layout.setOnClickListener {
-            findNavController().navigate(R.id.action_MainFragment_to_ControlStartFragment)
+            if (accountInfo.foodPlan < 1e-3 && accountInfo.housingPlan < 1e-3 &&
+                accountInfo.transportPlan < 1e-3 && accountInfo.shoppingPlan < 1e-3 &&
+                accountInfo.othersPlan < 1e-3 && accountInfo.savingsPlan < 1e-3)
+                findNavController().navigate(R.id.action_MainFragment_to_ControlStartFragment)
+            else findNavController().navigate(R.id.action_MainFragment_to_ControlFragment)
         }
 
         pig_happiness.setOnTouchListener { _, _ -> true }
@@ -68,9 +75,8 @@ class MainFragment : BaseFragment() {
     }
 
     fun handleFirebase() {
-        val db = FirebaseDatabase.getInstance();
+        val db = FirebaseDatabase.getInstance()
         val goalListRef = db.getReference("goal_list")
-        var goals = hashMapOf<String?, Goal>()
         val accountInfoRef = db.getReference("account_info")
         //        pig_happiness.progress = 25
         //        image_pig.setImageDrawable(context?.getDrawable(R.drawable.ic_bigpig_sad))
@@ -89,9 +95,10 @@ class MainFragment : BaseFragment() {
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-                Log.d("TAG", "onChildRemoved:" + dataSnapshot.key!!)
-                val goal = dataSnapshot.value as Goal
-                goals.remove(dataSnapshot.key)
+                // TODO verify this IGOR
+//                Log.d("TAG", "onChildRemoved:" + dataSnapshot.key!!)
+//                val goal = dataSnapshot.value as Goal
+//                goals.remove(dataSnapshot.key)
             }
 
             override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
@@ -109,7 +116,7 @@ class MainFragment : BaseFragment() {
         accountInfoRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 Log.d("TAG", "Account Info is: ${dataSnapshot.value}")
-                val accountInfo = AccountInfo.fromMap(dataSnapshot.value as HashMap<String, Any>)
+                accountInfo = AccountInfo.fromMap(dataSnapshot.value as HashMap<String, Any>)
                 Log.d("TAG", "Account Info is: $accountInfo")
 
                 // Updating total amount
