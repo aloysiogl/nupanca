@@ -43,9 +43,9 @@ class GoalAdapter(private val goals: MutableList<Goal>):
 
         val text = if (goal.predictedEndDate >= 0)
             "você já acumulou R$ " + df.format(goal.currentAmount) +
-                    " e deve \ncompletar sua meta no dia " + SimpleDateFormat("dd/MM/yyyy",
+                    " e deve\ncompletar sua meta no dia " + SimpleDateFormat("dd/MM/yyyy",
                 Locale.US).format(Date(goal.predictedEndDate).time)
-        else "Não foi possível alocar dinheiro para\n essa meta"
+        else "Não foi possível alocar dinheiro para\nessa meta"
 
         holder.titleTextView.text = goal.title
         holder.textTextView.text = text
