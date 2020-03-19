@@ -41,8 +41,7 @@
         android:textColor="@color/colorGray"
         android:textSize="@dimen/goal_text_font_size"
         app:layout_constraintBottom_toTopOf="@id/goal_progressBar"
-        app:layout_constraintEnd_toStartOf="@+id/imageView6"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/goal_progressBar"
         app:layout_constraintTop_toBottomOf="@id/goal_title" />
 
     <ProgressBar
@@ -54,7 +53,8 @@
         android:progress="25"
         android:progressTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/goal_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/goal_text" />
 
     <TextView

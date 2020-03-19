@@ -68,6 +68,10 @@
             app:destination="@id/TransfersFragment"
             app:enterAnim="@anim/stay"
             app:exitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="value"
+            app:argType="float"
+            android:defaultValue="0.00" />
     </fragment>
     <fragment
         android:id="@+id/GoalsListFragment"
@@ -84,7 +88,7 @@
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/stay" />
         <action
-            android:id="@+id/action_GoalsListFragment_to_goalEditFragment"
+            android:id="@+id/action_GoalsListFragment_to_GoalEditFragment"
             app:destination="@id/GoalEditFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay" />
@@ -110,6 +114,31 @@
             app:destination="@id/GoalsListFragment"
             app:enterAnim="@anim/stay"
             app:exitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="goal_key"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_GoalFragment_to_GoalEditFragment"
+            app:destination="@id/GoalEditFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay"/>
+        <action
+            android:id="@+id/action_GoalFragment_to_InsertMoneyFragment"
+            app:destination="@id/InsertMoneyFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay" />
+        <action
+            android:id="@+id/action_GoalFragment_to_ControlFragment"
+            app:destination="@id/ControlFragment"
+            app:popUpTo="@id/GoalFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay"/>
+        <action
+            android:id="@+id/action_GoalFragment_to_ControlStartFragment"
+            app:destination="@id/ControlStartFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay"/>
     </fragment>
     <fragment
         android:id="@+id/ControlStartFragment"
@@ -158,6 +187,15 @@
         <action
             android:id="@+id/action_GoalEditFragment_to_GoalsListFragment"
             app:destination="@id/GoalsListFragment"
+            app:enterAnim="@anim/stay"
+            app:exitAnim="@anim/slide_out_down"/>
+        <argument
+            android:name="goal_key"
+            app:argType="string"
+            android:defaultValue="\0" />
+        <action
+            android:id="@+id/action_GoalEditFragment_to_GoalFragment"
+            app:destination="@id/GoalFragment"
             app:enterAnim="@anim/stay"
             app:exitAnim="@anim/slide_out_down"/>
     </fragment>

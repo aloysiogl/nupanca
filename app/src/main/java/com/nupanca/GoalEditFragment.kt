@@ -10,7 +10,6 @@ import android.transition.Transition
 import android.transition.TransitionInflater
 import android.transition.TransitionManager
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -23,12 +22,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.database.*
+import com.nupanca.db.Goal
 import kotlinx.android.synthetic.main.fragment_goal_edit.*
+import kotlinx.android.synthetic.main.fragment_goal_edit.button_return
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.*
 import java.util.regex.Pattern
 
@@ -44,17 +44,23 @@ class GoalEditFragment : BaseFragment() {
     private var isKeyboardSelected: Boolean  = false
     private var transition: Transition? = null
     private var isActionSelected: Boolean = false
-    private var currentSelection: String? = null
+    private var currentSelection: String = "Muito Baixa"
     private var disappearText: Boolean = false
     private var fragmentMode = 0
     private var validValues = true
     private var selectionValue = 0.0
     private var selectionCalendar: Calendar = Calendar.getInstance()
+    private var goalKey: String? = null
+    private var goal: Goal? = null
+
+    private lateinit var database: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        database = FirebaseDatabase.getInstance().getReference("goal_list")
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_goal_edit, container, false)
     }
@@ -63,12 +69,13 @@ class GoalEditFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Set depth for animations
-        getView()?.let { ViewCompat.setTranslationZ(it, 2f) }
+        getView()?.let { ViewCompat.setTranslationZ(it, 3f) }
 
         // Reading arguments
         arguments?.let {
             val safeArgs = GoalEditFragmentArgs.fromBundle(it)
             fragmentMode = safeArgs.mode
+            goalKey = safeArgs.goalKey
         }
 
         // Setting default transition
@@ -85,7 +92,7 @@ class GoalEditFragment : BaseFragment() {
         // Setting texts
         when(fragmentMode){
             -2 -> {
-                setupStrings("INSIRA O NOME DA SUA META",
+                setupStrings("NOME DA SUA META",
                     "0,00", SimpleDateFormat("dd/MM/yyyy",
                         Locale.US).format(selectionCalendar.time))
 
@@ -100,7 +107,7 @@ class GoalEditFragment : BaseFragment() {
                 }
             }
             -1 -> {
-                setupStrings("INSIRA O NOME DA SUA META",
+                setupStrings("NOME DA SUA META",
                     "0,00", SimpleDateFormat("dd/MM/yyyy",
                         Locale.US).format(selectionCalendar.time))
 
@@ -111,6 +118,69 @@ class GoalEditFragment : BaseFragment() {
                     button_return.startAnimation(
                         AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
                     )
+                    findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
+                }
+            }
+
+            0 -> {
+                title_goal_edit.setText("LOADING...")
+
+                val childEventListener = object : ChildEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
+
+                    override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                    }
+
+                    override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                    }
+
+                    override fun onChildRemoved(p0: DataSnapshot) {
+                    }
+
+                    override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                        val newGoal = Goal.fromMap(dataSnapshot.value as HashMap<String, Any>)
+                        goal = newGoal
+                        if (view.context != null && newGoal.key == goalKey){
+                            // Title
+                            title_goal_edit.setText(newGoal.title)
+                            // Money
+                            val symb = DecimalFormatSymbols()
+                            symb.decimalSeparator = ','
+                            selectionValue = newGoal.totalAmount
+                            goal_final_value_text_edit.setText(DecimalFormat("#####0.00",
+                                symb).format(newGoal.totalAmount).toString())
+                            // Date
+                            goal_date_text_edit.text = SimpleDateFormat("dd/MM/yyyy",
+                                Locale.US).format(Date(newGoal.endDate))
+                            selectionCalendar.time = Date(newGoal.endDate)
+                            // Priority
+                            currentSelection = GoalFragment.priorityIntToString(newGoal.priority)
+                            goal_priority_dropdown.setSelection(newGoal.priority)
+                            changeElementsToFocusMode(false)
+                        }
+                    }
+                }
+
+                database.addChildEventListener(childEventListener)
+
+                button_return.setOnClickListener{
+                    button_return.startAnimation(
+                        AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
+                    )
+                    val bundle = Bundle()
+                    bundle.putString("goal_key", goalKey)
+                    findNavController().navigate(R.id.action_GoalEditFragment_to_GoalFragment,
+                    bundle)
+                }
+
+                button_delete.setOnClickListener {
+                    button_delete.startAnimation(
+                        AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
+                    )
+                    val goalRef = FirebaseDatabase.getInstance()
+                        .getReference("goal_list/$goalKey")
+                    goalRef.removeValue()
                     findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
                 }
             }
@@ -198,7 +268,6 @@ class GoalEditFragment : BaseFragment() {
         // Setting up goal_priority
 
         val items = arrayOf<String?>("Muito Baixa", "Baixa", "Média", "Alta", "Muito Alta")
-        currentSelection = items[0]
 
         goal_priority_dropdown.adapter = ArrayAdapter(view.context, R.layout.dropdown_item, items)
 
@@ -223,10 +292,45 @@ class GoalEditFragment : BaseFragment() {
                 toggleKeyboard(false)
                 changeElementsToFocusMode(false)
             }
+            // TODO calculate current amount and make entries correct
+            // TODO predict end dates
             else if (validValues) {
-                findNavController().navigate(
-                    R.id.action_GoalEditFragment_to_GoalsListFragment
-                )
+                when(fragmentMode){
+                    -2, -1 -> {
+                        val goal = Goal(
+                            title = title_goal_edit.text.toString(),
+                            totalAmount = selectionValue,
+                            currentAmount = 1000.00,
+                            beginDate = System.currentTimeMillis(),
+                            endDate = selectionCalendar.timeInMillis,
+                            predictedEndDate = System.currentTimeMillis(),
+                            priority = GoalFragment.priorityStringToInt(currentSelection))
+
+                        // Adding to database
+                        val goalRef = database.push()
+                        goal.key = goalRef.key.toString()
+                        goalRef.setValue(goal)
+                        GoalsListFragment.updateLazyRequest = true
+                        findNavController().navigate(
+                            R.id.action_GoalEditFragment_to_GoalsListFragment
+                        )
+                    }
+                    0 -> {
+                        goal?.title = title_goal_edit.text.toString()
+                        goal?.totalAmount = selectionValue
+                        goal?.endDate = selectionCalendar.timeInMillis
+                        goal?.priority = GoalFragment.priorityStringToInt(currentSelection)
+                        val goalRef = FirebaseDatabase.getInstance()
+                            .getReference("goal_list/$goalKey")
+                        goalRef.setValue(goal)
+                        val bundle = Bundle()
+                        bundle.putString("goal_key", goalKey)
+                        GoalsListFragment.updateLazyRequest = true
+                        findNavController().navigate(R.id.action_GoalEditFragment_to_GoalFragment,
+                            bundle)
+
+                    }
+                }
             }
         }
 
@@ -253,8 +357,8 @@ class GoalEditFragment : BaseFragment() {
         if (keyboardSelected){
             val constraintSet = ConstraintSet()
             isActionSelected = true
-            change_goal_button_text.setText(R.string.confirm_goal_edit)
-            change_goal_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
+            how_to_improve_button_text.setText(R.string.confirm_goal_edit)
+            how_to_improve_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
             when(focus){
                 FOCUS.TITLE -> {
                     goal_priority.visibility = View.GONE
@@ -328,9 +432,7 @@ class GoalEditFragment : BaseFragment() {
             if (title_goal_edit.text.toString() == ""){
                 disappearText = true
 
-                when(fragmentMode){
-                    -2, -1 -> title_goal_edit.setText(R.string.placeholder_edit_text)
-                }
+                title_goal_edit.setText(R.string.placeholder_edit_text)
             }
 
             // Image
@@ -392,14 +494,16 @@ class GoalEditFragment : BaseFragment() {
 
             // Values which depend on validity
             if (validValues){
+                how_to_improve_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
                 when(fragmentMode){
-                    -2, -1 -> change_goal_button_text.setText(R.string.add_goal_edit)
+                    -2, -1 -> how_to_improve_button_text.setText(R.string.add_goal_edit)
+                    0 -> how_to_improve_button_text.setText(R.string.modify_goal)
                 }
             }
 
             else {
-                change_goal_button_text.setTextColor(resources.getColor(R.color.colorRed))
-                change_goal_button_text.setText(R.string.invalid_entries)
+                how_to_improve_button_text.setTextColor(resources.getColor(R.color.colorRed))
+                how_to_improve_button_text.setText(R.string.invalid_entries)
             }
 
         }
@@ -428,9 +532,16 @@ class GoalEditFragment : BaseFragment() {
             changeElementsToFocusMode(false)
             return true
         }
+
         when(fragmentMode) {
             -2 -> findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
             -1 -> findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
+            0 -> {
+                val bundle = Bundle()
+                bundle.putString("goal_key", goalKey)
+                findNavController().navigate(R.id.action_GoalEditFragment_to_GoalFragment,
+                    bundle)
+            }
         }
         return true
     }

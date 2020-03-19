@@ -43,11 +43,12 @@
     <dimen name="progressbar_width">250dp</dimen>
 
     <!--Goal fragment-->
-    <dimen name="goal_fragment_parameters_font_size">14sp</dimen>
+    <dimen name="goal_fragment_parameters_font_size">16sp</dimen>
     <dimen name="goal_fragment_success_failure_font_size">14sp</dimen>
     <dimen name="goal_fragment_dropdown_height">27dp</dimen>
     <dimen name="goal_fragment_dropdown_width">100dp</dimen>
     <dimen name="goal_fragment_percentage_font_size">25sp</dimen>
+    <dimen name="goal_fragment_lines_spacing">10dp</dimen>
 
     <!--Goal Edit fragment-->
     <dimen name="goal_edit_fragment_questions_font_size">16sp</dimen>

@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_top"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,10 +24,12 @@
             android:layout_marginStart="@dimen/main_toolbar_horizontal_margin"
             android:layout_marginTop="@dimen/main_toolbar_top_margin"
             android:layout_marginEnd="@dimen/main_toolbar_horizontal_margin"
+            android:layout_marginBottom="@dimen/main_toolbar_top_margin"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" >
 
             <ImageButton
                 android:id="@+id/button_return"
@@ -54,7 +56,7 @@
                 android:textSize="@dimen/transfers_title_font_size" />
 
             <ImageButton
-                android:id="@+id/button_info"
+                android:id="@+id/button_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
@@ -66,22 +68,6 @@
                 android:tint="@android:color/white" />
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/total_amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/keep_calm_w01_book"
-            android:gravity="center"
-            android:text="@string/total_amount"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/total_amount_main_font_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
