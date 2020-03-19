@@ -108,7 +108,9 @@ class InsertMoneyFragment() : BaseFragment() {
             symb.decimalSeparator = ','
             symb.groupingSeparator = '.'
             val df = DecimalFormat("###,##0.00", symb)
-            val amount = df.parse(text_edit_money_to_remove.text.toString())?.toDouble()
+            var amount = df.parse(text_edit_money_to_remove.text.toString())?.toDouble()
+            if (amount != null)
+                amount = (amount * 100).toInt() / 100.0
 
             if (amount != null) {
                 if (mode == "Guardar dinheiro") {
@@ -170,7 +172,8 @@ class InsertMoneyFragment() : BaseFragment() {
 
         var transactionPossible = false
         if (text_edit_money_to_remove != null) {
-            val amount = df.parse(text_edit_money_to_remove.text.toString()).toDouble()
+            var amount = df.parse(text_edit_money_to_remove.text.toString()).toDouble()
+            amount = (amount * 100).toInt() / 100.0
             transactionPossible = if (mode == "Guardar dinheiro")
                 amount < accountInfo?.accountBalance!!
             else amount < accountInfo?.savingsBalance!!
