@@ -1,24 +1,29 @@
 package com.nupanca
 
+import android.app.AlertDialog
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat.getFont
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.*
 import com.nupanca.db.AccountInfo
 import com.nupanca.db.Goal
 import kotlinx.android.synthetic.main.fragment_main.*
-import java.lang.Math.pow
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.pow
 
 
 /**
@@ -48,6 +53,18 @@ class MainFragment : BaseFragment() {
         button_edit.setOnClickListener {
             button_edit.startAnimation(AnimationUtils.loadAnimation(
                 context, R.anim.alpha_reduction))
+
+            val builder: AlertDialog.Builder? = activity?.let {
+                AlertDialog.Builder(it)
+            }
+            builder?.setMessage(R.string.main_info)
+            val dialog: AlertDialog? = builder?.create()
+            dialog?.show()
+
+            val textView = dialog?.findViewById<View>(android.R.id.message) as TextView
+            textView.typeface  = context?.let { it1 -> getFont(it1, R.font.keep_calm_w01_book) }
+            textView.linksClickable = true
+            textView.movementMethod = LinkMovementMethod.getInstance()
         }
 
         total_amount_layout.setOnClickListener {
@@ -86,21 +103,19 @@ class MainFragment : BaseFragment() {
         val childEventListener = object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d("TAG", "onChildAdded:" + dataSnapshot.key!!)
-                goals = dataSnapshot.value as HashMap<String?, Goal>
+                goals[dataSnapshot.key] = Goal.fromMap(dataSnapshot.value as HashMap<String, Any>)
                 updatePigHappiness()
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d("TAG", "onChildChanged: ${dataSnapshot.key}")
-//                val newGoal = dataSnapshot.value as Goal
-//                goals[dataSnapshot.key] = newGoal
+                goals[dataSnapshot.key] = Goal.fromMap(dataSnapshot.value as HashMap<String, Any>)
                 updatePigHappiness()
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
                 Log.d("TAG", "onChildRemoved:" + dataSnapshot.key!!)
-//                val goal = dataSnapshot.value as Goal
-//                goals.remove(dataSnapshot.key)
+                goals.remove(dataSnapshot.key)
                 updatePigHappiness()
             }
 
@@ -142,7 +157,16 @@ class MainFragment : BaseFragment() {
     fun updatePigHappiness() {
         var factor = 1.0
 
-        // TODO: Goals factor
+        // Goals factor
+        for (k in goals) {
+            if (k.value.beginDate != null) {
+                val dateRatio = 1.0 * (k.value.endDate - System.currentTimeMillis()) /
+                        (k.value.endDate - k.value.beginDate!!)
+                val amountRatio = 1.0 * (k.value.totalAmount - k.value.currentAmount) /
+                        k.value.totalAmount
+                factor *= max(0.8, min(1.2, amountRatio / dateRatio))
+            }
+        }
 
         // Control factor
         if (accountInfo.foodPlan != 0L && accountInfo.food30Days != 0L)
@@ -160,9 +184,13 @@ class MainFragment : BaseFragment() {
         if (accountInfo.othersPlan != 0L && accountInfo.others30Days != 0L)
             factor *= max(0.8, min(1.2,
                 1.0 * accountInfo.othersPlan / accountInfo.others30Days))
-        if (accountInfo.savings30Days != 0L && accountInfo.savingsPlan != 0L)
-            factor *= max(0.8, min(1.2,
-                pow(1.0 * accountInfo.savings30Days / accountInfo.savingsPlan, 4.0)))
+        if (accountInfo.savings30Days != 0L && accountInfo.savingsPlan != 0L) {
+            factor *= if (accountInfo.savings30Days < 0)
+                0.8.pow(4.0)
+            else max(0.8, min(1.2,
+                (1.0 * accountInfo.savings30Days / accountInfo.savingsPlan)
+            )).pow(4.0)
+        }
         Log.d("TAG", "Happiness factor: $factor")
 
         if (abs(factor - 1.0) < 1e-6) // No changes

@@ -1,14 +1,18 @@
 package com.nupanca
 
+import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -70,6 +74,22 @@ class ControlFragment : BaseFragment() {
                     context, R.anim.alpha_reduction
                 )
             )
+            val builder: AlertDialog.Builder? = activity?.let {
+                AlertDialog.Builder(it)
+            }
+            builder?.setMessage(R.string.control_info)
+            val dialog: AlertDialog? = builder?.create()
+            dialog?.show()
+
+            val textView = dialog?.findViewById<View>(android.R.id.message) as TextView
+            textView.typeface  = context?.let { it1 ->
+                ResourcesCompat.getFont(
+                    it1,
+                    R.font.keep_calm_w01_book
+                )
+            }
+            textView.linksClickable = true
+            textView.movementMethod = LinkMovementMethod.getInstance()
         }
 
         button_suggestions.setOnClickListener {
@@ -106,6 +126,11 @@ class ControlFragment : BaseFragment() {
                     others_icon.imageTintList = colorRed
                     others_spendings.setTextColor(colorRed)
                 }
+                if (df.parse(savings_spendings.text.toString())?.toLong()!! <
+                    df.parse(savings_value.text.toString())?.toLong()!!) {
+                    savings_icon.imageTintList = colorRed
+                    savings_spendings.setTextColor(colorRed)
+                }
             } else {
                 button_suggestions_label.text = getString(R.string.suggestions_button_text)
                 vis = View.INVISIBLE
@@ -119,6 +144,8 @@ class ControlFragment : BaseFragment() {
                 shopping_spendings.setTextColor(colorWhite)
                 others_icon.imageTintList = colorGreen
                 others_spendings.setTextColor(colorWhite)
+                savings_icon.imageTintList = colorGreen
+                savings_spendings.setTextColor(colorWhite)
             }
 
             food_suggestion_label.visibility = vis
