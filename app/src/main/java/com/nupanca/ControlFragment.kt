@@ -12,7 +12,6 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -385,66 +384,66 @@ class ControlFragment : BaseFragment() {
                       abs(df.parse(food_value.text.toString()).toLong() - accountInfo.foodPlan) <
                             1e-3))
                     food_value.setText(df.format(accountInfo.foodPlan))
-                food_spendings?.text = df.format(accountInfo.foodThisMonth)
+                food_spendings?.text = df.format(accountInfo.food30Days)
 
                 if (transport_value != null &&
                     !((transport_value.text.toString() == "" && accountInfo.foodPlan < 1e-3) ||
                             abs(df.parse(transport_value.text.toString()).toLong() - accountInfo.transportPlan) <
                             1e-3))
                     transport_value?.setText(df.format(accountInfo.transportPlan))
-                transport_spendings?.text = df.format(accountInfo.transportThisMonth)
+                transport_spendings?.text = df.format(accountInfo.transport30Days)
 
                 if (housing_value != null &&
                     !((housing_value.text.toString() == "" && accountInfo.foodPlan < 1e-3) ||
                             abs(df.parse(housing_value.text.toString()).toLong() - accountInfo.housingPlan) <
                             1e-3))
                     housing_value?.setText(df.format(accountInfo.housingPlan))
-                housing_spendings?.text = df.format(accountInfo.housingThisMonth)
+                housing_spendings?.text = df.format(accountInfo.housing30Days)
 
                 if (shopping_value != null &&
                     !((shopping_value.text.toString() == "" && accountInfo.foodPlan < 1e-3) ||
                             abs(df.parse(shopping_value.text.toString()).toLong() - accountInfo.shoppingPlan) <
                             1e-3))
                     shopping_value?.setText(df.format(accountInfo.shoppingPlan))
-                shopping_spendings?.text = df.format(accountInfo.shoppingThisMonth)
+                shopping_spendings?.text = df.format(accountInfo.shopping30Days)
 
                 if (others_value != null &&
                     !((others_value.text.toString() == "" && accountInfo.foodPlan < 1e-3) ||
                             abs(df.parse(others_value.text.toString()).toLong() - accountInfo.othersPlan) <
                             1e-3))
                     others_value?.setText(df.format(accountInfo.othersPlan))
-                others_spendings?.text = df.format(accountInfo.othersThisMonth)
+                others_spendings?.text = df.format(accountInfo.others30Days)
 
                 if (savings_value != null &&
                     !((savings_value.text.toString() == "" && accountInfo.foodPlan < 1e-3) ||
                             abs(df.parse(savings_value.text.toString()).toLong() - accountInfo.savingsPlan) <
                             1e-3))
                     savings_value?.setText(df.format(accountInfo.savingsPlan))
-                savings_spendings?.text = df.format(accountInfo.savingsThisMonth)
+                savings_spendings?.text = df.format(accountInfo.savings30Days)
 
                 if (accountInfo.foodPlan > 1e-3)
                     food_icon?.drawable?.level =
-                        (7000 * accountInfo.foodThisMonth / accountInfo.foodPlan).toInt()
+                        (7000 * accountInfo.food30Days / accountInfo.foodPlan).toInt()
                 else food_icon?.drawable?.level = 0
                 if (accountInfo.transportPlan > 1e-3)
                     transport_icon?.drawable?.level =
-                        (7000 * accountInfo.transportThisMonth / accountInfo.transportPlan).toInt()
+                        (7000 * accountInfo.transport30Days / accountInfo.transportPlan).toInt()
                 else transport_icon?.drawable?.level = 0
                 if (accountInfo.housingPlan > 1e-3)
                     housing_icon?.drawable?.level =
-                        (7000 * accountInfo.housingThisMonth / accountInfo.housingPlan).toInt()
+                        (7000 * accountInfo.housing30Days / accountInfo.housingPlan).toInt()
                 else housing_icon?.drawable?.level = 0
                 if (accountInfo.shoppingPlan > 1e-3)
                     shopping_icon?.drawable?.level =
-                        (7000 * accountInfo.shoppingThisMonth / accountInfo.shoppingPlan).toInt()
+                        (7000 * accountInfo.shopping30Days / accountInfo.shoppingPlan).toInt()
                 else shopping_icon?.drawable?.level = 0
                 if (accountInfo.othersPlan > 1e-3)
                     others_icon?.drawable?.level =
-                        (7000 * accountInfo.othersThisMonth / accountInfo.othersPlan).toInt()
+                        (7000 * accountInfo.others30Days / accountInfo.othersPlan).toInt()
                 else others_icon?.drawable?.level = 0
                 if (accountInfo.savingsPlan > 1e-3)
                     savings_icon?.drawable?.level =
-                        (7000 * accountInfo.savingsThisMonth / accountInfo.savingsPlan).toInt()
+                        (7000 * accountInfo.savings30Days / accountInfo.savingsPlan).toInt()
                 else savings_icon?.drawable?.level = 0
             }
 

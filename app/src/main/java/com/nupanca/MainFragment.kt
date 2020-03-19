@@ -13,8 +13,12 @@ import com.google.firebase.database.*
 import com.nupanca.db.AccountInfo
 import com.nupanca.db.Goal
 import kotlinx.android.synthetic.main.fragment_main.*
+import java.lang.Math.pow
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 
 
 /**
@@ -78,27 +82,26 @@ class MainFragment : BaseFragment() {
         val db = FirebaseDatabase.getInstance()
         val goalListRef = db.getReference("goal_list")
         val accountInfoRef = db.getReference("account_info")
-        //        pig_happiness.progress = 25
-        //        image_pig.setImageDrawable(context?.getDrawable(R.drawable.ic_bigpig_sad))
 
         val childEventListener = object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d("TAG", "onChildAdded:" + dataSnapshot.key!!)
-                goals = dataSnapshot.value as HashMap<String?, Goal>
-                Log.d("TAG", "Goal size: ${goals.size}")
+//                goals = dataSnapshot.value as HashMap<String?, Goal>
+                updatePigHappiness()
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d("TAG", "onChildChanged: ${dataSnapshot.key}")
-                val newGoal = dataSnapshot.value as Goal
-                goals[dataSnapshot.key] = newGoal
+//                val newGoal = dataSnapshot.value as Goal
+//                goals[dataSnapshot.key] = newGoal
+                updatePigHappiness()
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-                // TODO verify this IGOR
-//                Log.d("TAG", "onChildRemoved:" + dataSnapshot.key!!)
+                Log.d("TAG", "onChildRemoved:" + dataSnapshot.key!!)
 //                val goal = dataSnapshot.value as Goal
 //                goals.remove(dataSnapshot.key)
+                updatePigHappiness()
             }
 
             override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
@@ -126,7 +129,7 @@ class MainFragment : BaseFragment() {
                 val df = DecimalFormat("###,##0.00", symb)
                 total_amount?.text = df.format(accountInfo.savingsBalance)
 
-                // TODO: Updating pig happiness
+                updatePigHappiness()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -134,5 +137,47 @@ class MainFragment : BaseFragment() {
                 Log.w("TAG", "Failed to read account info.", error.toException())
             }
         })
+    }
+
+    fun updatePigHappiness() {
+        var factor = 1.0
+
+        // TODO: Goals factor
+
+        // Control factor
+        if (accountInfo.foodPlan != 0L && accountInfo.food30Days != 0L)
+            factor *= max(0.8, min(1.2,
+                1.0 * accountInfo.foodPlan / accountInfo.food30Days))
+        if (accountInfo.transportPlan != 0L && accountInfo.transport30Days != 0L)
+            factor *= max(0.8, min(1.2,
+                1.0 * accountInfo.transportPlan / accountInfo.transport30Days))
+        if (accountInfo.housingPlan != 0L && accountInfo.housing30Days != 0L)
+            factor *= max(0.8, min(1.2,
+                1.0 * accountInfo.housingPlan / accountInfo.housing30Days))
+        if (accountInfo.shoppingPlan != 0L && accountInfo.shopping30Days != 0L)
+            factor *= max(0.8, min(1.2,
+                1.0 * accountInfo.shoppingPlan / accountInfo.shopping30Days))
+        if (accountInfo.othersPlan != 0L && accountInfo.others30Days != 0L)
+            factor *= max(0.8, min(1.2,
+                1.0 * accountInfo.othersPlan / accountInfo.others30Days))
+        if (accountInfo.savings30Days != 0L && accountInfo.savingsPlan != 0L)
+            factor *= max(0.8, min(1.2,
+                pow(1.0 * accountInfo.savings30Days / accountInfo.savingsPlan, 4.0)))
+        Log.d("TAG", "Happiness factor: $factor")
+
+        if (abs(factor - 1.0) < 1e-6) // No changes
+            factor = 0.5
+
+        if (pig_happiness != null) {
+            pig_happiness.progress = (100 * factor).toInt()
+            when {
+                pig_happiness.progress <= 25 ->
+                    image_pig.setImageDrawable(context?.getDrawable(R.drawable.ic_bigpig_sad))
+                pig_happiness.progress <= 75 ->
+                    image_pig.setImageDrawable(context?.getDrawable(R.drawable.ic_bigpig))
+                else ->
+                    image_pig.setImageDrawable(context?.getDrawable(R.drawable.ic_bigpig_happy))
+            }
+        }
     }
 }

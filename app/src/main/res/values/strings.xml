@@ -71,7 +71,8 @@
     <string name="suggestions_button_text">Exibir Sugestões</string>
     <string name="suggestions_button_text_2">Ocultar Sugestões</string>
     <string name="plan_label">Plano</string>
-    <string name="spendings_label">Gastos este mês</string>
+    <string name="spendings_label">Gastos nos\núltimos 30 dias</string>
+    <string name="savings_label">Guardado nos\núltimos 30 dias</string>
     <string name="suggestion_label">Sugestão:</string>
     <string name="add_plan_label">Adicione uma meta de gastos!</string>
     <string name="brl">R$</string>

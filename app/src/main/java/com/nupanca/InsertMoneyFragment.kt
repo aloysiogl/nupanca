@@ -116,9 +116,11 @@ class InsertMoneyFragment() : BaseFragment() {
                 if (mode == "Guardar dinheiro") {
                     accountInfo?.savingsBalance = accountInfo?.savingsBalance?.plus(amount)!!
                     accountInfo?.accountBalance = accountInfo?.accountBalance?.minus(amount)!!
+                    accountInfo?.savings30Days = accountInfo?.savings30Days?.plus(amount.toInt())!!
                 } else {
                     accountInfo?.savingsBalance = accountInfo?.savingsBalance?.minus(amount)!!
                     accountInfo?.accountBalance = accountInfo?.accountBalance?.plus(amount)!!
+                    accountInfo?.savings30Days = accountInfo?.savings30Days?.minus(amount.toInt())!!
                 }
             }
             Log.d("TAG", "New account info: $accountInfo")

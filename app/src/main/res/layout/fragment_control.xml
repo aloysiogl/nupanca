@@ -127,9 +127,8 @@
                     android:text="@string/spendings_label"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/plans_label_font_size"
-                    app:layout_constraintBottom_toTopOf="@id/housing_plan"
+                    app:layout_constraintBottom_toBottomOf="@id/housing_plan_label"
                     app:layout_constraintStart_toStartOf="@id/housing_guideline1"
-                    app:layout_constraintTop_toTopOf="@+id/housing_brl_label1"
                     app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
@@ -303,9 +302,8 @@
                     android:text="@string/spendings_label"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/plans_label_font_size"
-                    app:layout_constraintBottom_toTopOf="@id/transport_plan"
+                    app:layout_constraintBottom_toBottomOf="@id/transport_plan_label"
                     app:layout_constraintStart_toStartOf="@id/transport_guideline1"
-                    app:layout_constraintTop_toTopOf="@+id/transport_brl_label1"
                     app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
@@ -479,9 +477,8 @@
                     android:text="@string/spendings_label"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/plans_label_font_size"
-                    app:layout_constraintBottom_toTopOf="@id/food_plan"
+                    app:layout_constraintBottom_toBottomOf="@id/food_plan_label"
                     app:layout_constraintStart_toStartOf="@id/food_guideline1"
-                    app:layout_constraintTop_toTopOf="@+id/food_brl_label1"
                     app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
@@ -655,9 +652,8 @@
                     android:text="@string/spendings_label"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/plans_label_font_size"
-                    app:layout_constraintBottom_toTopOf="@id/shopping_plan"
+                    app:layout_constraintBottom_toBottomOf="@id/shopping_plan_label"
                     app:layout_constraintStart_toStartOf="@id/shopping_guideline1"
-                    app:layout_constraintTop_toTopOf="@+id/shopping_brl_label1"
                     app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
@@ -831,9 +827,8 @@
                     android:text="@string/spendings_label"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/plans_label_font_size"
-                    app:layout_constraintBottom_toTopOf="@id/others_plan"
+                    app:layout_constraintBottom_toBottomOf="@id/others_plan_label"
                     app:layout_constraintStart_toStartOf="@id/others_guideline1"
-                    app:layout_constraintTop_toTopOf="@+id/others_brl_label1"
                     app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
@@ -1017,12 +1012,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/keep_calm_w01_book"
-                    android:text="@string/spendings_label"
+                    android:text="@string/savings_label"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/plans_label_font_size"
-                    app:layout_constraintBottom_toTopOf="@id/savings_plan"
+                    app:layout_constraintBottom_toBottomOf="@id/savings_plan_label"
                     app:layout_constraintStart_toStartOf="@id/savings_guideline1"
-                    app:layout_constraintTop_toTopOf="@+id/savings_brl_label1"
                     app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
