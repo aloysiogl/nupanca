@@ -20,7 +20,6 @@ import com.google.firebase.database.*
 import com.nupanca.db.AccountInfo
 import com.nupanca.db.Goal
 import kotlinx.android.synthetic.main.fragment_goals_list.*
-import java.sql.Date
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -168,6 +167,7 @@ class GoalsListFragment : BaseFragment() {
         val savingsPerMonth = (accountInfo.savings30Days.toDouble() +
                 accountInfo.savingsPlan.toDouble()) / 2.0
         val prioritiesValsPerMonth = doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0)
+        val prioritiesVals = doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0)
 
         val goalValPerMonth = HashMap<Goal, Double>()
         val goalPredictedEndDate = HashMap<Goal,Long>()
@@ -180,39 +180,47 @@ class GoalsListFragment : BaseFragment() {
             goalTimeToFinish[goal] = endDate.toDouble() - startDate.toDouble()
             goalValPerMonth[goal] = goal.totalAmount / goalTimeToFinish[goal]!!.toDouble() * mothInMillis
             prioritiesValsPerMonth[goal.priority] += goalValPerMonth[goal]!!
+            prioritiesVals[goal.priority] += goal.totalAmount
         }
 
-        var availableValue = savingsPerMonth
+        var availableValuePerMonth = savingsPerMonth
+        var availableValue = totalAmount
 
         for (priority in 4 downTo 0){
-            var valueForThisCategory = prioritiesValsPerMonth[priority]
-            availableValue -= prioritiesValsPerMonth[priority]
+            var valueForThisCategoryPerMonth = prioritiesValsPerMonth[priority]
+            availableValuePerMonth -= prioritiesValsPerMonth[priority]
+            var valueForThisCategory = prioritiesVals[priority]
+            availableValue -= prioritiesVals[priority]
+
+            if (availableValuePerMonth < 0) {
+                valueForThisCategoryPerMonth += availableValuePerMonth
+                if (valueForThisCategoryPerMonth <= 1e-13)
+                    valueForThisCategoryPerMonth = 0.0
+            }
 
             if (availableValue < 0) {
                 valueForThisCategory += availableValue
-//                Log.d("Myc", valueForThisCategory.toString() + " category: " + priority.toString())
-                // TODO implement this
-                //TODO bug npt changing goal name
                 if (valueForThisCategory <= 1e-13)
                     valueForThisCategory = 0.0
-//                if (prioritiesValsPerMonth[priority] <= 0){}
             }
 
             for (goal in goals){
                 if (goal.priority == priority){
-                    val goalGivenValue = goalValPerMonth[goal]?.div(prioritiesValsPerMonth[priority])
-                        ?.times(valueForThisCategory)
-                    if(goalGivenValue!! <= 1e-13){
-                        goalPredictedEndDate[goal] = -1
-                        goalCurrentValue[goal] = 0.0
-                        continue
-                    }
-                    goalPredictedEndDate[goal] = (goal.totalAmount/(goalGivenValue /mothInMillis)
+                    val goalGivenValuePerMonth = goalValPerMonth[goal]?.div(prioritiesValsPerMonth[priority])
+                        ?.times(valueForThisCategoryPerMonth)
+//                    if(goalGivenValuePerMonth!! <= 1e-13){
+//                        goalPredictedEndDate[goal] = -1
+//                        goalCurrentValue[goal] = 0.0
+//                        continue
+//                    }
+                    val effectiveAmount = goal.totalAmount - goal.totalAmount/prioritiesVals[priority]*valueForThisCategory
+                    goalPredictedEndDate[goal] = (effectiveAmount/(goalGivenValuePerMonth!! /mothInMillis)
                             ).toLong() + goal.beginDate
-                    goalCurrentValue[goal] = goal.totalAmount*(Calendar.getInstance().timeInMillis - goal.beginDate).toDouble()/
+                    goalCurrentValue[goal] = goal.totalAmount/prioritiesVals[priority]*valueForThisCategory
+                    + effectiveAmount*(Calendar.getInstance().timeInMillis - goal.beginDate).toDouble()/
                             (goalPredictedEndDate[goal]!! - goal.beginDate).toDouble()
 
-                    Log.d("My", goalGivenValue.toString() + " goal " + goal.title)
+                    Log.d("My", effectiveAmount.toString() + " goal " + goal.title)
 //                    Log.d("My1", Date(goalPredictedEndDate[goal]!!).toString())
                     Log.d("My2", goalCurrentValue[goal]!!.toString())
                 }
