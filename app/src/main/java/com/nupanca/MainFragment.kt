@@ -1,12 +1,17 @@
 package com.nupanca
 
+import android.app.AlertDialog
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat.getFont
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.*
@@ -48,6 +53,18 @@ class MainFragment : BaseFragment() {
         button_edit.setOnClickListener {
             button_edit.startAnimation(AnimationUtils.loadAnimation(
                 context, R.anim.alpha_reduction))
+
+            val builder: AlertDialog.Builder? = activity?.let {
+                AlertDialog.Builder(it)
+            }
+            builder?.setMessage(R.string.main_info)
+            val dialog: AlertDialog? = builder?.create()
+            dialog?.show()
+
+            val textView = dialog?.findViewById<View>(android.R.id.message) as TextView
+            textView.typeface  = context?.let { it1 -> getFont(it1, R.font.keep_calm_w01_book) }
+            textView.linksClickable = true
+            textView.movementMethod = LinkMovementMethod.getInstance()
         }
 
         total_amount_layout.setOnClickListener {

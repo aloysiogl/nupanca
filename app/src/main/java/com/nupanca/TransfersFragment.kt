@@ -1,5 +1,6 @@
 package com.nupanca
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.view.animation.AnimationUtils
+import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.DataSnapshot
@@ -71,6 +74,20 @@ class TransfersFragment : BaseFragment() {
                     context, R.anim.alpha_reduction
                 )
             )
+            val builder: AlertDialog.Builder? = activity?.let {
+                AlertDialog.Builder(it)
+            }
+            builder?.setMessage(R.string.transfers_info)
+            val dialog: AlertDialog? = builder?.create()
+            dialog?.show()
+
+            val textView = dialog?.findViewById<View>(android.R.id.message) as TextView
+            textView.typeface  = context?.let { it1 ->
+                ResourcesCompat.getFont(
+                    it1,
+                    R.font.keep_calm_w01_book
+                )
+            }
         }
     }
 
