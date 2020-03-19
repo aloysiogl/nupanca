@@ -498,7 +498,7 @@ class ControlFragment : BaseFragment() {
     fun calculateSuggestions() {
         val remoteModel = FirebaseCustomRemoteModel.Builder("Cluster-Suggestion").build()
         val localModel = FirebaseCustomLocalModel.Builder()
-            .setAssetFilePath("test.tflite")
+            .setAssetFilePath("Cluster-Suggestion.tflite")
             .build()
         FirebaseModelManager.getInstance().isModelDownloaded(remoteModel)
             .addOnSuccessListener { isDownloaded ->

@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         val db = FirebaseDatabase.getInstance()
         db.setPersistenceEnabled(true)
 
-        val remoteModel = FirebaseCustomRemoteModel.Builder("Test").build()
+        val remoteModel = FirebaseCustomRemoteModel.Builder("Cluster-Suggestion").build()
         val conditions = FirebaseModelDownloadConditions.Builder()
             .requireWifi()
             .build()
