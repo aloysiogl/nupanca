@@ -151,8 +151,8 @@ class GoalEditFragment : BaseFragment() {
                             // Money
                             val symb = DecimalFormatSymbols()
                             symb.decimalSeparator = ','
-                            symb.groupingSeparator = 0.toChar()
-                            goal_final_value_text_edit.setText(DecimalFormat("###,##0.00",
+                            selectionValue = newGoal.totalAmount
+                            goal_final_value_text_edit.setText(DecimalFormat("#####0.00",
                                 symb).format(newGoal.totalAmount).toString())
                             // Date
                             goal_date_text_edit.text = SimpleDateFormat("dd/MM/yyyy",
