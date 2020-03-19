@@ -104,60 +104,11 @@ class ControlFragment : BaseFragment() {
 
         button_suggestions.setOnClickListener {
             val vis: Int
-            val colorGreen = ColorStateList.valueOf(resources.getColor(R.color.colorGreen))
-            val colorRed = ColorStateList.valueOf(resources.getColor(R.color.colorRed))
-            val colorWhite = ColorStateList.valueOf(resources.getColor(android.R.color.white))
             showSuggestions = !showSuggestions
-            if (showSuggestions) {
-                calculateSuggestions()
-                button_suggestions_label.text = getString(R.string.suggestions_button_text_2)
+            if (showSuggestions)
                 vis = View.VISIBLE
-                if (df.parse(food_spendings.text.toString())?.toLong()!! >
-                    df.parse(food_value.text.toString())?.toLong()!!) {
-                    food_icon.imageTintList = colorRed
-                    food_spendings.setTextColor(colorRed)
-                }
-                if (df.parse(transport_spendings.text.toString())?.toLong()!! >
-                    df.parse(transport_value.text.toString())?.toLong()!!) {
-                    transport_icon.imageTintList = colorRed
-                    transport_spendings.setTextColor(colorRed)
-                }
-                if (df.parse(housing_spendings.text.toString())?.toLong()!! >
-                    df.parse(housing_value.text.toString())?.toLong()!!) {
-                    housing_icon.imageTintList = colorRed
-                    housing_spendings.setTextColor(colorRed)
-                }
-                if (df.parse(shopping_spendings.text.toString())?.toLong()!! >
-                    df.parse(shopping_value.text.toString())?.toLong()!!) {
-                    shopping_icon.imageTintList = colorRed
-                    shopping_spendings.setTextColor(colorRed)
-                }
-                if (df.parse(others_spendings.text.toString())?.toLong()!! >
-                    df.parse(others_value.text.toString())?.toLong()!!) {
-                    others_icon.imageTintList = colorRed
-                    others_spendings.setTextColor(colorRed)
-                }
-                if (df.parse(savings_spendings.text.toString())?.toLong()!! <
-                    df.parse(savings_value.text.toString())?.toLong()!!) {
-                    savings_icon.imageTintList = colorRed
-                    savings_spendings.setTextColor(colorRed)
-                }
-            } else {
-                button_suggestions_label.text = getString(R.string.suggestions_button_text)
-                vis = View.INVISIBLE
-                food_icon.imageTintList = colorGreen
-                food_spendings.setTextColor(colorWhite)
-                transport_icon.imageTintList = colorGreen
-                transport_spendings.setTextColor(colorWhite)
-                housing_icon.imageTintList = colorGreen
-                housing_spendings.setTextColor(colorWhite)
-                shopping_icon.imageTintList = colorGreen
-                shopping_spendings.setTextColor(colorWhite)
-                others_icon.imageTintList = colorGreen
-                others_spendings.setTextColor(colorWhite)
-                savings_icon.imageTintList = colorGreen
-                savings_spendings.setTextColor(colorWhite)
-            }
+            else vis = View.INVISIBLE
+            updateIconsColors()
 
             food_suggestion_label.visibility = vis
             food_suggestion.visibility = vis
@@ -416,6 +367,7 @@ class ControlFragment : BaseFragment() {
                 Log.d("TAG", "Reading in control frag")
                 accountInfo = AccountInfo.fromMap(dataSnapshot.value as HashMap<String, Any>)
                 Log.d("TAG", "Account Info is: $accountInfo")
+                updateIconsColors()
 
                 if (food_value != null &&
                     !((food_value.text.toString() == "" && accountInfo.foodPlan < 1e-3) ||
@@ -508,5 +460,67 @@ class ControlFragment : BaseFragment() {
         shopping_suggestion.text = predictions["SHOPPING"].toString()
         others_suggestion.text = predictions["OTHERS"].toString()
         savings_suggestion.text = predictions["SAVINGS"].toString()
+    }
+
+    fun updateIconsColors() {
+        val colorGreen = ColorStateList.valueOf(resources.getColor(R.color.colorGreen))
+        val colorRed = ColorStateList.valueOf(resources.getColor(R.color.colorRed))
+        val colorWhite = ColorStateList.valueOf(resources.getColor(android.R.color.white))
+
+        if (showSuggestions) {
+            calculateSuggestions()
+            button_suggestions_label.text = getString(R.string.suggestions_button_text_2)
+        } else {
+            button_suggestions_label.text = getString(R.string.suggestions_button_text)
+        }
+
+        if (showSuggestions && df.parse(food_spendings.text.toString())?.toLong()!! >
+            df.parse(food_value.text.toString())?.toLong()!!) {
+            food_icon.imageTintList = colorRed
+            food_spendings.setTextColor(colorRed)
+        } else {
+            food_icon.imageTintList = colorGreen
+            food_spendings.setTextColor(colorWhite)
+        }
+        if (showSuggestions && df.parse(transport_spendings.text.toString())?.toLong()!! >
+            df.parse(transport_value.text.toString())?.toLong()!!) {
+            transport_icon.imageTintList = colorRed
+            transport_spendings.setTextColor(colorRed)
+        } else {
+            transport_icon.imageTintList = colorGreen
+            transport_spendings.setTextColor(colorWhite)
+        }
+        if (showSuggestions && df.parse(housing_spendings.text.toString())?.toLong()!! >
+            df.parse(housing_value.text.toString())?.toLong()!!) {
+            housing_icon.imageTintList = colorRed
+            housing_spendings.setTextColor(colorRed)
+        } else {
+            housing_icon.imageTintList = colorGreen
+            housing_spendings.setTextColor(colorWhite)
+        }
+        if (showSuggestions && df.parse(shopping_spendings.text.toString())?.toLong()!! >
+            df.parse(shopping_value.text.toString())?.toLong()!!) {
+            shopping_icon.imageTintList = colorRed
+            shopping_spendings.setTextColor(colorRed)
+        } else {
+            shopping_icon.imageTintList = colorGreen
+            shopping_spendings.setTextColor(colorWhite)
+        }
+        if (showSuggestions && df.parse(others_spendings.text.toString())?.toLong()!! >
+            df.parse(others_value.text.toString())?.toLong()!!) {
+            others_icon.imageTintList = colorRed
+            others_spendings.setTextColor(colorRed)
+        } else {
+            others_icon.imageTintList = colorGreen
+            others_spendings.setTextColor(colorWhite)
+        }
+        if (showSuggestions && df.parse(savings_spendings.text.toString())?.toLong()!! <
+            df.parse(savings_value.text.toString())?.toLong()!!) {
+            savings_icon.imageTintList = colorRed
+            savings_spendings.setTextColor(colorRed)
+        } else {
+            savings_icon.imageTintList = colorGreen
+            savings_spendings.setTextColor(colorWhite)
+        }
     }
 }
