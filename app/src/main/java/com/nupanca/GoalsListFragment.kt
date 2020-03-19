@@ -173,35 +173,50 @@ class GoalsListFragment : BaseFragment() {
         val goalPredictedEndDate = HashMap<Goal,Long>()
         val goalTimeToFinish = HashMap<Goal,Double>()
         val goalCurrentValue = HashMap<Goal, Double>()
+        val effectiveAmount = HashMap<Goal, Double>()
 
         for (goal in goals) {
             val startDate = goal.beginDate
             val endDate = goal.endDate
             goalTimeToFinish[goal] = endDate.toDouble() - startDate.toDouble()
-            goalValPerMonth[goal] = goal.totalAmount / goalTimeToFinish[goal]!!.toDouble() * mothInMillis
-            prioritiesValsPerMonth[goal.priority] += goalValPerMonth[goal]!!
             prioritiesVals[goal.priority] += goal.totalAmount
         }
 
         var availableValuePerMonth = savingsPerMonth
         var availableValue = totalAmount
 
+        val valueForCategory = HashMap<Int, Double>()
+
         for (priority in 4 downTo 0){
-            var valueForThisCategoryPerMonth = prioritiesValsPerMonth[priority]
-            availableValuePerMonth -= prioritiesValsPerMonth[priority]
             var valueForThisCategory = prioritiesVals[priority]
             availableValue -= prioritiesVals[priority]
-
-            if (availableValuePerMonth < 0) {
-                valueForThisCategoryPerMonth += availableValuePerMonth
-                if (valueForThisCategoryPerMonth <= 1e-13)
-                    valueForThisCategoryPerMonth = 0.0
-            }
 
             if (availableValue < 0) {
                 valueForThisCategory += availableValue
                 if (valueForThisCategory <= 1e-13)
                     valueForThisCategory = 0.0
+            }
+
+            valueForCategory[priority] = valueForThisCategory
+
+            for (goal in goals)
+                if (goal.priority == priority)
+                    effectiveAmount[goal] = goal.totalAmount - goal.totalAmount/prioritiesVals[priority]*valueForThisCategory
+        }
+
+        for (goal in goals){
+            goalValPerMonth[goal] = effectiveAmount[goal]!! / goalTimeToFinish[goal]!!.toDouble() * mothInMillis
+            prioritiesValsPerMonth[goal.priority] += goalValPerMonth[goal]!!
+        }
+
+        for (priority in 4 downTo 0){
+            var valueForThisCategoryPerMonth = prioritiesValsPerMonth[priority]
+            availableValuePerMonth -= prioritiesValsPerMonth[priority]
+
+            if (availableValuePerMonth < 0) {
+                valueForThisCategoryPerMonth += availableValuePerMonth
+                if (valueForThisCategoryPerMonth <= 1e-13)
+                    valueForThisCategoryPerMonth = 0.0
             }
 
             for (goal in goals){
@@ -213,11 +228,10 @@ class GoalsListFragment : BaseFragment() {
 //                        goalCurrentValue[goal] = 0.0
 //                        continue
 //                    }
-                    val effectiveAmount = goal.totalAmount - goal.totalAmount/prioritiesVals[priority]*valueForThisCategory
-                    goalPredictedEndDate[goal] = (effectiveAmount/(goalGivenValuePerMonth!! /mothInMillis)
-                            ).toLong() + goal.beginDate
-                    goalCurrentValue[goal] = goal.totalAmount/prioritiesVals[priority]*valueForThisCategory
-                    + effectiveAmount*(Calendar.getInstance().timeInMillis - goal.beginDate).toDouble()/
+                    goalPredictedEndDate[goal] = (effectiveAmount[goal]?.div((goalGivenValuePerMonth!! /mothInMillis))
+                            )!!.toLong() + goal.beginDate
+                    goalCurrentValue[goal] = goal.totalAmount/prioritiesVals[priority]* valueForCategory[priority]!!
+                    +effectiveAmount[goal]!! *(Calendar.getInstance().timeInMillis - goal.beginDate).toDouble()/
                             (goalPredictedEndDate[goal]!! - goal.beginDate).toDouble()
 
                     Log.d("My", effectiveAmount.toString() + " goal " + goal.title)
