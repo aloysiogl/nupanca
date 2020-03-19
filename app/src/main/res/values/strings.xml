@@ -64,7 +64,7 @@
     <string name="how_much_do_you_want_to_save">Quanto você quer juntar?</string>
     <string name="when_do_you_want_to_withdraw">Até quando você deseja juntar?</string>
     <string name="whats_the_priority">Qual a prioridade da sua meta?</string>
-    <string name="placeholder_edit_text">INSIRA O NOME DA SUA META</string>
+    <string name="placeholder_edit_text">NOME DA SUA META</string>
 
     <!--Strings used in the the control fragment-->
     <string name="control_title">Planeje seus gastos</string>
