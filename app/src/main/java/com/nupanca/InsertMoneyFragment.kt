@@ -23,42 +23,15 @@ import kotlinx.android.synthetic.main.fragment_insert_money.button_return
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [insert_money.newInstance] factory method to
- * create an instance of this fragment.
- */
 class InsertMoneyFragment() : BaseFragment() {
-    private var param1: String? = null
-    private var param2: String? = null
     private var valueInTextBox: Double = 0.0
     private val db = FirebaseDatabase.getInstance()
     private val accountInfoRef = db.getReference("account_info")
     private var accountInfo: AccountInfo? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
     private fun processKeyPress(event: KeyEvent): String {
-        fun processDoubleAsPortugueseString(doubleValue: Double): String {
-            val symb = DecimalFormatSymbols()
-            symb.decimalSeparator = ','
-            symb.groupingSeparator = '.'
-            val df = DecimalFormat("###,##0.00", symb)
-            return df.format(doubleValue)
-        }
-
-        // Getting keypress
+        // Getting key press
         if (KeyEvent.KEYCODE_0 <= event.keyCode && event.keyCode <= KeyEvent.KEYCODE_9)
             valueInTextBox = valueInTextBox * 10 +
                     ((event.keyCode - KeyEvent.KEYCODE_0).toDouble()) / 100
@@ -88,7 +61,7 @@ class InsertMoneyFragment() : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getView()?.let { ViewCompat.setTranslationZ(it, 2f) }
+        getView()?.let { ViewCompat.setTranslationZ(it, 3f) }
         handleFirebase()
 
         //Show text input
@@ -101,6 +74,8 @@ class InsertMoneyFragment() : BaseFragment() {
             val safeArgs = InsertMoneyFragmentArgs.fromBundle(it)
             mode = safeArgs.mode
             how_much_to_save.text = mode
+            valueInTextBox = safeArgs.value.toDouble()
+            text_edit_money_to_remove.setText(processDoubleAsPortugueseString(valueInTextBox))
         }
 
         button_confirm.setOnClickListener{
@@ -206,22 +181,12 @@ class InsertMoneyFragment() : BaseFragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment insert_money.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            InsertMoneyFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        fun processDoubleAsPortugueseString(doubleValue: Double): String {
+            val symb = DecimalFormatSymbols()
+            symb.decimalSeparator = ','
+            symb.groupingSeparator = '.'
+            val df = DecimalFormat("###,##0.00", symb)
+            return df.format(doubleValue)
+        }
     }
 }

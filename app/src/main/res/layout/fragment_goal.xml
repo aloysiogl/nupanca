@@ -177,7 +177,7 @@ tools:context=".GoalFragment">
                     app:layout_constraintGuide_percent="0.05" />
 
                 <ImageView
-                    android:id="@+id/imageView7"
+                    android:id="@+id/goal_main_image"
                     android:layout_width="85dp"
                     android:layout_height="85dp"
                     android:src="@drawable/ic_goal_success"
@@ -251,7 +251,7 @@ tools:context=".GoalFragment">
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline4"
                     app:layout_constraintStart_toStartOf="@+id/guideline5"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView7"
+                    app:layout_constraintTop_toBottomOf="@+id/goal_main_image"
                     app:layout_constraintVertical_bias="0.1">
 
                     <TextView
@@ -261,6 +261,7 @@ tools:context=".GoalFragment">
                         android:fontFamily="@font/keep_calm_w01_book"
                         android:text="@string/goal_success_placeholder_text"
                         android:textColor="@android:color/darker_gray"
+                        android:textAlignment="center"
                         android:textSize="@dimen/goal_fragment_success_failure_font_size"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -293,7 +294,7 @@ tools:context=".GoalFragment">
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/change_goal_button_text"
+                    android:id="@+id/how_to_improve_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/confirm_insert_money_fragment_margin"

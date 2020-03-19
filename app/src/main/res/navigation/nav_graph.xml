@@ -68,6 +68,9 @@
             app:destination="@id/TransfersFragment"
             app:enterAnim="@anim/stay"
             app:exitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="value"
+            app:argType="float" />
     </fragment>
     <fragment
         android:id="@+id/GoalsListFragment"
@@ -118,6 +121,11 @@
             app:destination="@id/GoalEditFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay"/>
+        <action
+            android:id="@+id/action_GoalFragment_to_InsertMoneyFragment"
+            app:destination="@id/InsertMoneyFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay" />
     </fragment>
     <fragment
         android:id="@+id/ControlStartFragment"

@@ -86,13 +86,40 @@ class GoalFragment : BaseFragment() {
                     goal_progress_bar.progress = progress
                     goal_progress_bar_text.text = progress.toString() + "%"
 
-                    // TODO different icons
-                    if (newGoal.endDate >= newGoal.predictedEndDate) {
-                        goal_success_message.text = "Parabéns, você está a caminho de cumprir essa meta" +
-                                " até o prazo estabelecido de " + SimpleDateFormat("dd/MM/yyyy",
-                            Locale.US).format(Date(newGoal.endDate).time) + "!"
-                    } else {
 
+                    button_add_item.setOnClickListener {
+                        findNavController().navigate(R.id.action_GoalFragment_to_InsertMoneyFragment)
+                    }
+
+                    when {
+                        newGoal.currentAmount >= newGoal.totalAmount -> {
+                            goal_success_message.text = "Parabéns você cumpriu a sua meta! Agora você pode " +
+                                    "resgatar esse valor e deletar essa meta clicando no botão abaixo"
+                            goal_main_image.setImageResource(R.drawable.ic_goal_success)
+                            how_to_improve_button_text.text = "RESGATAR DINHEIRO"
+                            button_add_item.setOnClickListener {
+                                val bundle = Bundle()
+                                bundle.putString("mode", "Guardar dinheiro")
+                                bundle.putFloat("value", newGoal.totalAmount.toFloat())
+                                val goalRef = FirebaseDatabase.getInstance()
+                                    .getReference("goal_list/$goalKey")
+                                goalRef.removeValue()
+                                findNavController().navigate(R.id.action_GoalFragment_to_InsertMoneyFragment,
+                                    bundle)
+                            }
+                        }
+                        newGoal.endDate >= newGoal.predictedEndDate -> {
+                            goal_main_image.setImageResource(R.drawable.ic_going_to_goal)
+                            goal_success_message.text = "Parabéns, você está a caminho de cumprir essa meta" +
+                                    " até o prazo estabelecido de " + SimpleDateFormat("dd/MM/yyyy",
+                                Locale.US).format(Date(newGoal.endDate).time) + "!"
+                        }
+                        else -> {
+                            goal_main_image.setImageResource(R.drawable.ic_falling)
+                            goal_success_message.text = "Você não está economizando o suficiente para cumprir" +
+                                    " essa meta até o prazo estabelecido de " + SimpleDateFormat("dd/MM/yyyy",
+                                Locale.US).format(Date(newGoal.endDate).time) + "! Clique abaixo para saber como melhorar"
+                        }
                     }
                 }
             }
