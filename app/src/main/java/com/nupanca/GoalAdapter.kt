@@ -40,9 +40,12 @@ class GoalAdapter(private val goals: MutableList<Goal>):
         symb.decimalSeparator = ','
         symb.groupingSeparator = '.'
         val df = DecimalFormat("###,##0.00", symb)
-        val text = "você já acumulou R$ " + df.format(goal.currentAmount) +
-                " e deve \ncompletar sua meta no dia " + SimpleDateFormat("dd/MM/yyyy",
-            Locale.US).format(Date(goal.predictedEndDate).time)
+
+        val text = if (goal.predictedEndDate >= 0)
+            "você já acumulou R$ " + df.format(goal.currentAmount) +
+                    " e deve \ncompletar sua meta no dia " + SimpleDateFormat("dd/MM/yyyy",
+                Locale.US).format(Date(goal.predictedEndDate).time)
+        else "Não foi possível alocar dinheiro para\n essa meta"
 
         holder.titleTextView.text = goal.title
         holder.textTextView.text = text

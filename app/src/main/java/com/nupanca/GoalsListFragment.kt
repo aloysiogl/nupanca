@@ -223,11 +223,10 @@ class GoalsListFragment : BaseFragment() {
         for (goal in goals){
             val goalRef = FirebaseDatabase.getInstance()
                 .getReference("goal_list/${goal.key}")
-            goal.predictedEndDate = goalPredictedEndDate[goal]!!
-            if (goalCurrentValue[goal] == null)
-                goal.currentAmount = 0.0
-            else goal.currentAmount = goalCurrentValue[goal]!!
-            goalRef.setValue(goal)
+            val newGoal = goal.copy()
+            newGoal.predictedEndDate = goalPredictedEndDate[goal]!!
+            newGoal.currentAmount = goalCurrentValue[goal]!!
+            goalRef.setValue(newGoal)
         }
     }
 
