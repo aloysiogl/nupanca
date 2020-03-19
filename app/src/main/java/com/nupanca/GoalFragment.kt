@@ -71,10 +71,14 @@ class GoalFragment : BaseFragment() {
                     money_to_goal.text = "R$ ${df.format(newGoal.currentAmount)} " +
                             "de R$ ${df.format(newGoal.totalAmount)}"
 
-                    completion_date_information.text = "Esta meta tem prioridade " +
-                            priorityIntToString(newGoal.priority) + " e a data prevista para término" +
-                            " é " + SimpleDateFormat("dd/MM/yyyy",
-                        Locale.US).format(Date(newGoal.predictedEndDate).time)
+                    if (newGoal.predictedEndDate >= 0)
+                        completion_date_information.text = "Esta meta tem prioridade " +
+                                priorityIntToString(newGoal.priority) + " e a data prevista para término" +
+                                " é " + SimpleDateFormat("dd/MM/yyyy",
+                            Locale.US).format(Date(newGoal.predictedEndDate).time)
+                    else completion_date_information.text = "Esta meta tem prioridade " +
+                            priorityIntToString(newGoal.priority) + " e não foi possível alocar " +
+                            "dinheiro para ela"
 
                     // Progress bar
                     var progress = (100 * newGoal.currentAmount / newGoal.totalAmount).toInt()
@@ -108,7 +112,7 @@ class GoalFragment : BaseFragment() {
                                     bundle)
                             }
                         }
-                        newGoal.endDate >= newGoal.predictedEndDate -> {
+                        newGoal.endDate >= newGoal.predictedEndDate  && newGoal.predictedEndDate >= 0-> {
                             goal_main_image.setImageResource(R.drawable.ic_going_to_goal)
                             goal_success_message.text = "Parabéns, você está a caminho de cumprir essa meta" +
                                     " até o prazo estabelecido de " + SimpleDateFormat("dd/MM/yyyy",
@@ -131,6 +135,7 @@ class GoalFragment : BaseFragment() {
             button_return.startAnimation(
                 AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
             )
+            GoalsListFragment.updateLazyRequest = true
             findNavController().navigate(R.id.action_GoalFragment_to_GoalsListFragment)
         }
 

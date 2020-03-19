@@ -71,7 +71,10 @@ class MainFragment : BaseFragment() {
         goals_layout.setOnClickListener {
             if (goals.isEmpty())
                 findNavController().navigate(R.id.action_MainFragment_to_GoalStartFragment)
-            else findNavController().navigate(R.id.action_MainFragment_to_GoalsListFragment)
+            else {
+                GoalsListFragment.updateLazyRequest = true
+                findNavController().navigate(R.id.action_MainFragment_to_GoalsListFragment)
+            }
         }
 
         control_layout.setOnClickListener {

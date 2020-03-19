@@ -310,6 +310,7 @@ class GoalEditFragment : BaseFragment() {
                         val goalRef = database.push()
                         goal.key = goalRef.key.toString()
                         goalRef.setValue(goal)
+                        GoalsListFragment.updateLazyRequest = true
                         findNavController().navigate(
                             R.id.action_GoalEditFragment_to_GoalsListFragment
                         )
@@ -324,6 +325,7 @@ class GoalEditFragment : BaseFragment() {
                         goalRef.setValue(goal)
                         val bundle = Bundle()
                         bundle.putString("goal_key", goalKey)
+                        GoalsListFragment.updateLazyRequest = true
                         findNavController().navigate(R.id.action_GoalEditFragment_to_GoalFragment,
                             bundle)
 
