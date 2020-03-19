@@ -29,16 +29,16 @@ class Scaler {
         })
     }
 
-    fun scale(accountInfo: AccountInfo): DoubleArray {
-        val v = doubleArrayOf(
-            accountInfo.income, accountInfo.region.toDouble(), accountInfo.sex.toDouble(),
-            accountInfo.age.toDouble(), accountInfo.marriage.toDouble(),
-            accountInfo.savings30Days.toDouble(), accountInfo.food30Days.toDouble(),
-            accountInfo.shopping30Days.toDouble(), accountInfo.housing30Days.toDouble(),
-            accountInfo.transport30Days.toDouble(), accountInfo.others30Days.toDouble()
+    fun scale(accountInfo: AccountInfo): IntArray {
+        val v = intArrayOf(
+            accountInfo.income.toInt(), accountInfo.region.toInt(), accountInfo.sex.toInt(),
+            accountInfo.age.toInt(), accountInfo.marriage.toInt(),
+            accountInfo.savings30Days.toInt(), accountInfo.food30Days.toInt(),
+            accountInfo.shopping30Days.toInt(), accountInfo.housing30Days.toInt(),
+            accountInfo.transport30Days.toInt(), accountInfo.others30Days.toInt()
             )
-        for (i in 0..v.size) {
-            v[i] = (v[i] - mean[i]) / variance[i]
+        for (i in v.indices) {
+            v[i] = (1.0 * (v[i] - mean[i]) / variance[i]).toInt()
         }
         return v
     }

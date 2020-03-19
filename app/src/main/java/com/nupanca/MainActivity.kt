@@ -15,12 +15,6 @@ class MainActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
         val db = FirebaseDatabase.getInstance()
         db.setPersistenceEnabled(true)
-
-        val remoteModel = FirebaseCustomRemoteModel.Builder("Cluster-Suggestion").build()
-        val conditions = FirebaseModelDownloadConditions.Builder()
-            .requireWifi()
-            .build()
-        FirebaseModelManager.getInstance().download(remoteModel, conditions)
     }
 
     override fun onBackPressed() {

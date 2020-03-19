@@ -26,6 +26,7 @@ import com.google.firebase.ml.common.modeldownload.FirebaseModelManager
 import com.google.firebase.ml.custom.*
 import com.nupanca.db.AccountInfo
 import com.nupanca.db.ClusterPredictions
+import com.nupanca.db.KMeansPredictor
 import com.nupanca.db.Scaler
 import kotlinx.android.synthetic.main.fragment_control.*
 import java.text.DecimalFormat
@@ -48,6 +49,7 @@ class ControlFragment : BaseFragment() {
     val df: DecimalFormat
     val scaler = Scaler()
     val clusterPredictions = ClusterPredictions()
+    var kmeansPredictor = KMeansPredictor()
 
     init {
         val symb = DecimalFormatSymbols()
@@ -107,7 +109,7 @@ class ControlFragment : BaseFragment() {
             val colorWhite = ColorStateList.valueOf(resources.getColor(android.R.color.white))
             showSuggestions = !showSuggestions
             if (showSuggestions) {
-//                calculateSuggestions()
+                calculateSuggestions()
                 button_suggestions_label.text = getString(R.string.suggestions_button_text_2)
                 vis = View.VISIBLE
                 if (df.parse(food_spendings.text.toString())?.toLong()!! >
@@ -496,42 +498,15 @@ class ControlFragment : BaseFragment() {
     }
 
     fun calculateSuggestions() {
-        val remoteModel = FirebaseCustomRemoteModel.Builder("Cluster-Suggestion").build()
-        val localModel = FirebaseCustomLocalModel.Builder()
-            .setAssetFilePath("Cluster-Suggestion.tflite")
-            .build()
-        FirebaseModelManager.getInstance().isModelDownloaded(remoteModel)
-            .addOnSuccessListener { isDownloaded ->
-                val options =
-                    if (isDownloaded) {
-                        FirebaseModelInterpreterOptions.Builder(remoteModel).build()
-                    } else {
-                        FirebaseModelInterpreterOptions.Builder(localModel).build()
-                    }
-                val interpreter = FirebaseModelInterpreter.getInstance(options)
-                val inputOutputOptions = FirebaseModelInputOutputOptions.Builder()
-                    .setInputFormat(0, FirebaseModelDataType.FLOAT32, intArrayOf(11))
-                    .setOutputFormat(0, FirebaseModelDataType.FLOAT32, intArrayOf(1))
-                    .build()
-
-                val input = scaler.scale(accountInfo)
-                val inputs = FirebaseModelInputs.Builder()
-                    .add(input) // add() as many input arrays as your model requires
-                    .build()
-                interpreter?.run(inputs, inputOutputOptions)
-                    ?.addOnSuccessListener { result ->
-                        val cluster = result.getOutput<Int>(0)
-                        val predictions = clusterPredictions.getPredictions(cluster)
-                        food_suggestion.text = predictions["FOOD"].toString()
-                        housing_suggestion.text = predictions["HOUSING"].toString()
-                        transport_suggestion.text = predictions["TRANSPORT"].toString()
-                        shopping_suggestion.text = predictions["SHOPPING"].toString()
-                        others_suggestion.text = predictions["OTHERS"].toString()
-                        savings_suggestion.text = predictions["SAVINGS"].toString()
-                    }
-                    ?.addOnFailureListener { e ->
-                        Log.e("TAG", "Error running model")
-                    }
-            }
+        val input = scaler.scale(accountInfo)
+        val cluster = kmeansPredictor.predict(input)
+        val predictions = clusterPredictions.getPredictions(cluster)
+        Log.d("TAG", "Predictions: $predictions")
+        food_suggestion.text = predictions["FOOD"].toString()
+        housing_suggestion.text = predictions["HOUSING"].toString()
+        transport_suggestion.text = predictions["TRANSPORT"].toString()
+        shopping_suggestion.text = predictions["SHOPPING"].toString()
+        others_suggestion.text = predictions["OTHERS"].toString()
+        savings_suggestion.text = predictions["SAVINGS"].toString()
     }
 }

@@ -17,9 +17,9 @@ class ClusterPredictions {
                 val p = dataSnapshot.value as ArrayList<String>
                 predictions = mutableListOf()
                 for (s in p) {
-                    val map = s.split(",").associateTo(HashMap()) {
+                    val map = s.split(", ").associateTo(HashMap()) {
                         val (left, right) = it.split(": ")
-                        left.substring(1 until left.length) to right.toInt()
+                        left.substring(1 until left.length-1) to right.toInt()
                     }
                     predictions.add(map)
                 }
