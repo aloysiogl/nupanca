@@ -198,19 +198,20 @@ tools:context=".GoalFragment">
                     app:layout_constraintVertical_bias="0">
 
                     <TextView
-                        android:id="@+id/ttst"
+                        android:id="@+id/money_to_goal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/keep_calm_w01_book"
                         android:text="@string/deposited_money"
-                        android:textAlignment="viewStart"
+                        android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/goal_fragment_parameters_font_size"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -226,13 +227,14 @@ tools:context=".GoalFragment">
                     app:layout_constraintVertical_bias="0">
 
                     <TextView
-                        android:id="@+id/ttst3"
+                        android:id="@+id/completion_date_information"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/keep_calm_w01_book"
                         android:text="@string/money_left"
-                        android:textAlignment="viewStart"
+                        android:textAlignment="center"
+                        android:layout_marginTop="@dimen/goal_fragment_lines_spacing"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/goal_fragment_parameters_font_size"
                         app:layout_constraintBottom_toBottomOf="parent"

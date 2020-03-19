@@ -86,7 +86,7 @@ class MainFragment : BaseFragment() {
         val childEventListener = object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d("TAG", "onChildAdded:" + dataSnapshot.key!!)
-//                goals = dataSnapshot.value as HashMap<String?, Goal>
+                goals = dataSnapshot.value as HashMap<String?, Goal>
                 updatePigHappiness()
             }
 

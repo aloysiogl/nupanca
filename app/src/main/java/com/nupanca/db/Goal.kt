@@ -10,7 +10,7 @@ data class Goal(
     var beginDate: Long? = 0, // Saving as epoch. Use Date(long) to retrieve the date.
     var endDate: Long = 0,
     var predictedEndDate: Long = 0,
-    var priority: Int? = 0
+    var priority: Int = 0
 ) {
     companion object {
         fun fromMap(map: HashMap<String, Any>): Goal {
