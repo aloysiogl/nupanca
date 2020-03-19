@@ -17,11 +17,7 @@ import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * A simple [Fragment] subclass.
- * Use the [GoalFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class GoalFragment : BaseFragment() {
     private var goalKey : String? = null
     private var goal: Goal? = null
@@ -88,7 +84,11 @@ class GoalFragment : BaseFragment() {
 
 
                     button_add_item.setOnClickListener {
-                        findNavController().navigate(R.id.action_GoalFragment_to_InsertMoneyFragment)
+                        if (MainFragment.accountInfo.foodPlan < 1e-3 && MainFragment.accountInfo.housingPlan < 1e-3 &&
+                            MainFragment.accountInfo.transportPlan < 1e-3 && MainFragment.accountInfo.shoppingPlan < 1e-3 &&
+                            MainFragment.accountInfo.othersPlan < 1e-3 && MainFragment.accountInfo.savingsPlan < 1e-3)
+                            findNavController().navigate(R.id.action_GoalFragment_to_ControlStartFragment)
+                        else findNavController().navigate(R.id.action_GoalFragment_to_ControlFragment)
                     }
 
                     when {

@@ -530,10 +530,16 @@ class GoalEditFragment : BaseFragment() {
             changeElementsToFocusMode(false)
             return true
         }
-        // TODO implement for 0
+
         when(fragmentMode) {
             -2 -> findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
             -1 -> findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
+            0 -> {
+                val bundle = Bundle()
+                bundle.putString("goal_key", goalKey)
+                findNavController().navigate(R.id.action_GoalEditFragment_to_GoalFragment,
+                    bundle)
+            }
         }
         return true
     }

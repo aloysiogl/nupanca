@@ -126,6 +126,18 @@
             app:destination="@id/InsertMoneyFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay" />
+        <action
+            android:id="@+id/action_GoalFragment_to_ControlFragment"
+            app:destination="@id/ControlFragment"
+            app:popUpTo="@id/GoalFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay"/>
+        <action
+            android:id="@+id/action_GoalFragment_to_ControlStartFragment"
+            app:destination="@id/ControlStartFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay"/>
     </fragment>
     <fragment
         android:id="@+id/ControlStartFragment"

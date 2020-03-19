@@ -67,10 +67,8 @@ class GoalsListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getView()?.let { ViewCompat.setTranslationZ(it, 1f) }
-        //TODO fix no adapter attached
-//        val goalAdapter = goalList?.let { GoalAdapter(it) }
-//
-//        goals_list.adapter = goalAdapter
+
+        goals_list.adapter = GoalAdapter(mutableListOf())
         goals_list.layoutManager = LinearLayoutManager(context)
 
         button_return.setOnClickListener {
