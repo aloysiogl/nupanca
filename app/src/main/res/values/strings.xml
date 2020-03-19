@@ -35,7 +35,7 @@
     <string name="available_money_placeholder">Saldo disponível: R$ 0,00</string>
 
     <!--Strings used in the the goals list fragment-->
-    <string name="goals_list_title">Dinheiro em Metas</string>
+    <string name="goals_list_title">Metas</string>
     <string name="goal_title">Casa Própria</string>
     <string name="goal_text">você já acumulou R$ 3.000, e deve\ncompletar sua meta no dia
         01/01/2030</string>
