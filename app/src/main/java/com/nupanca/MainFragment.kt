@@ -118,9 +118,9 @@ class MainFragment : BaseFragment() {
 
         accountInfoRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                Log.d("TAG", "Account Info is: ${dataSnapshot.value}")
-                accountInfo = AccountInfo.fromMap(dataSnapshot.value as HashMap<String, Any>)
-                Log.d("TAG", "Account Info is: $accountInfo")
+//                Log.d("TAG", "Account Info is: ${dataSnapshot.value}")
+//                accountInfo = AccountInfo.fromMap(dataSnapshot.value as HashMap<String, Any>)
+//                Log.d("TAG", "Account Info is: $accountInfo")
 
                 // Updating total amount
                 val symb = DecimalFormatSymbols()

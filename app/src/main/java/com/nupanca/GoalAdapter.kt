@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nupanca.db.Goal
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.SimpleDateFormat
+import java.util.*
 
 class GoalAdapter(private val goals: MutableList<Goal>):
         RecyclerView.Adapter<GoalAdapter.ViewHolder>() {
@@ -38,8 +40,9 @@ class GoalAdapter(private val goals: MutableList<Goal>):
         symb.decimalSeparator = ','
         symb.groupingSeparator = '.'
         val df = DecimalFormat("###,##0.00", symb)
-        val text = "você já acumulou R$ " + df.format(goal.totalAmount) +
-                " e deve \ncompletar sua meta no dia " + goal.predictedEndDate.toString()
+        val text = "você já acumulou R$ " + df.format(goal.currentAmount) +
+                " e deve \ncompletar sua meta no dia " + SimpleDateFormat("dd/MM/yyyy",
+            Locale.US).format(Date(goal.predictedEndDate).time)
 
         holder.titleTextView.text = goal.title
         holder.textTextView.text = text
