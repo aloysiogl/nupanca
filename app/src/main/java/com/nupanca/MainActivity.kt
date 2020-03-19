@@ -4,6 +4,9 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
+import com.google.firebase.ml.common.modeldownload.FirebaseModelManager
+import com.google.firebase.ml.custom.FirebaseCustomRemoteModel
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,6 +15,12 @@ class MainActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
         val db = FirebaseDatabase.getInstance()
         db.setPersistenceEnabled(true)
+
+        val remoteModel = FirebaseCustomRemoteModel.Builder("Cluster-Suggestion").build()
+        val conditions = FirebaseModelDownloadConditions.Builder()
+            .requireWifi()
+            .build()
+        FirebaseModelManager.getInstance().download(remoteModel, conditions)
     }
 
     override fun onBackPressed() {
