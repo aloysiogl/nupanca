@@ -3,6 +3,11 @@ package com.nupanca.db
 
 data class AccountInfo(
     var id: Int = 0,
+    var income: Double = 0.0,
+    var region: Long = 0,
+    var sex: Long = 0,
+    var age: Long = 0,
+    var marriage: Long = 0,
     var accountBalance: Double = 0.0,
     var savingsBalance: Double = 0.0,
     var foodPlan: Long = 0,
@@ -25,6 +30,13 @@ data class AccountInfo(
             if (map["accountBalance"] is Long)
                 ai.accountBalance = (map["accountBalance"] as Long).toDouble()
             else ai.accountBalance = map["accountBalance"] as Double
+            if (map["income"] is Long)
+                ai.income = (map["income"] as Long).toDouble()
+            else ai.income = map["income"] as Double
+            ai.region = map["region"] as Long
+            ai.sex = map["sex"] as Long
+            ai.age = map["age"] as Long
+            ai.marriage = map["marriage"] as Long
             if (map["savingsBalance"] is Long)
                 ai.savingsBalance = (map["savingsBalance"] as Long).toDouble()
             else ai.savingsBalance = map["savingsBalance"] as Double
