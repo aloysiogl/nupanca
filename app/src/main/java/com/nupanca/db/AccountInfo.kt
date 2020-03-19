@@ -1,17 +1,22 @@
 package com.nupanca.db
 
-import android.accounts.Account
 
 data class AccountInfo(
     var id: Int = 0,
     var accountBalance: Double = 0.0,
     var savingsBalance: Double = 0.0,
-    var foodPlan: Double = 0.0,
-    var transportPlan: Double = 0.0,
-    var shoppingPlan: Double = 0.0,
-    var housingPlan: Double = 0.0,
-    var othersPlan: Double = 0.0,
-    var savingsPlan: Double = 0.0
+    var foodPlan: Long = 0,
+    var foodThisMonth: Long = 0,
+    var transportPlan: Long = 0,
+    var transportThisMonth: Long = 0,
+    var shoppingPlan: Long = 0,
+    var shoppingThisMonth: Long = 0,
+    var housingPlan: Long = 0,
+    var housingThisMonth: Long = 0,
+    var othersPlan: Long = 0,
+    var othersThisMonth: Long = 0,
+    var savingsPlan: Long = 0,
+    var savingsThisMonth: Long = 0
 ) {
     companion object {
         fun fromMap(map: HashMap<String, Any>): AccountInfo {
@@ -23,24 +28,18 @@ data class AccountInfo(
             if (map["savingsBalance"] is Long)
                 ai.savingsBalance = (map["savingsBalance"] as Long).toDouble()
             else ai.savingsBalance = map["savingsBalance"] as Double
-            if (map["foodPlan"] is Long)
-                ai.foodPlan = (map["foodPlan"] as Long).toDouble()
-            else ai.foodPlan = map["foodPlan"] as Double
-            if (map["transportPlan"] is Long)
-                ai.transportPlan = (map["transportPlan"] as Long).toDouble()
-            else ai.transportPlan = map["transportPlan"] as Double
-            if (map["shoppingPlan"] is Long)
-                ai.shoppingPlan = (map["shoppingPlan"] as Long).toDouble()
-            else ai.shoppingPlan = map["shoppingPlan"] as Double
-            if (map["housingPlan"] is Long)
-                ai.housingPlan = (map["housingPlan"] as Long).toDouble()
-            else ai.housingPlan = map["housingPlan"] as Double
-            if (map["othersPlan"] is Long)
-                ai.othersPlan = (map["othersPlan"] as Long).toDouble()
-            else ai.othersPlan = map["othersPlan"] as Double
-            if (map["savingsPlan"] is Long)
-                ai.savingsPlan = (map["savingsPlan"] as Long).toDouble()
-            else ai.savingsPlan = map["savingsPlan"] as Double
+            ai.foodPlan = map["foodPlan"] as Long
+            ai.foodThisMonth = map["foodThisMonth"] as Long
+            ai.transportPlan = map["transportPlan"] as Long
+            ai.transportThisMonth = map["transportThisMonth"] as Long
+            ai.shoppingPlan = map["shoppingPlan"] as Long
+            ai.shoppingThisMonth = map["shoppingThisMonth"] as Long
+            ai.housingPlan = map["housingPlan"] as Long
+            ai.housingThisMonth = map["housingThisMonth"] as Long
+            ai.othersPlan = map["othersPlan"] as Long
+            ai.othersThisMonth = map["othersThisMonth"] as Long
+            ai.savingsPlan = map["savingsPlan"] as Long
+            ai.savingsThisMonth = map["savingsThisMonth"] as Long
             return ai
         }
     }
