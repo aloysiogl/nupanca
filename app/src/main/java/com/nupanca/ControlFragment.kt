@@ -106,6 +106,11 @@ class ControlFragment : BaseFragment() {
                     others_icon.imageTintList = colorRed
                     others_spendings.setTextColor(colorRed)
                 }
+                if (df.parse(savings_spendings.text.toString())?.toLong()!! <
+                    df.parse(savings_value.text.toString())?.toLong()!!) {
+                    savings_icon.imageTintList = colorRed
+                    savings_spendings.setTextColor(colorRed)
+                }
             } else {
                 button_suggestions_label.text = getString(R.string.suggestions_button_text)
                 vis = View.INVISIBLE
@@ -119,6 +124,8 @@ class ControlFragment : BaseFragment() {
                 shopping_spendings.setTextColor(colorWhite)
                 others_icon.imageTintList = colorGreen
                 others_spendings.setTextColor(colorWhite)
+                savings_icon.imageTintList = colorGreen
+                savings_spendings.setTextColor(colorWhite)
             }
 
             food_suggestion_label.visibility = vis
