@@ -66,7 +66,7 @@ class ControlFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getView()?.let { ViewCompat.setTranslationZ(it, 2f) }
+        getView()?.let { ViewCompat.setTranslationZ(it, 4f) }
         handleFirebase()
 
         button_return.setOnClickListener {

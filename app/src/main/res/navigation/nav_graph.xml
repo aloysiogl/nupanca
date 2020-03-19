@@ -70,7 +70,8 @@
             app:exitAnim="@anim/slide_out_right" />
         <argument
             android:name="value"
-            app:argType="float" />
+            app:argType="float"
+            android:defaultValue="0.00" />
     </fragment>
     <fragment
         android:id="@+id/GoalsListFragment"
