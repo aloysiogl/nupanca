@@ -8,12 +8,10 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.database.*
+import com.nupanca.db.Goal
 import kotlinx.android.synthetic.main.fragment_goal.*
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -21,17 +19,10 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class GoalFragment : BaseFragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var goalKey : String? = null
+    private var goal: Goal? = null
+    // TODO check if this is really a good way to do this
+    private lateinit var database: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +36,38 @@ class GoalFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         getView()?.let { ViewCompat.setTranslationZ(it, 2f) }
 
+        // Reading arguments
+        arguments?.let {
+            val safeArgs = GoalFragmentArgs.fromBundle(it)
+            goalKey = safeArgs.goalKey
+        }
+
+        database = FirebaseDatabase.getInstance().getReference("goal_list")
+
+        val childEventListener = object : ChildEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+            }
+
+            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                val newGoal = Goal.fromMap(dataSnapshot.value as HashMap<String, Any>)
+                if (newGoal.key == goalKey){
+                    goal = newGoal
+                    goal_fragment_title.text = newGoal.title
+                }
+            }
+        }
+
+        database.addChildEventListener(childEventListener)
+
         button_return.setOnClickListener {
             button_return.startAnimation(
                 AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
@@ -52,11 +75,18 @@ class GoalFragment : BaseFragment() {
             findNavController().navigate(R.id.action_GoalFragment_to_GoalsListFragment)
         }
 
-        button_info.setOnClickListener {
-            button_info.startAnimation(
+        button_edit.setOnClickListener {
+            button_edit.startAnimation(
                 AnimationUtils.loadAnimation(
                     context, R.anim.alpha_reduction
                 )
+            )
+            val bundle = Bundle()
+            bundle.putInt("mode", 0)
+            bundle.putString("goal_key", goal?.key)
+            findNavController().navigate(
+                R.id.action_GoalFragment_to_GoalEditFragment,
+                bundle
             )
         }
     }
@@ -64,25 +94,5 @@ class GoalFragment : BaseFragment() {
     override fun onBackPressed(): Boolean {
         button_return.performClick()
         return true
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GoalFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            GoalFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

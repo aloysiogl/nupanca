@@ -2,7 +2,6 @@ package com.nupanca
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,10 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.*
 import com.nupanca.db.Goal
-import com.nupanca.db.GoalList
 import kotlinx.android.synthetic.main.fragment_goals_list.*
-import java.time.LocalDate
-import java.util.*
+import kotlin.collections.HashMap
 
 
 /**
@@ -24,12 +22,39 @@ import java.util.*
  */
 class GoalsListFragment : BaseFragment() {
     var goalAdapter: GoalAdapter? = null
-    var goalList: GoalList? = null
+    val goals =  HashMap<String?, Goal>()
+    private lateinit var database: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        database = FirebaseDatabase.getInstance().getReference("goal_list")
+
+        val childEventListener = object : ChildEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+            }
+
+            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                    val newGoal = Goal.fromMap(dataSnapshot.value as HashMap<String, Any>)
+                    goals[newGoal.key] = newGoal
+                    val multi = goals.values.toMutableList()
+
+                    if (goals_list != null)
+                        goals_list.adapter = GoalAdapter(multi)
+            }
+        }
+        database.addChildEventListener(childEventListener)
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_goals_list, container, false)
     }
@@ -38,11 +63,10 @@ class GoalsListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getView()?.let { ViewCompat.setTranslationZ(it, 1f) }
-
-        val goalList = context?.let { GoalList(it) }
-        val goalAdapter = goalList?.let { GoalAdapter(it) }
-
-        goals_list.adapter = goalAdapter
+        //TODO fix no adapter attached
+//        val goalAdapter = goalList?.let { GoalAdapter(it) }
+//
+//        goals_list.adapter = goalAdapter
         goals_list.layoutManager = LinearLayoutManager(context)
 
         button_return.setOnClickListener {
@@ -52,14 +76,8 @@ class GoalsListFragment : BaseFragment() {
             findNavController().navigate(R.id.action_GoalsListFragment_to_MainFragment)
         }
 
-        for (goal in goals){
-            Log.d("My", goal.id.toString())
-        }
-//        goalsDBHandler?.deleteGoal(0)
-//        goalsDBHandler?.deleteGoal()
-
-        button_info.setOnClickListener {
-            button_info.startAnimation(
+        button_edit.setOnClickListener {
+            button_edit.startAnimation(
                 AnimationUtils.loadAnimation(
                     context, R.anim.alpha_reduction
                 )
@@ -67,25 +85,10 @@ class GoalsListFragment : BaseFragment() {
         }
 
         button_add_item.setOnClickListener {
-            val goal = Goal(
-                title = "Carro Próprio",
-                totalAmount = 3000.00,
-                currentAmount = 1000.00,
-                beginDate = System.currentTimeMillis(),
-                endDate = System.currentTimeMillis(),
-                predictedEndDate = System.currentTimeMillis(),
-                priority = 1)
-            goalAdapter?.addGoal(goal)
-//            val bundle = Bundle()
-//            bundle.putInt("mode", -1)
-//            findNavController().navigate(
-//                R.id.action_GoalsListFragment_to_goalEditFragment,
-//                bundle
-//            )
             val bundle = Bundle()
             bundle.putInt("mode", -1)
             findNavController().navigate(
-                R.id.action_GoalsListFragment_to_goalEditFragment,
+                R.id.action_GoalsListFragment_to_GoalEditFragment,
                 bundle
             )
         }

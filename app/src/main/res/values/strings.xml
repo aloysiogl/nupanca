@@ -59,6 +59,7 @@
     <string name="confirm_goal_edit">CONFIRMAR EDIÇÃO</string>
     <string name="change_goal">ALTERAR META</string>
     <string name="add_goal_edit">ADICIONAR META</string>
+    <string name="modify_goal">MODIFICAR META</string>
     <string name="invalid_entries">ENTRADAS INVÁLIDAS</string>
     <string name="how_much_do_you_want_to_save">Quanto você quer juntar?</string>
     <string name="when_do_you_want_to_withdraw">Até quando você deseja juntar?</string>

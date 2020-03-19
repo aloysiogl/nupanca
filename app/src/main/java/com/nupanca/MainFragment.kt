@@ -39,8 +39,8 @@ class MainFragment : BaseFragment() {
                 context, R.anim.alpha_reduction))
         }
 
-        button_info.setOnClickListener {
-            button_info.startAnimation(AnimationUtils.loadAnimation(
+        button_edit.setOnClickListener {
+            button_edit.startAnimation(AnimationUtils.loadAnimation(
                 context, R.anim.alpha_reduction))
         }
 

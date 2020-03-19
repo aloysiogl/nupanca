@@ -23,7 +23,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.database.*
+import com.nupanca.db.Goal
 import kotlinx.android.synthetic.main.fragment_goal_edit.*
+import kotlinx.android.synthetic.main.fragment_goal_edit.button_return
+import kotlinx.android.synthetic.main.fragment_main.*
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
@@ -50,11 +54,17 @@ class GoalEditFragment : BaseFragment() {
     private var validValues = true
     private var selectionValue = 0.0
     private var selectionCalendar: Calendar = Calendar.getInstance()
+    private var goalKey: String? = null
+    private var goal: Goal? = null
+
+    private lateinit var database: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        database = FirebaseDatabase.getInstance().getReference("goal_list")
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_goal_edit, container, false)
     }
@@ -63,12 +73,13 @@ class GoalEditFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Set depth for animations
-        getView()?.let { ViewCompat.setTranslationZ(it, 2f) }
+        getView()?.let { ViewCompat.setTranslationZ(it, 3f) }
 
         // Reading arguments
         arguments?.let {
             val safeArgs = GoalEditFragmentArgs.fromBundle(it)
             fragmentMode = safeArgs.mode
+            goalKey = safeArgs.goalKey
         }
 
         // Setting default transition
@@ -111,6 +122,67 @@ class GoalEditFragment : BaseFragment() {
                     button_return.startAnimation(
                         AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
                     )
+                    findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
+                }
+            }
+
+            0 -> {
+                title_goal_edit.setText("LOADING...")
+
+                val childEventListener = object : ChildEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
+
+                    override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                    }
+
+                    override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                    }
+
+                    override fun onChildRemoved(p0: DataSnapshot) {
+                    }
+
+                    override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                        val newGoal = Goal.fromMap(dataSnapshot.value as HashMap<String, Any>)
+                        goal = newGoal
+                        if (view.context != null && newGoal.key == goalKey){
+                            // Title
+                            title_goal_edit.setText(newGoal.title)
+                            // Money
+                            val symb = DecimalFormatSymbols()
+                            symb.decimalSeparator = ','
+                            symb.groupingSeparator = 0.toChar()
+                            goal_final_value_text_edit.setText(DecimalFormat("###,##0.00",
+                                symb).format(newGoal.totalAmount).toString())
+                            // Date
+                            goal_date_text_edit.text = SimpleDateFormat("dd/MM/yyyy",
+                                Locale.US).format(Date(newGoal.endDate))
+                            selectionCalendar.time = Date(newGoal.endDate)
+                            // TODO add priority
+                            changeElementsToFocusMode(false)
+                        }
+                    }
+                }
+
+                database.addChildEventListener(childEventListener)
+
+                button_return.setOnClickListener{
+                    button_return.startAnimation(
+                        AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
+                    )
+                    val bundle = Bundle()
+                    bundle.putString("goal_key", goalKey)
+                    findNavController().navigate(R.id.action_GoalEditFragment_to_GoalFragment,
+                    bundle)
+                }
+
+                button_delete.setOnClickListener {
+                    button_delete.startAnimation(
+                        AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
+                    )
+                    val goalRef = FirebaseDatabase.getInstance()
+                        .getReference("goal_list/$goalKey")
+                    goalRef.removeValue()
                     findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
                 }
             }
@@ -223,7 +295,36 @@ class GoalEditFragment : BaseFragment() {
                 toggleKeyboard(false)
                 changeElementsToFocusMode(false)
             }
+            // TODO calculate current amount and make entries correct
+            // TODO predict end dates
+            // TODO implement priorities
             else if (validValues) {
+                when(fragmentMode){
+                    -2, -1 -> {
+                        val goal = Goal(
+                            title = title_goal_edit.text.toString(),
+                            totalAmount = selectionValue,
+                            currentAmount = 1000.00,
+                            beginDate = System.currentTimeMillis(),
+                            endDate = selectionCalendar.timeInMillis,
+                            predictedEndDate = System.currentTimeMillis(),
+                            priority = 1)
+
+                        // Adding to database
+                        val goalRef = database.push()
+                        goal.key = goalRef.key.toString()
+                        goalRef.setValue(goal)
+                    }
+                    0 -> {
+                        goal?.title = title_goal_edit.text.toString()
+                        goal?.totalAmount = selectionValue
+                        goal?.endDate = selectionCalendar.timeInMillis
+                        val goalRef = FirebaseDatabase.getInstance()
+                            .getReference("goal_list/$goalKey")
+                        goalRef.setValue(goal)
+                    }
+                }
+
                 findNavController().navigate(
                     R.id.action_GoalEditFragment_to_GoalsListFragment
                 )
@@ -328,9 +429,7 @@ class GoalEditFragment : BaseFragment() {
             if (title_goal_edit.text.toString() == ""){
                 disappearText = true
 
-                when(fragmentMode){
-                    -2, -1 -> title_goal_edit.setText(R.string.placeholder_edit_text)
-                }
+                title_goal_edit.setText(R.string.placeholder_edit_text)
             }
 
             // Image
@@ -392,8 +491,10 @@ class GoalEditFragment : BaseFragment() {
 
             // Values which depend on validity
             if (validValues){
+                change_goal_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
                 when(fragmentMode){
                     -2, -1 -> change_goal_button_text.setText(R.string.add_goal_edit)
+                    0 -> change_goal_button_text.setText(R.string.modify_goal)
                 }
             }
 

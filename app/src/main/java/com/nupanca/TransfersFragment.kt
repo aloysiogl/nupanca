@@ -14,9 +14,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.nupanca.db.AccountInfo
-import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_transfers.*
-import kotlinx.android.synthetic.main.fragment_transfers.button_info
+import kotlinx.android.synthetic.main.fragment_transfers.button_edit
 import kotlinx.android.synthetic.main.fragment_transfers.button_return
 import kotlinx.android.synthetic.main.fragment_transfers.total_amount
 import java.text.DecimalFormat
@@ -66,8 +65,8 @@ class TransfersFragment : BaseFragment() {
             findNavController().navigate(R.id.action_TransfersFragment_to_MainFragment)
         }
 
-        button_info.setOnClickListener {
-            button_info.startAnimation(
+        button_edit.setOnClickListener {
+            button_edit.startAnimation(
                 AnimationUtils.loadAnimation(
                     context, R.anim.alpha_reduction
                 )

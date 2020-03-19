@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.nupanca.db.AccountInfo
 import kotlinx.android.synthetic.main.fragment_control.*
 
 /**
@@ -47,8 +46,8 @@ class ControlFragment : BaseFragment() {
             findNavController().navigate(R.id.action_ControlFragment_to_MainFragment)
         }
 
-        button_info.setOnClickListener {
-            button_info.startAnimation(
+        button_edit.setOnClickListener {
+            button_edit.startAnimation(
                 AnimationUtils.loadAnimation(
                     context, R.anim.alpha_reduction
                 )

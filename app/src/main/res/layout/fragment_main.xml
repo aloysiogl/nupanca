@@ -40,7 +40,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/button_info"
+            android:id="@+id/button_edit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
