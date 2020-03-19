@@ -10,7 +10,6 @@ import android.transition.Transition
 import android.transition.TransitionInflater
 import android.transition.TransitionManager
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -27,12 +26,9 @@ import com.google.firebase.database.*
 import com.nupanca.db.Goal
 import kotlinx.android.synthetic.main.fragment_goal_edit.*
 import kotlinx.android.synthetic.main.fragment_goal_edit.button_return
-import kotlinx.android.synthetic.main.fragment_main.*
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.*
 import java.util.regex.Pattern
 
@@ -359,8 +355,8 @@ class GoalEditFragment : BaseFragment() {
         if (keyboardSelected){
             val constraintSet = ConstraintSet()
             isActionSelected = true
-            change_goal_button_text.setText(R.string.confirm_goal_edit)
-            change_goal_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
+            how_to_improve_button_text.setText(R.string.confirm_goal_edit)
+            how_to_improve_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
             when(focus){
                 FOCUS.TITLE -> {
                     goal_priority.visibility = View.GONE
@@ -496,16 +492,16 @@ class GoalEditFragment : BaseFragment() {
 
             // Values which depend on validity
             if (validValues){
-                change_goal_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
+                how_to_improve_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
                 when(fragmentMode){
-                    -2, -1 -> change_goal_button_text.setText(R.string.add_goal_edit)
-                    0 -> change_goal_button_text.setText(R.string.modify_goal)
+                    -2, -1 -> how_to_improve_button_text.setText(R.string.add_goal_edit)
+                    0 -> how_to_improve_button_text.setText(R.string.modify_goal)
                 }
             }
 
             else {
-                change_goal_button_text.setTextColor(resources.getColor(R.color.colorRed))
-                change_goal_button_text.setText(R.string.invalid_entries)
+                how_to_improve_button_text.setTextColor(resources.getColor(R.color.colorRed))
+                how_to_improve_button_text.setText(R.string.invalid_entries)
             }
 
         }
