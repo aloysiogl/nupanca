@@ -74,7 +74,7 @@ class MainFragment : BaseFragment() {
     }
 
     fun handleFirebase() {
-        val db = FirebaseDatabase.getInstance();
+        val db = FirebaseDatabase.getInstance()
         val goalListRef = db.getReference("goal_list")
         val accountInfoRef = db.getReference("account_info")
         //        pig_happiness.progress = 25

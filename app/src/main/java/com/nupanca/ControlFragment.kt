@@ -136,7 +136,9 @@ class ControlFragment : BaseFragment() {
             savings_suggestion.visibility = vis
         }
 
-        food_value.addTextChangedListener(object : TextWatcher {
+        var firstTime = 6
+
+        savings_value.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
 
@@ -144,22 +146,22 @@ class ControlFragment : BaseFragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val curText = food_value.text.toString()
+                val curText = savings_value.text.toString()
                 try {
                     if (curText == "") {
-                        accountInfo.foodPlan = 0
-                        food_value.setText("0")
+                        accountInfo.savingsPlan = 0
+                        savings_value.setText("0")
                     } else {
-                        accountInfo.foodPlan = df.parse(food_value.text.toString())?.toLong()!!
-                        if (curText != df.format(accountInfo.foodPlan))
-                            food_value.setText(df.format(accountInfo.foodPlan))
+                        accountInfo.savingsPlan = df.parse(savings_value.text.toString())?.toLong()!!
+                        if (curText != df.format(accountInfo.savingsPlan))
+                            savings_value.setText(df.format(accountInfo.savingsPlan))
                     }
                     accountInfoRef.setValue(accountInfo)
                 } catch (e: ParseException) {
-                    food_value.setText(df.format(accountInfo.foodPlan))
+                    savings_value.setText(df.format(accountInfo.savingsPlan))
                 }
                 val prevL = curText.length
-                val curL = food_value.text!!.length
+                val curL = savings_value.text!!.length
                 val sel: Int
                 sel = when {
                     curL > prevL -> min(curL, start+2)
@@ -168,107 +170,10 @@ class ControlFragment : BaseFragment() {
                     else -> min(curL, start+1)
                 }
                 Log.d("TAG", "$prevL, $curL, $sel")
-                food_value.setSelection(sel)
-                food_value.requestFocus()
-            }
-        })
-
-        transport_value.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val curText = transport_value.text.toString()
-                try {
-                    if (curText == "") {
-                        accountInfo.transportPlan = 0
-                        transport_value.setText("0")
-                    } else {
-                        accountInfo.transportPlan = df.parse(transport_value.text.toString())?.toLong()!!
-                        if (curText != df.format(accountInfo.transportPlan))
-                            transport_value.setText(df.format(accountInfo.transportPlan))
-                    }
-                    accountInfoRef.setValue(accountInfo)
-                } catch (e: ParseException) {
-                    transport_value.setText(df.format(accountInfo.transportPlan))
-                }
-            }
-        })
-
-        housing_value.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val curText = housing_value.text.toString()
-                try {
-                    if (curText == "") {
-                        accountInfo.housingPlan = 0
-                        housing_value.setText("0")
-                    } else {
-                        accountInfo.housingPlan = df.parse(housing_value.text.toString())?.toLong()!!
-                        if (curText != df.format(accountInfo.housingPlan))
-                            housing_value.setText(df.format(accountInfo.housingPlan))
-                    }
-                    accountInfoRef.setValue(accountInfo)
-                } catch (e: ParseException) {
-                    housing_value.setText(df.format(accountInfo.housingPlan))
-                }
-                val prevL = curText.length
-                val curL = housing_value.text!!.length
-                val sel: Int
-                sel = when {
-                    curL > prevL -> min(curL, start+2)
-                    curL < prevL -> if (curText[0] == '0') start
-                                    else min(curL, max(0, start-1))
-                    else -> min(curL, start+1)
-                }
-                Log.d("TAG", "$prevL, $curL, $sel")
-                housing_value.setSelection(sel)
-                housing_value.requestFocus()
-            }
-        })
-
-        shopping_value.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val curText = shopping_value.text.toString()
-                try {
-                    if (curText == "") {
-                        accountInfo.shoppingPlan = 0
-                        shopping_value.setText("0")
-                    } else {
-                        accountInfo.shoppingPlan = df.parse(shopping_value.text.toString())?.toLong()!!
-                        if (curText != df.format(accountInfo.shoppingPlan))
-                            shopping_value.setText(df.format(accountInfo.shoppingPlan))
-                    }
-                    accountInfoRef.setValue(accountInfo)
-                } catch (e: ParseException) {
-                    shopping_value.setText(df.format(accountInfo.shoppingPlan))
-                }
-                val prevL = curText.length
-                val curL = shopping_value.text!!.length
-                val sel: Int
-                sel = when {
-                    curL > prevL -> min(curL, start+2)
-                    curL < prevL -> if (curText[0] == '0') start
-                    else min(curL, max(0, start-1))
-                    else -> min(curL, start+1)
-                }
-                Log.d("TAG", "$prevL, $curL, $sel")
-                shopping_value.setSelection(sel)
-                shopping_value.requestFocus()
+                savings_value.setSelection(sel)
+                if (firstTime == 0)
+                    savings_value.requestFocus()
+                else firstTime--
             }
         })
 
@@ -305,11 +210,13 @@ class ControlFragment : BaseFragment() {
                 }
                 Log.d("TAG", "$prevL, $curL, $sel")
                 others_value.setSelection(sel)
-                others_value.requestFocus()
+                if (firstTime == 0)
+                    others_value.requestFocus()
+                else firstTime--
             }
         })
 
-        savings_value.addTextChangedListener(object : TextWatcher {
+        shopping_value.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
 
@@ -317,22 +224,22 @@ class ControlFragment : BaseFragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val curText = savings_value.text.toString()
+                val curText = shopping_value.text.toString()
                 try {
                     if (curText == "") {
-                        accountInfo.savingsPlan = 0
-                        savings_value.setText("0")
+                        accountInfo.shoppingPlan = 0
+                        shopping_value.setText("0")
                     } else {
-                        accountInfo.savingsPlan = df.parse(savings_value.text.toString())?.toLong()!!
-                        if (curText != df.format(accountInfo.savingsPlan))
-                            savings_value.setText(df.format(accountInfo.savingsPlan))
+                        accountInfo.shoppingPlan = df.parse(shopping_value.text.toString())?.toLong()!!
+                        if (curText != df.format(accountInfo.shoppingPlan))
+                            shopping_value.setText(df.format(accountInfo.shoppingPlan))
                     }
                     accountInfoRef.setValue(accountInfo)
                 } catch (e: ParseException) {
-                    savings_value.setText(df.format(accountInfo.savingsPlan))
+                    shopping_value.setText(df.format(accountInfo.shoppingPlan))
                 }
                 val prevL = curText.length
-                val curL = savings_value.text!!.length
+                val curL = shopping_value.text!!.length
                 val sel: Int
                 sel = when {
                     curL > prevL -> min(curL, start+2)
@@ -341,8 +248,127 @@ class ControlFragment : BaseFragment() {
                     else -> min(curL, start+1)
                 }
                 Log.d("TAG", "$prevL, $curL, $sel")
-                savings_value.setSelection(sel)
-                savings_value.requestFocus()
+                shopping_value.setSelection(sel)
+                if (firstTime == 0)
+                    shopping_value.requestFocus()
+                else firstTime--
+            }
+        })
+
+        food_value.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val curText = food_value.text.toString()
+                try {
+                    if (curText == "") {
+                        accountInfo.foodPlan = 0
+                        food_value.setText("0")
+                    } else {
+                        accountInfo.foodPlan = df.parse(food_value.text.toString())?.toLong()!!
+                        if (curText != df.format(accountInfo.foodPlan))
+                            food_value.setText(df.format(accountInfo.foodPlan))
+                    }
+                    accountInfoRef.setValue(accountInfo)
+                } catch (e: ParseException) {
+                    food_value.setText(df.format(accountInfo.foodPlan))
+                }
+                val prevL = curText.length
+                val curL = food_value.text!!.length
+                val sel: Int
+                sel = when {
+                    curL > prevL -> min(curL, start+2)
+                    curL < prevL -> if (curText[0] == '0') start
+                    else min(curL, max(0, start-1))
+                    else -> min(curL, start+1)
+                }
+                Log.d("TAG", "$prevL, $curL, $sel")
+                food_value.setSelection(sel)
+                if (firstTime == 0)
+                    food_value.requestFocus()
+                else firstTime--
+            }
+        })
+
+        transport_value.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val curText = transport_value.text.toString()
+                try {
+                    if (curText == "") {
+                        accountInfo.transportPlan = 0
+                        transport_value.setText("0")
+                    } else {
+                        accountInfo.transportPlan = df.parse(transport_value.text.toString())?.toLong()!!
+                        if (curText != df.format(accountInfo.transportPlan))
+                            transport_value.setText(df.format(accountInfo.transportPlan))
+                    }
+                    accountInfoRef.setValue(accountInfo)
+                } catch (e: ParseException) {
+                    transport_value.setText(df.format(accountInfo.transportPlan))
+                }
+                val prevL = curText.length
+                val curL = transport_value.text!!.length
+                val sel: Int
+                sel = when {
+                    curL > prevL -> min(curL, start+2)
+                    curL < prevL -> if (curText[0] == '0') start
+                    else min(curL, max(0, start-1))
+                    else -> min(curL, start+1)
+                }
+                Log.d("TAG", "$prevL, $curL, $sel")
+                transport_value.setSelection(sel)
+                if (firstTime == 0)
+                    transport_value.requestFocus()
+                else firstTime--
+            }
+        })
+
+        housing_value.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val curText = housing_value.text.toString()
+                try {
+                    if (curText == "") {
+                        accountInfo.housingPlan = 0
+                        housing_value.setText("0")
+                    } else {
+                        accountInfo.housingPlan = df.parse(housing_value.text.toString())?.toLong()!!
+                        if (curText != df.format(accountInfo.housingPlan))
+                            housing_value.setText(df.format(accountInfo.housingPlan))
+                    }
+                    accountInfoRef.setValue(accountInfo)
+                } catch (e: ParseException) {
+                    housing_value.setText(df.format(accountInfo.housingPlan))
+                }
+                val prevL = curText.length
+                val curL = housing_value.text!!.length
+                val sel: Int
+                sel = when {
+                    curL > prevL -> min(curL, start+2)
+                    curL < prevL -> if (curText[0] == '0') start
+                                    else min(curL, max(0, start-1))
+                    else -> min(curL, start+1)
+                }
+                Log.d("TAG", "$prevL, $curL, $sel")
+                housing_value.setSelection(sel)
+                if (firstTime == 0)
+                    housing_value.requestFocus()
+                else firstTime--
             }
         })
     }
