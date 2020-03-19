@@ -70,7 +70,8 @@
             app:exitAnim="@anim/slide_out_right" />
         <argument
             android:name="value"
-            app:argType="float" />
+            app:argType="float"
+            android:defaultValue="0.00" />
     </fragment>
     <fragment
         android:id="@+id/GoalsListFragment"
@@ -126,6 +127,18 @@
             app:destination="@id/InsertMoneyFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay" />
+        <action
+            android:id="@+id/action_GoalFragment_to_ControlFragment"
+            app:destination="@id/ControlFragment"
+            app:popUpTo="@id/GoalFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay"/>
+        <action
+            android:id="@+id/action_GoalFragment_to_ControlStartFragment"
+            app:destination="@id/ControlStartFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/stay"/>
     </fragment>
     <fragment
         android:id="@+id/ControlStartFragment"

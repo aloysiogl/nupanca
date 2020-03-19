@@ -2,7 +2,6 @@ package com.nupanca.db
 
 
 data class Goal(
-    // TODO change the nullable
     var key: String? = "",
     var title: String? = "",
     var totalAmount: Double = 0.0,

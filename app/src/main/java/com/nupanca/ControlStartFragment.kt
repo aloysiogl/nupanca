@@ -25,7 +25,7 @@ class ControlStartFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getView()?.let { ViewCompat.setTranslationZ(it, 1f) }
+        getView()?.let { ViewCompat.setTranslationZ(it, 3f) }
 
         button_return.setOnClickListener {
             button_return.startAnimation(

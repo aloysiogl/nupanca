@@ -30,9 +30,6 @@ import kotlin.math.pow
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class MainFragment : BaseFragment() {
-    var goals = hashMapOf<String?, Goal>()
-    var accountInfo = AccountInfo()
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -71,7 +68,6 @@ class MainFragment : BaseFragment() {
             findNavController().navigate(R.id.action_MainFragment_to_TransfersFragment)
         }
 
-        // TODO change back to goal start
         goals_layout.setOnClickListener {
             if (goals.isEmpty())
                 findNavController().navigate(R.id.action_MainFragment_to_GoalStartFragment)
@@ -205,5 +201,10 @@ class MainFragment : BaseFragment() {
                     image_pig.setImageDrawable(context?.getDrawable(R.drawable.ic_bigpig_happy))
             }
         }
+    }
+
+    companion object {
+        var goals = hashMapOf<String?, Goal>()
+        var accountInfo = AccountInfo()
     }
 }
