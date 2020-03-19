@@ -152,7 +152,7 @@ class MainFragment : BaseFragment() {
     }
 
     fun updatePigHappiness() {
-        var factor = 1.0
+        var factor = 0.5
 
         // Goals factor
         for (k in goals) {
@@ -164,6 +164,8 @@ class MainFragment : BaseFragment() {
                 factor *= max(0.8, min(1.2, amountRatio / dateRatio))
             }
         }
+
+        Log.d("TAG", "Pig happiness short: $factor")
 
         // Control factor
         if (accountInfo.foodPlan != 0L && accountInfo.food30Days != 0L)
@@ -183,15 +185,12 @@ class MainFragment : BaseFragment() {
                 1.0 * accountInfo.othersPlan / accountInfo.others30Days))
         if (accountInfo.savings30Days != 0L && accountInfo.savingsPlan != 0L) {
             factor *= if (accountInfo.savings30Days < 0)
-                0.8.pow(4.0)
+                0.8.pow(2.0)
             else max(0.8, min(1.2,
                 (1.0 * accountInfo.savings30Days / accountInfo.savingsPlan)
-            )).pow(4.0)
+            )).pow(2.0)
         }
         Log.d("TAG", "Happiness factor: $factor")
-
-        if (abs(factor - 1.0) < 1e-6) // No changes
-            factor = 0.5
 
         if (pig_happiness != null) {
             pig_happiness.progress = (100 * factor).toInt()

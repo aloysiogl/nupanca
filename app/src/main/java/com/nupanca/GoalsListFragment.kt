@@ -48,7 +48,13 @@ class GoalsListFragment : BaseFragment() {
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {
             }
 
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+            override fun onChildChanged(dataSnapshot: DataSnapshot, p1: String?) {
+                val newGoal = Goal.fromMap(dataSnapshot.value as HashMap<String, Any>)
+                goals[newGoal.key] = newGoal
+                val multi = goals.values.toMutableList()
+
+                if (goals_list != null)
+                    goals_list.adapter = GoalAdapter(multi)
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
