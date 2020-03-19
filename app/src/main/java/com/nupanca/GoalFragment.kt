@@ -80,16 +80,20 @@ class GoalFragment : BaseFragment() {
                             " é " + SimpleDateFormat("dd/MM/yyyy",
                         Locale.US).format(Date(newGoal.predictedEndDate).time)
 
+                    // Progress bar
+                    var progress = (100 * newGoal.currentAmount / newGoal.totalAmount).toInt()
+                    if (progress > 100) progress = 100
+                    goal_progress_bar.progress = progress
+                    goal_progress_bar_text.text = progress.toString() + "%"
+
+                    // TODO different icons
                     if (newGoal.endDate >= newGoal.predictedEndDate) {
-
+                        goal_success_message.text = "Parabéns, você está a caminho de cumprir essa meta" +
+                                " até o prazo estabelecido de " + SimpleDateFormat("dd/MM/yyyy",
+                            Locale.US).format(Date(newGoal.endDate).time) + "!"
                     } else {
-                        
-                    }
 
-                    // TODO date logic
-//                    val text = "você já acumulou R$ " + df.format(goal.currentAmount) +
-//                            " e deve \ncompletar sua meta no dia " + SimpleDateFormat("dd/MM/yyyy",
-//                        Locale.US).format(Date(goal.predictedEndDate).time)
+                    }
                 }
             }
         }
@@ -128,21 +132,21 @@ class GoalFragment : BaseFragment() {
         fun priorityIntToString(priority: Int): String {
             assert(priority in 0..4)
             when (priority){
-                0 -> return "Muito baixa"
+                0 -> return "Muito Baixa"
                 1 -> return "Baixa"
                 2 -> return "Média"
                 3 -> return "Alta"
-                4 -> return "Muito alta"
+                4 -> return "Muito Alta"
             }
             return ""
         }
         fun priorityStringToInt(priority: String): Int {
             when(priority){
-                "Muito baixa" -> return 0
+                "Muito Baixa" -> return 0
                 "Baixa" -> return 1
                 "Média" -> return 2
                 "Alta" -> return 3
-                "Muito alta" -> return 4
+                "Muito Alta" -> return 4
             }
             return -1
         }

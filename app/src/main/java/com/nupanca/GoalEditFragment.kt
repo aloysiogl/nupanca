@@ -48,7 +48,7 @@ class GoalEditFragment : BaseFragment() {
     private var isKeyboardSelected: Boolean  = false
     private var transition: Transition? = null
     private var isActionSelected: Boolean = false
-    private var currentSelection: String? = null
+    private var currentSelection: String = "Muito Baixa"
     private var disappearText: Boolean = false
     private var fragmentMode = 0
     private var validValues = true
@@ -96,7 +96,7 @@ class GoalEditFragment : BaseFragment() {
         // Setting texts
         when(fragmentMode){
             -2 -> {
-                setupStrings("INSIRA O NOME DA SUA META",
+                setupStrings("NOME DA SUA META",
                     "0,00", SimpleDateFormat("dd/MM/yyyy",
                         Locale.US).format(selectionCalendar.time))
 
@@ -111,7 +111,7 @@ class GoalEditFragment : BaseFragment() {
                 }
             }
             -1 -> {
-                setupStrings("INSIRA O NOME DA SUA META",
+                setupStrings("NOME DA SUA META",
                     "0,00", SimpleDateFormat("dd/MM/yyyy",
                         Locale.US).format(selectionCalendar.time))
 
@@ -158,7 +158,9 @@ class GoalEditFragment : BaseFragment() {
                             goal_date_text_edit.text = SimpleDateFormat("dd/MM/yyyy",
                                 Locale.US).format(Date(newGoal.endDate))
                             selectionCalendar.time = Date(newGoal.endDate)
-                            // TODO add priority
+                            // Priority
+                            currentSelection = GoalFragment.priorityIntToString(newGoal.priority)
+                            goal_priority_dropdown.setSelection(newGoal.priority)
                             changeElementsToFocusMode(false)
                         }
                     }
@@ -270,7 +272,6 @@ class GoalEditFragment : BaseFragment() {
         // Setting up goal_priority
 
         val items = arrayOf<String?>("Muito Baixa", "Baixa", "Média", "Alta", "Muito Alta")
-        currentSelection = items[0]
 
         goal_priority_dropdown.adapter = ArrayAdapter(view.context, R.layout.dropdown_item, items)
 
@@ -297,7 +298,6 @@ class GoalEditFragment : BaseFragment() {
             }
             // TODO calculate current amount and make entries correct
             // TODO predict end dates
-            // TODO implement priorities
             else if (validValues) {
                 when(fragmentMode){
                     -2, -1 -> {
@@ -308,26 +308,31 @@ class GoalEditFragment : BaseFragment() {
                             beginDate = System.currentTimeMillis(),
                             endDate = selectionCalendar.timeInMillis,
                             predictedEndDate = System.currentTimeMillis(),
-                            priority = 1)
+                            priority = GoalFragment.priorityStringToInt(currentSelection))
 
                         // Adding to database
                         val goalRef = database.push()
                         goal.key = goalRef.key.toString()
                         goalRef.setValue(goal)
+                        findNavController().navigate(
+                            R.id.action_GoalEditFragment_to_GoalsListFragment
+                        )
                     }
                     0 -> {
                         goal?.title = title_goal_edit.text.toString()
                         goal?.totalAmount = selectionValue
                         goal?.endDate = selectionCalendar.timeInMillis
+                        goal?.priority = GoalFragment.priorityStringToInt(currentSelection)
                         val goalRef = FirebaseDatabase.getInstance()
                             .getReference("goal_list/$goalKey")
                         goalRef.setValue(goal)
+                        val bundle = Bundle()
+                        bundle.putString("goal_key", goalKey)
+                        findNavController().navigate(R.id.action_GoalEditFragment_to_GoalFragment,
+                            bundle)
+
                     }
                 }
-
-                findNavController().navigate(
-                    R.id.action_GoalEditFragment_to_GoalsListFragment
-                )
             }
         }
 
@@ -529,6 +534,7 @@ class GoalEditFragment : BaseFragment() {
             changeElementsToFocusMode(false)
             return true
         }
+        // TODO implement for 0
         when(fragmentMode) {
             -2 -> findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
             -1 -> findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
