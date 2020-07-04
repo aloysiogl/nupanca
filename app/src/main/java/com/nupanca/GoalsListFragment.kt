@@ -1,8 +1,10 @@
 package com.nupanca
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,20 +30,25 @@ import kotlin.collections.HashMap
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class GoalsListFragment : BaseFragment() {
-    val mothInMillis = 2.628e+9
-    var goalAdapter: GoalAdapter? = null
+    private val mothInMillis = 2.628e+9
+    private var androidId :String? = null
     val goals = HashMap<String?, Goal>()
     var accountInfo = AccountInfo()
     var db = FirebaseDatabase.getInstance()
-    var goalListRef = db.getReference("goal_list")
+    var goalListRef :DatabaseReference? = null
     var accontInfoRef = db.getReference("account_info")
-    var dbRef = db.reference
+    var dbRef: DatabaseReference? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        goalListRef.addChildEventListener(object : ChildEventListener {
+        @SuppressLint("HardwareIds")
+        dbRef = db.getReference((activity as MainActivity).androidId.toString())
+        goalListRef = db.getReference((activity as MainActivity).androidId.toString())
+            .child("goal_list")
+
+        goalListRef?.addChildEventListener(object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
             }
 
@@ -80,7 +87,7 @@ class GoalsListFragment : BaseFragment() {
             }
         })
 
-        dbRef.addChildEventListener(object : ChildEventListener {
+        dbRef?.addChildEventListener(object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
             }
 
@@ -158,7 +165,7 @@ class GoalsListFragment : BaseFragment() {
     }
 
     fun updateGoals(dataSnapshot: DataSnapshot) {
-        // Getting goals form snapshot
+        // Getting goals from snapshot
         if (dataSnapshot.key != "goal_list") return
 
         updateLazyRequest = false
@@ -250,7 +257,7 @@ class GoalsListFragment : BaseFragment() {
 
         for (goal in goals){
             val goalRef = FirebaseDatabase.getInstance()
-                .getReference("goal_list/${goal.key}")
+                .getReference("${(activity as MainActivity).androidId}/goal_list/${goal.key}")
             val newGoal = goal.copy()
             newGoal.predictedEndDate = goalPredictedEndDate[goal]!!
             newGoal.currentAmount = goalCurrentValue[goal]!!

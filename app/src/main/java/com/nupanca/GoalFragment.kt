@@ -42,7 +42,8 @@ class GoalFragment : BaseFragment() {
             goalKey = safeArgs.goalKey
         }
 
-        database = FirebaseDatabase.getInstance().getReference("goal_list")
+        database = FirebaseDatabase.getInstance()
+            .getReference("${(activity as MainActivity).androidId}/goal_list")
 
         val childEventListener = object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -106,7 +107,7 @@ class GoalFragment : BaseFragment() {
                                 bundle.putString("mode", "Guardar dinheiro")
                                 bundle.putFloat("value", newGoal.totalAmount.toFloat())
                                 val goalRef = FirebaseDatabase.getInstance()
-                                    .getReference("goal_list/$goalKey")
+                                    .getReference("${(activity as MainActivity).androidId}/goal_list/$goalKey")
                                 goalRef.removeValue()
                                 findNavController().navigate(R.id.action_GoalFragment_to_InsertMoneyFragment,
                                     bundle)

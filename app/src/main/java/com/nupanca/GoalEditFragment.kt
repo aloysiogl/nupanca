@@ -1,5 +1,6 @@
 package com.nupanca
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
@@ -10,6 +11,7 @@ import android.transition.Transition
 import android.transition.TransitionInflater
 import android.transition.TransitionManager
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +27,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.*
 import com.nupanca.db.Goal
 import kotlinx.android.synthetic.main.fragment_goal_edit.*
-import kotlinx.android.synthetic.main.fragment_goal_edit.button_return
+import java.lang.System
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
@@ -55,11 +57,12 @@ class GoalEditFragment : BaseFragment() {
 
     private lateinit var database: DatabaseReference
 
+    @SuppressLint("HardwareIds")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        database = FirebaseDatabase.getInstance().getReference("goal_list")
+        database = FirebaseDatabase.getInstance().getReference("${(activity as MainActivity).androidId}/goal_list")
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_goal_edit, container, false)
@@ -179,7 +182,7 @@ class GoalEditFragment : BaseFragment() {
                         AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
                     )
                     val goalRef = FirebaseDatabase.getInstance()
-                        .getReference("goal_list/$goalKey")
+                        .getReference("${(activity as MainActivity).androidId}/goal_list/$goalKey")
                     goalRef.removeValue()
                     findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
                 }
@@ -321,7 +324,7 @@ class GoalEditFragment : BaseFragment() {
                         goal?.endDate = selectionCalendar.timeInMillis
                         goal?.priority = GoalFragment.priorityStringToInt(currentSelection)
                         val goalRef = FirebaseDatabase.getInstance()
-                            .getReference("goal_list/$goalKey")
+                            .getReference("${(activity as MainActivity).androidId}/goal_list/$goalKey")
                         goalRef.setValue(goal)
                         val bundle = Bundle()
                         bundle.putString("goal_key", goalKey)

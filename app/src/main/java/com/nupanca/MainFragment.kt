@@ -96,7 +96,7 @@ class MainFragment : BaseFragment() {
 
     fun handleFirebase() {
         val db = FirebaseDatabase.getInstance()
-        val goalListRef = db.getReference("goal_list")
+        val goalListRef = db.getReference("${(activity as MainActivity).androidId}/goal_list")
         val accountInfoRef = db.getReference("account_info")
 
         val childEventListener = object : ChildEventListener {
