@@ -35,9 +35,9 @@ class GoalsListFragment : BaseFragment() {
     val goals = HashMap<String?, Goal>()
     var accountInfo = AccountInfo()
     var db = FirebaseDatabase.getInstance()
-    var goalListRef :DatabaseReference? = null
-    var accontInfoRef = db.getReference("account_info")
     var dbRef: DatabaseReference? = null
+    var accontInfoRef: DatabaseReference? = null
+    var goalListRef :DatabaseReference? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +45,8 @@ class GoalsListFragment : BaseFragment() {
     ): View? {
         @SuppressLint("HardwareIds")
         dbRef = db.getReference((activity as MainActivity).androidId.toString())
+        accontInfoRef = db.getReference((activity as MainActivity).androidId.toString())
+            .child("account_info")
         goalListRef = db.getReference((activity as MainActivity).androidId.toString())
             .child("goal_list")
 
@@ -77,7 +79,7 @@ class GoalsListFragment : BaseFragment() {
             }
         })
 
-        accontInfoRef.addValueEventListener(object : ValueEventListener {
+        accontInfoRef?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 accountInfo = AccountInfo.fromMap(dataSnapshot.value as HashMap<String, Any>)
             }
