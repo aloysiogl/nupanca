@@ -13,10 +13,7 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.nupanca.db.AccountInfo
 import kotlinx.android.synthetic.main.fragment_insert_money.*
 import kotlinx.android.synthetic.main.fragment_insert_money.button_return
@@ -27,7 +24,7 @@ import java.text.DecimalFormatSymbols
 class InsertMoneyFragment() : BaseFragment() {
     private var valueInTextBox: Double = 0.0
     private val db = FirebaseDatabase.getInstance()
-    private val accountInfoRef = db.getReference("account_info")
+    private var accountInfoRef: DatabaseReference? = null
     private var accountInfo: AccountInfo? = null
 
     private fun processKeyPress(event: KeyEvent): String {
@@ -55,6 +52,8 @@ class InsertMoneyFragment() : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Getting database reference for the account
+        accountInfoRef = db.getReference("${(activity as MainActivity).androidId}/account_info")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_insert_money, container, false)
     }
@@ -99,7 +98,7 @@ class InsertMoneyFragment() : BaseFragment() {
                 }
             }
             Log.d("TAG", "New account info: $accountInfo")
-            accountInfoRef.setValue(accountInfo)
+            accountInfoRef?.setValue(accountInfo)
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
             findNavController().navigate(R.id.action_InsertMoneyFragment_to_TransfersFragment)
         }
@@ -121,7 +120,7 @@ class InsertMoneyFragment() : BaseFragment() {
     }
 
     fun handleFirebase() {
-        accountInfoRef.addValueEventListener(object : ValueEventListener {
+        accountInfoRef?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 accountInfo = AccountInfo.fromMap(dataSnapshot.value as HashMap<String, Any>)
                 Log.d("TAG", "Account Info is: $accountInfo")

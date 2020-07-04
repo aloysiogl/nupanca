@@ -17,13 +17,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
-import com.google.firebase.ml.common.modeldownload.FirebaseModelManager
-import com.google.firebase.ml.custom.*
+import com.google.firebase.database.*
 import com.nupanca.db.AccountInfo
 import com.nupanca.db.ClusterPredictions
 import com.nupanca.db.KMeansPredictor
@@ -43,8 +37,8 @@ import kotlin.math.max
  */
 class ControlFragment : BaseFragment() {
     var showSuggestions = false
-    val db = FirebaseDatabase.getInstance();
-    val accountInfoRef = db.getReference("account_info")
+    val db = FirebaseDatabase.getInstance()
+    var accountInfoRef: DatabaseReference? = null
     var accountInfo = AccountInfo()
     val df: DecimalFormat
     val scaler = Scaler()
@@ -62,6 +56,9 @@ class ControlFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Getting reference to account info in the database
+        accountInfoRef =
+            db.getReference("${(activity as MainActivity).androidId}/account_info")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_control, container, false)
     }
@@ -144,7 +141,7 @@ class ControlFragment : BaseFragment() {
                         if (curText != df.format(accountInfo.savingsPlan))
                             savings_value.setText(df.format(accountInfo.savingsPlan))
                     }
-                    accountInfoRef.setValue(accountInfo)
+                    accountInfoRef?.setValue(accountInfo)
                 } catch (e: ParseException) {
                     savings_value.setText(df.format(accountInfo.savingsPlan))
                 }
@@ -183,7 +180,7 @@ class ControlFragment : BaseFragment() {
                         if (curText != df.format(accountInfo.othersPlan))
                             others_value.setText(df.format(accountInfo.othersPlan))
                     }
-                    accountInfoRef.setValue(accountInfo)
+                    accountInfoRef?.setValue(accountInfo)
                 } catch (e: ParseException) {
                     others_value.setText(df.format(accountInfo.othersPlan))
                 }
@@ -222,7 +219,7 @@ class ControlFragment : BaseFragment() {
                         if (curText != df.format(accountInfo.shoppingPlan))
                             shopping_value.setText(df.format(accountInfo.shoppingPlan))
                     }
-                    accountInfoRef.setValue(accountInfo)
+                    accountInfoRef?.setValue(accountInfo)
                 } catch (e: ParseException) {
                     shopping_value.setText(df.format(accountInfo.shoppingPlan))
                 }
@@ -261,7 +258,7 @@ class ControlFragment : BaseFragment() {
                         if (curText != df.format(accountInfo.foodPlan))
                             food_value.setText(df.format(accountInfo.foodPlan))
                     }
-                    accountInfoRef.setValue(accountInfo)
+                    accountInfoRef?.setValue(accountInfo)
                 } catch (e: ParseException) {
                     food_value.setText(df.format(accountInfo.foodPlan))
                 }
@@ -300,7 +297,7 @@ class ControlFragment : BaseFragment() {
                         if (curText != df.format(accountInfo.transportPlan))
                             transport_value.setText(df.format(accountInfo.transportPlan))
                     }
-                    accountInfoRef.setValue(accountInfo)
+                    accountInfoRef?.setValue(accountInfo)
                 } catch (e: ParseException) {
                     transport_value.setText(df.format(accountInfo.transportPlan))
                 }
@@ -339,7 +336,7 @@ class ControlFragment : BaseFragment() {
                         if (curText != df.format(accountInfo.housingPlan))
                             housing_value.setText(df.format(accountInfo.housingPlan))
                     }
-                    accountInfoRef.setValue(accountInfo)
+                    accountInfoRef?.setValue(accountInfo)
                 } catch (e: ParseException) {
                     housing_value.setText(df.format(accountInfo.housingPlan))
                 }
@@ -362,7 +359,7 @@ class ControlFragment : BaseFragment() {
     }
 
     fun handleFirebase() {
-        accountInfoRef.addValueEventListener(object : ValueEventListener {
+        accountInfoRef?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 Log.d("TAG", "Reading in control frag")
                 accountInfo = AccountInfo.fromMap(dataSnapshot.value as HashMap<String, Any>)

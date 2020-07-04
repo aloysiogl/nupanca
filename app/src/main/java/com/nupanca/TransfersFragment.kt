@@ -93,7 +93,8 @@ class TransfersFragment : BaseFragment() {
 
     fun handleFirebase() {
         val db = FirebaseDatabase.getInstance();
-        val accountInfoRef = db.getReference("account_info")
+        val accountInfoRef =
+            db.getReference("${(activity as MainActivity).androidId}/account_info")
 
         accountInfoRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

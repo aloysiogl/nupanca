@@ -96,8 +96,33 @@ class MainFragment : BaseFragment() {
 
     fun handleFirebase() {
         val db = FirebaseDatabase.getInstance()
-        val goalListRef = db.getReference("${(activity as MainActivity).androidId}/goal_list")
-        val accountInfoRef = db.getReference("account_info")
+        val goalListRef =
+            db.getReference("${(activity as MainActivity).androidId}/goal_list")
+        val accountInfoRef =
+            db.getReference("${(activity as MainActivity).androidId}/account_info")
+
+        fun startDataBase(){
+            val accountInfo = AccountInfo(
+                accountBalance = getString(R.string.default_account_balance).toDouble(),
+                age = getString(R.string.default_account_age).toLong(),
+                food30Days = getString(R.string.default_account_food_30_days).toLong(),
+                foodPlan = 0,
+                housing30Days = getString(R.string.default_account_housing_30_days).toLong(),
+                housingPlan = 0,
+                income = getString(R.string.default_account_income).toDouble(),
+                marriage = getString(R.string.default_account_marriage).toLong(),
+                others30Days = getString(R.string.default_account_others_30_days).toLong(),
+                othersPlan = 0,
+                region = getString(R.string.default_account_region).toLong(),
+                savings30Days = 0,
+                savingsBalance = 0.00,
+                savingsPlan = 0,
+                sex = getString(R.string.default_account_sex).toLong(),
+                transport30Days = getString(R.string.default_account_transport_30_days).toLong(),
+                transportPlan = 0
+            )
+            accountInfoRef.setValue(accountInfo)
+        }
 
         val childEventListener = object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
@@ -132,6 +157,10 @@ class MainFragment : BaseFragment() {
 
         accountInfoRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (!dataSnapshot.exists()){
+                    startDataBase()
+                    return
+                }
                 accountInfo = AccountInfo.fromMap(dataSnapshot.value as HashMap<String, Any>)
 
                 // Updating total amount

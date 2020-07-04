@@ -114,4 +114,15 @@
     <string name="control_info">Adicione metas para os seus gastos em cada categoria e, então, tente seguir seus planos!\n\nClicando em \"Exibir Sugestões\", você pode usar nossas sugestões personalizadas para te ajudar no seu planejamento. Estas sugestões são baseadas no seu perfil de gastos, comparado com pessoas de sua região.\n\nVeja mais dicas de como economizar no <a href="https://blog.nubank.com.br/tag/educacao-financeira/">blog da Nubank.</a></string>
     <string name="goalsList_info">Crie metas para atingir os seus sonhos de consumo! Em seguida, acompanhe-as e garanta que elas serão cumpridas à tempo.\n\nVeja mais dicas de como gerenciar metas no <a href="https://blog.nubank.com.br/tag/educacao-financeira/">blog da Nubank.</a></string>
 
+    <!--Default account values-->
+    <string name="default_account_balance">3000.00</string>
+    <string name="default_account_age">29</string>
+    <string name="default_account_food_30_days">870</string>
+    <string name="default_account_housing_30_days">1100</string>
+    <string name="default_account_income">4100.00</string>
+    <string name="default_account_marriage">3</string>
+    <string name="default_account_others_30_days">110</string>
+    <string name="default_account_region">1</string>
+    <string name="default_account_sex">1</string>
+    <string name="default_account_transport_30_days">110</string>
 </resources>
