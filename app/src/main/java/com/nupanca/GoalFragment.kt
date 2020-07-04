@@ -104,7 +104,7 @@ class GoalFragment : BaseFragment() {
                             how_to_improve_button_text.text = "RESGATAR DINHEIRO"
                             button_add_item.setOnClickListener {
                                 val bundle = Bundle()
-                                bundle.putString("mode", "Guardar dinheiro")
+                                bundle.putString("mode", "Resgatar dinheiro")
                                 bundle.putFloat("value", newGoal.totalAmount.toFloat())
                                 val goalRef = FirebaseDatabase.getInstance()
                                     .getReference("${(activity as MainActivity).androidId}/goal_list/$goalKey")
