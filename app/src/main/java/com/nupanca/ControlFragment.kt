@@ -468,56 +468,56 @@ class ControlFragment : BaseFragment() {
             calculateSuggestions()
             button_suggestions_label.text = getString(R.string.suggestions_button_text_2)
         } else {
-            button_suggestions_label.text = getString(R.string.suggestions_button_text)
+            button_suggestions_label?.text = getString(R.string.suggestions_button_text)
         }
 
         if (showSuggestions && df.parse(food_spendings.text.toString())?.toLong()!! >
             df.parse(food_value.text.toString())?.toLong()!!) {
-            food_icon.imageTintList = colorRed
-            food_spendings.setTextColor(colorRed)
+            food_icon?.imageTintList = colorRed
+            food_spendings?.setTextColor(colorRed)
         } else {
-            food_icon.imageTintList = colorGreen
-            food_spendings.setTextColor(colorWhite)
+            food_icon?.imageTintList = colorGreen
+            food_spendings?.setTextColor(colorWhite)
         }
         if (showSuggestions && df.parse(transport_spendings.text.toString())?.toLong()!! >
             df.parse(transport_value.text.toString())?.toLong()!!) {
-            transport_icon.imageTintList = colorRed
-            transport_spendings.setTextColor(colorRed)
+            transport_icon?.imageTintList = colorRed
+            transport_spendings?.setTextColor(colorRed)
         } else {
-            transport_icon.imageTintList = colorGreen
-            transport_spendings.setTextColor(colorWhite)
+            transport_icon?.imageTintList = colorGreen
+            transport_spendings?.setTextColor(colorWhite)
         }
         if (showSuggestions && df.parse(housing_spendings.text.toString())?.toLong()!! >
-            df.parse(housing_value.text.toString())?.toLong()!!) {
-            housing_icon.imageTintList = colorRed
-            housing_spendings.setTextColor(colorRed)
+            df.parse(housing_value?.text.toString())?.toLong()!!) {
+            housing_icon?.imageTintList = colorRed
+            housing_spendings?.setTextColor(colorRed)
         } else {
-            housing_icon.imageTintList = colorGreen
-            housing_spendings.setTextColor(colorWhite)
+            housing_icon?.imageTintList = colorGreen
+            housing_spendings?.setTextColor(colorWhite)
         }
         if (showSuggestions && df.parse(shopping_spendings.text.toString())?.toLong()!! >
             df.parse(shopping_value.text.toString())?.toLong()!!) {
-            shopping_icon.imageTintList = colorRed
-            shopping_spendings.setTextColor(colorRed)
+            shopping_icon?.imageTintList = colorRed
+            shopping_spendings?.setTextColor(colorRed)
         } else {
-            shopping_icon.imageTintList = colorGreen
-            shopping_spendings.setTextColor(colorWhite)
+            shopping_icon?.imageTintList = colorGreen
+            shopping_spendings?.setTextColor(colorWhite)
         }
         if (showSuggestions && df.parse(others_spendings.text.toString())?.toLong()!! >
             df.parse(others_value.text.toString())?.toLong()!!) {
-            others_icon.imageTintList = colorRed
-            others_spendings.setTextColor(colorRed)
+            others_icon?.imageTintList = colorRed
+            others_spendings?.setTextColor(colorRed)
         } else {
-            others_icon.imageTintList = colorGreen
-            others_spendings.setTextColor(colorWhite)
+            others_icon?.imageTintList = colorGreen
+            others_spendings?.setTextColor(colorWhite)
         }
         if (showSuggestions && df.parse(savings_spendings.text.toString())?.toLong()!! <
             df.parse(savings_value.text.toString())?.toLong()!!) {
-            savings_icon.imageTintList = colorRed
-            savings_spendings.setTextColor(colorRed)
+            savings_icon?.imageTintList = colorRed
+            savings_spendings?.setTextColor(colorRed)
         } else {
-            savings_icon.imageTintList = colorGreen
-            savings_spendings.setTextColor(colorWhite)
+            savings_icon?.imageTintList = colorGreen
+            savings_spendings?.setTextColor(colorWhite)
         }
     }
 }
