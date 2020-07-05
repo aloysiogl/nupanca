@@ -22,7 +22,7 @@ import java.text.DecimalFormatSymbols
 
 
 class InsertMoneyFragment() : BaseFragment() {
-    private var valueInTextBox: Double = 0.0
+    private var valueInTextBox: Long = 0
     private val db = FirebaseDatabase.getInstance()
     private var accountInfoRef: DatabaseReference? = null
     private var accountInfo: AccountInfo? = null
@@ -30,17 +30,18 @@ class InsertMoneyFragment() : BaseFragment() {
     private fun processKeyPress(event: KeyEvent): String {
         // Getting key press
         if (KeyEvent.KEYCODE_0 <= event.keyCode && event.keyCode <= KeyEvent.KEYCODE_9)
-            valueInTextBox = valueInTextBox * 10 +
-                    ((event.keyCode - KeyEvent.KEYCODE_0).toDouble()) / 100
-        else if (event.keyCode == KeyEvent.KEYCODE_DEL)
+            valueInTextBox = valueInTextBox * 10 + (event.keyCode - KeyEvent.KEYCODE_0)
+        else if (event.keyCode == KeyEvent.KEYCODE_DEL || event.keyCode == KeyEvent.KEYCODE_BACK){
             valueInTextBox /= 10
-        valueInTextBox = (valueInTextBox * 100).toInt() / 100.0
+            Log.d("VAL", "here")
+        }
+        Log.d("VAL", event.keyCode.toString())
 
         // Showing errors
         if (analyseCorrectness()) confirm_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
         else confirm_button_text.setTextColor(resources.getColor(R.color.colorGray))
 
-        return processDoubleAsPortugueseString(valueInTextBox)
+        return processDoubleAsPortugueseString(valueInTextBox.toDouble() / 100.0)
     }
 
     //TODO finish this method
@@ -73,8 +74,9 @@ class InsertMoneyFragment() : BaseFragment() {
             val safeArgs = InsertMoneyFragmentArgs.fromBundle(it)
             mode = safeArgs.mode
             how_much_to_save.text = mode
-            valueInTextBox = safeArgs.value.toDouble()
-            text_edit_money_to_remove.setText(processDoubleAsPortugueseString(valueInTextBox))
+            valueInTextBox = (safeArgs.value.toDouble()*100).toLong()
+            text_edit_money_to_remove.
+            setText(processDoubleAsPortugueseString(valueInTextBox.toDouble()/100.00))
         }
 
         button_confirm.setOnClickListener{
@@ -151,8 +153,8 @@ class InsertMoneyFragment() : BaseFragment() {
             var amount = df.parse(text_edit_money_to_remove.text.toString()).toDouble()
             amount = (amount * 100).toInt() / 100.0
             transactionPossible = if (mode == "Guardar dinheiro")
-                amount < accountInfo?.accountBalance!!
-            else amount < accountInfo?.savingsBalance!!
+                amount <= accountInfo?.accountBalance!!
+            else amount <= accountInfo?.savingsBalance!!
         }
 
         if (transactionPossible) {
@@ -167,7 +169,7 @@ class InsertMoneyFragment() : BaseFragment() {
             button_confirm?.isClickable = true
             confirm_button_text?.setTextColor(getResources().getColor(R.color.colorPrimary))
         } else {
-            textView4?.text = "Você não possui saldo suficiente!"
+            textView4?.text = "Saldo insuficiente!"
             textView4?.setTextColor(getResources().getColor(R.color.colorRed))
             button_confirm?.isClickable = false
             confirm_button_text?.setTextColor(getResources().getColor(R.color.colorGray))
