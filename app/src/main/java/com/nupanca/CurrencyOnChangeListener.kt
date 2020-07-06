@@ -11,12 +11,10 @@ import kotlin.math.max
 import kotlin.math.min
 
 class CurrencyOnChangeListener(
-    _input: EditText, _setDbValue: (Double) -> Unit,
-    isInt: Boolean = false
+    private val input: EditText, private val setDbValue: (Double) -> Unit = {},
+    private val callback: () -> Unit = {}, isInt: Boolean = false
 ) :
     TextWatcher {
-    private val input = _input
-    private val setDbValue = _setDbValue
     private val df: DecimalFormat
     private var value = 0.0
     private var firstTime = true
@@ -31,6 +29,7 @@ class CurrencyOnChangeListener(
     }
 
     override fun afterTextChanged(s: Editable?) {
+        callback()
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -70,6 +69,7 @@ class CurrencyOnChangeListener(
     }
 
     private fun inputToValue() {
+//        amount = (amount * 100).toInt() / 100.0
         value = df.parse(input.text.toString())?.toDouble()!!
     }
 

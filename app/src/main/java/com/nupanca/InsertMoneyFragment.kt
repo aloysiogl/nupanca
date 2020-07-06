@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.*
 import com.nupanca.db.AccountInfo
+import kotlinx.android.synthetic.main.fragment_control.*
 import kotlinx.android.synthetic.main.fragment_insert_money.*
 import kotlinx.android.synthetic.main.fragment_insert_money.button_return
 import java.text.DecimalFormat
@@ -26,23 +27,6 @@ class InsertMoneyFragment() : BaseFragment() {
     private val db = FirebaseDatabase.getInstance()
     private var accountInfoRef: DatabaseReference? = null
     private var accountInfo: AccountInfo? = null
-
-    private fun processKeyPress(event: KeyEvent): String {
-        // Getting key press
-        if (KeyEvent.KEYCODE_0 <= event.keyCode && event.keyCode <= KeyEvent.KEYCODE_9)
-            valueInTextBox = valueInTextBox * 10 + (event.keyCode - KeyEvent.KEYCODE_0)
-        else if (event.keyCode == KeyEvent.KEYCODE_DEL || event.keyCode == KeyEvent.KEYCODE_BACK){
-            valueInTextBox /= 10
-            Log.d("VAL", "here")
-        }
-        Log.d("VAL", event.keyCode.toString())
-
-        // Showing errors
-        if (analyseCorrectness()) confirm_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
-        else confirm_button_text.setTextColor(resources.getColor(R.color.colorGray))
-
-        return processDoubleAsPortugueseString(valueInTextBox.toDouble() / 100.0)
-    }
 
     //TODO finish this method
     private fun analyseCorrectness() :Boolean{
@@ -105,13 +89,8 @@ class InsertMoneyFragment() : BaseFragment() {
             findNavController().navigate(R.id.action_InsertMoneyFragment_to_TransfersFragment)
         }
 
-        text_edit_money_to_remove.setOnKeyListener { v, keyCode, event ->
-            if (event.action == ACTION_UP)
-                text_edit_money_to_remove.setText(processKeyPress(event))
-            updateAvailableMoneyText()
-
-            false
-        }
+        text_edit_money_to_remove.addTextChangedListener(
+            CurrencyOnChangeListener(text_edit_money_to_remove, callback = ::updateAvailableMoneyText))
 
         button_return.setOnClickListener {
             button_return.startAnimation(

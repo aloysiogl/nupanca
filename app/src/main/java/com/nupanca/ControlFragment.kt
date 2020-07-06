@@ -126,42 +126,42 @@ class ControlFragment : BaseFragment() {
             accountInfoRef?.setValue(accountInfo)
         }
         housing_value.addTextChangedListener(
-            CurrencyOnChangeListener(housing_value, ::setHousing, true))
+            CurrencyOnChangeListener(housing_value, ::setHousing, isInt = true))
 
         fun setTransport(v : Double) {
             accountInfo.transportPlan = v.toLong()
             accountInfoRef?.setValue(accountInfo)
         }
         transport_value.addTextChangedListener(
-            CurrencyOnChangeListener(transport_value, ::setTransport, true))
+            CurrencyOnChangeListener(transport_value, ::setTransport, isInt = true))
 
         fun setFood(v : Double) {
             accountInfo.foodPlan = v.toLong()
             accountInfoRef?.setValue(accountInfo)
         }
         food_value.addTextChangedListener(
-            CurrencyOnChangeListener(food_value, ::setFood, true))
+            CurrencyOnChangeListener(food_value, ::setFood, isInt = true))
 
         fun setShopping(v : Double) {
             accountInfo.shoppingPlan = v.toLong()
             accountInfoRef?.setValue(accountInfo)
         }
         shopping_value.addTextChangedListener(
-            CurrencyOnChangeListener(shopping_value, ::setShopping, true))
+            CurrencyOnChangeListener(shopping_value, ::setShopping, isInt = true))
 
         fun setOthers(v : Double) {
             accountInfo.othersPlan = v.toLong()
             accountInfoRef?.setValue(accountInfo)
         }
         others_value.addTextChangedListener(
-            CurrencyOnChangeListener(others_value, ::setOthers, true))
+            CurrencyOnChangeListener(others_value, ::setOthers, isInt = true))
 
         fun setSavings(v : Double) {
             accountInfo.savingsPlan = v.toLong()
             accountInfoRef?.setValue(accountInfo)
         }
         savings_value.addTextChangedListener(
-            CurrencyOnChangeListener(savings_value, ::setSavings, true))
+            CurrencyOnChangeListener(savings_value, ::setSavings, isInt = true))
     }
 
     fun handleFirebase() {
