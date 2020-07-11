@@ -5,7 +5,6 @@
     android:id="@+id/layout_fragment_goals_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     tools:context=".ControlFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,6 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/control_title_height"
         android:background="@color/colorPrimary"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -81,6 +83,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="vertical">
 
             <TextView
@@ -198,7 +203,6 @@
                         android:inputType="number"
                         android:text="@string/housing_plan"
                         android:textColor="@android:color/white"
-                        android:textCursorDrawable="@color/colorGreen"
                         android:textSize="@dimen/plans_value_font_size"
                         android:theme="@style/AppTheme.PurpleScreen" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -373,7 +377,6 @@
                         android:inputType="number"
                         android:text="@string/transport_plan"
                         android:textColor="@android:color/white"
-                        android:textCursorDrawable="@color/colorGreen"
                         android:textSize="@dimen/plans_value_font_size"
                         android:theme="@style/AppTheme.PurpleScreen" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -548,7 +551,6 @@
                         android:inputType="number"
                         android:text="@string/food_plan"
                         android:textColor="@android:color/white"
-                        android:textCursorDrawable="@color/colorGreen"
                         android:textSize="@dimen/plans_value_font_size"
                         android:theme="@style/AppTheme.PurpleScreen" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -723,7 +725,6 @@
                         android:inputType="number"
                         android:text="@string/shopping_plan"
                         android:textColor="@android:color/white"
-                        android:textCursorDrawable="@color/colorGreen"
                         android:textSize="@dimen/plans_value_font_size"
                         android:theme="@style/AppTheme.PurpleScreen" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -898,7 +899,6 @@
                         android:inputType="number"
                         android:text="@string/others_plan"
                         android:textColor="@android:color/white"
-                        android:textCursorDrawable="@color/colorGreen"
                         android:textSize="@dimen/plans_value_font_size"
                         android:theme="@style/AppTheme.PurpleScreen" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -1086,7 +1086,6 @@
                         android:inputType="number"
                         android:text="@string/savings_plan"
                         android:textColor="@android:color/white"
-                        android:textCursorDrawable="@color/colorGreen"
                         android:textSize="@dimen/plans_value_font_size"
                         android:theme="@style/AppTheme.PurpleScreen" />
                 </com.google.android.material.textfield.TextInputLayout>

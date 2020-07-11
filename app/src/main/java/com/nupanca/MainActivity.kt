@@ -6,9 +6,6 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
-import com.google.firebase.ml.common.modeldownload.FirebaseModelManager
-import com.google.firebase.ml.custom.FirebaseCustomRemoteModel
 
 class MainActivity : AppCompatActivity() {
     var androidId: String? = null

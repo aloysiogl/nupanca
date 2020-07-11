@@ -29,7 +29,7 @@ class InsertMoneyFragment() : BaseFragment() {
     private var accountInfo: AccountInfo? = null
 
     //TODO finish this method
-    private fun analyseCorrectness() :Boolean{
+    private fun analyseCorrectness(): Boolean {
         return valueInTextBox >= 0.01
     }
 
@@ -58,12 +58,13 @@ class InsertMoneyFragment() : BaseFragment() {
             val safeArgs = InsertMoneyFragmentArgs.fromBundle(it)
             mode = safeArgs.mode
             how_much_to_save.text = mode
-            valueInTextBox = (safeArgs.value.toDouble()*100).toLong()
-            text_edit_money_to_remove.
-            setText(processDoubleAsPortugueseString(valueInTextBox.toDouble()/100.00))
+            valueInTextBox = (safeArgs.value.toDouble() * 100).toLong()
+            text_edit_money_to_remove.setText(
+                processDoubleAsPortugueseString(valueInTextBox.toDouble() / 100.00)
+            )
         }
 
-        button_confirm.setOnClickListener{
+        button_confirm.setOnClickListener {
             val symb = DecimalFormatSymbols()
             symb.decimalSeparator = ','
             symb.groupingSeparator = '.'
@@ -85,12 +86,16 @@ class InsertMoneyFragment() : BaseFragment() {
             }
             Log.d("TAG", "New account info: $accountInfo")
             accountInfoRef?.setValue(accountInfo)
-            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
+            imm.toggleSoftInput(
+                InputMethodManager.SHOW_IMPLICIT,
+                InputMethodManager.HIDE_IMPLICIT_ONLY
+            )
             findNavController().navigate(R.id.action_InsertMoneyFragment_to_TransfersFragment)
         }
 
         text_edit_money_to_remove.addTextChangedListener(
-            CurrencyOnChangeListener(text_edit_money_to_remove, callback = ::updateAvailableMoneyText))
+            CurrencyOnChangeListener(text_edit_money_to_remove, ::updateAvailableMoneyText)
+        )
 
         button_return.setOnClickListener {
             button_return.startAnimation(
@@ -115,11 +120,12 @@ class InsertMoneyFragment() : BaseFragment() {
         })
     }
 
-    private fun updateAvailableMoneyText() {
+    private fun updateAvailableMoneyText(value: Double? = null) {
         val symb = DecimalFormatSymbols()
         symb.decimalSeparator = ','
         symb.groupingSeparator = '.'
         val df = DecimalFormat("###,##0.00", symb)
+        var amount = value ?: df.parse(text_edit_money_to_remove?.text.toString())?.toDouble()
 
         var mode = ""
         arguments?.let {
@@ -128,8 +134,7 @@ class InsertMoneyFragment() : BaseFragment() {
         }
 
         var transactionPossible = false
-        if (text_edit_money_to_remove != null) {
-            var amount = df.parse(text_edit_money_to_remove.text.toString()).toDouble()
+        if (amount != null) {
             amount = (amount * 100).toInt() / 100.0
             transactionPossible = if (mode == "Guardar dinheiro")
                 amount <= accountInfo?.accountBalance!!

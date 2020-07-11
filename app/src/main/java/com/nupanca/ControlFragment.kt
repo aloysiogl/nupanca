@@ -1,17 +1,18 @@
 package com.nupanca
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.res.ColorStateList
-import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
@@ -25,11 +26,7 @@ import com.nupanca.db.Scaler
 import kotlinx.android.synthetic.main.fragment_control.*
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.text.ParseException
-import kotlin.collections.HashMap
 import kotlin.math.abs
-import kotlin.math.min
-import kotlin.math.max
 
 
 /**
@@ -89,7 +86,7 @@ class ControlFragment : BaseFragment() {
             dialog?.show()
 
             val textView = dialog?.findViewById<View>(android.R.id.message) as TextView
-            textView.typeface  = context?.let { it1 ->
+            textView.typeface = context?.let { it1 ->
                 ResourcesCompat.getFont(
                     it1,
                     R.font.keep_calm_w01_book
@@ -121,47 +118,35 @@ class ControlFragment : BaseFragment() {
             savings_suggestion.visibility = vis
         }
 
-        fun setHousing(v : Double) {
-            accountInfo.housingPlan = v.toLong()
-            accountInfoRef?.setValue(accountInfo)
+        class MyFocusChangeListener : OnFocusChangeListener {
+            override fun onFocusChange(v: View, hasFocus: Boolean) {
+                if (!hasFocus) {
+                    val imm =
+                        context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.windowToken, 0)
+                }
+            }
         }
-        housing_value.addTextChangedListener(
-            CurrencyOnChangeListener(housing_value, ::setHousing, isInt = true))
 
-        fun setTransport(v : Double) {
-            accountInfo.transportPlan = v.toLong()
-            accountInfoRef?.setValue(accountInfo)
-        }
-        transport_value.addTextChangedListener(
-            CurrencyOnChangeListener(transport_value, ::setTransport, isInt = true))
+        val focusChangeListener: OnFocusChangeListener = MyFocusChangeListener()
 
-        fun setFood(v : Double) {
-            accountInfo.foodPlan = v.toLong()
-            accountInfoRef?.setValue(accountInfo)
+        fun configureEditText(input: EditText, updateFunc: (Long) -> Unit) {
+            fun updateDb(v: Double) {
+                updateFunc(v.toLong())
+                accountInfoRef?.setValue(accountInfo)
+            }
+            input.addTextChangedListener(
+                CurrencyOnChangeListener(input, ::updateDb, isInt = true)
+            )
+            input.onFocusChangeListener = focusChangeListener
         }
-        food_value.addTextChangedListener(
-            CurrencyOnChangeListener(food_value, ::setFood, isInt = true))
 
-        fun setShopping(v : Double) {
-            accountInfo.shoppingPlan = v.toLong()
-            accountInfoRef?.setValue(accountInfo)
-        }
-        shopping_value.addTextChangedListener(
-            CurrencyOnChangeListener(shopping_value, ::setShopping, isInt = true))
-
-        fun setOthers(v : Double) {
-            accountInfo.othersPlan = v.toLong()
-            accountInfoRef?.setValue(accountInfo)
-        }
-        others_value.addTextChangedListener(
-            CurrencyOnChangeListener(others_value, ::setOthers, isInt = true))
-
-        fun setSavings(v : Double) {
-            accountInfo.savingsPlan = v.toLong()
-            accountInfoRef?.setValue(accountInfo)
-        }
-        savings_value.addTextChangedListener(
-            CurrencyOnChangeListener(savings_value, ::setSavings, isInt = true))
+        configureEditText(housing_value) { accountInfo.housingPlan = it }
+        configureEditText(transport_value) { accountInfo.transportPlan = it }
+        configureEditText(food_value) { accountInfo.foodPlan = it }
+        configureEditText(shopping_value) { accountInfo.shoppingPlan = it }
+        configureEditText(others_value) { accountInfo.othersPlan = it }
+        configureEditText(savings_value) { accountInfo.savingsPlan = it }
     }
 
     fun handleFirebase() {
@@ -174,43 +159,66 @@ class ControlFragment : BaseFragment() {
 
                 if (food_value != null &&
                     !((food_value.text.toString() == "" && accountInfo.foodPlan < 1e-3) ||
-                      abs(df.parse(food_value.text.toString()).toLong() - accountInfo.foodPlan) <
-                            1e-3))
+                            abs(
+                                df.parse(food_value.text.toString()).toLong() - accountInfo.foodPlan
+                            ) <
+                            1e-3)
+                )
                     food_value.setText(df.format(accountInfo.foodPlan))
                 food_spendings?.text = df.format(accountInfo.food30Days)
 
                 if (transport_value != null &&
                     !((transport_value.text.toString() == "" && accountInfo.foodPlan < 1e-3) ||
-                            abs(df.parse(transport_value.text.toString()).toLong() - accountInfo.transportPlan) <
-                            1e-3))
+                            abs(
+                                df.parse(transport_value.text.toString())
+                                    .toLong() - accountInfo.transportPlan
+                            ) <
+                            1e-3)
+                )
                     transport_value?.setText(df.format(accountInfo.transportPlan))
                 transport_spendings?.text = df.format(accountInfo.transport30Days)
 
                 if (housing_value != null &&
                     !((housing_value.text.toString() == "" && accountInfo.foodPlan < 1e-3) ||
-                            abs(df.parse(housing_value.text.toString()).toLong() - accountInfo.housingPlan) <
-                            1e-3))
+                            abs(
+                                df.parse(housing_value.text.toString())
+                                    .toLong() - accountInfo.housingPlan
+                            ) <
+                            1e-3)
+                )
                     housing_value?.setText(df.format(accountInfo.housingPlan))
                 housing_spendings?.text = df.format(accountInfo.housing30Days)
 
                 if (shopping_value != null &&
                     !((shopping_value.text.toString() == "" && accountInfo.foodPlan < 1e-3) ||
-                            abs(df.parse(shopping_value.text.toString()).toLong() - accountInfo.shoppingPlan) <
-                            1e-3))
+                            abs(
+                                df.parse(shopping_value.text.toString())
+                                    .toLong() - accountInfo.shoppingPlan
+                            ) <
+                            1e-3)
+                )
                     shopping_value?.setText(df.format(accountInfo.shoppingPlan))
                 shopping_spendings?.text = df.format(accountInfo.shopping30Days)
 
                 if (others_value != null &&
                     !((others_value.text.toString() == "" && accountInfo.foodPlan < 1e-3) ||
-                            abs(df.parse(others_value.text.toString()).toLong() - accountInfo.othersPlan) <
-                            1e-3))
+                            abs(
+                                df.parse(others_value.text.toString())
+                                    .toLong() - accountInfo.othersPlan
+                            ) <
+                            1e-3)
+                )
                     others_value?.setText(df.format(accountInfo.othersPlan))
                 others_spendings?.text = df.format(accountInfo.others30Days)
 
                 if (savings_value != null &&
                     !((savings_value.text.toString() == "" && accountInfo.foodPlan < 1e-3) ||
-                            abs(df.parse(savings_value.text.toString()).toLong() - accountInfo.savingsPlan) <
-                            1e-3))
+                            abs(
+                                df.parse(savings_value.text.toString())
+                                    .toLong() - accountInfo.savingsPlan
+                            ) <
+                            1e-3)
+                )
                     savings_value?.setText(df.format(accountInfo.savingsPlan))
                 savings_spendings?.text = df.format(accountInfo.savings30Days)
 
@@ -278,7 +286,8 @@ class ControlFragment : BaseFragment() {
         }
 
         if (showSuggestions && df.parse(food_spendings.text.toString())?.toLong()!! >
-            df.parse(food_value.text.toString())?.toLong()!!) {
+            df.parse(food_value.text.toString())?.toLong()!!
+        ) {
             food_icon?.imageTintList = colorRed
             food_spendings?.setTextColor(colorRed)
         } else {
@@ -286,7 +295,8 @@ class ControlFragment : BaseFragment() {
             food_spendings?.setTextColor(colorWhite)
         }
         if (showSuggestions && df.parse(transport_spendings.text.toString())?.toLong()!! >
-            df.parse(transport_value.text.toString())?.toLong()!!) {
+            df.parse(transport_value.text.toString())?.toLong()!!
+        ) {
             transport_icon?.imageTintList = colorRed
             transport_spendings?.setTextColor(colorRed)
         } else {
@@ -294,7 +304,8 @@ class ControlFragment : BaseFragment() {
             transport_spendings?.setTextColor(colorWhite)
         }
         if (showSuggestions && df.parse(housing_spendings.text.toString())?.toLong()!! >
-            df.parse(housing_value?.text.toString())?.toLong()!!) {
+            df.parse(housing_value?.text.toString())?.toLong()!!
+        ) {
             housing_icon?.imageTintList = colorRed
             housing_spendings?.setTextColor(colorRed)
         } else {
@@ -302,7 +313,8 @@ class ControlFragment : BaseFragment() {
             housing_spendings?.setTextColor(colorWhite)
         }
         if (showSuggestions && df.parse(shopping_spendings.text.toString())?.toLong()!! >
-            df.parse(shopping_value.text.toString())?.toLong()!!) {
+            df.parse(shopping_value.text.toString())?.toLong()!!
+        ) {
             shopping_icon?.imageTintList = colorRed
             shopping_spendings?.setTextColor(colorRed)
         } else {
@@ -310,7 +322,8 @@ class ControlFragment : BaseFragment() {
             shopping_spendings?.setTextColor(colorWhite)
         }
         if (showSuggestions && df.parse(others_spendings.text.toString())?.toLong()!! >
-            df.parse(others_value.text.toString())?.toLong()!!) {
+            df.parse(others_value.text.toString())?.toLong()!!
+        ) {
             others_icon?.imageTintList = colorRed
             others_spendings?.setTextColor(colorRed)
         } else {
@@ -318,7 +331,8 @@ class ControlFragment : BaseFragment() {
             others_spendings?.setTextColor(colorWhite)
         }
         if (showSuggestions && df.parse(savings_spendings.text.toString())?.toLong()!! <
-            df.parse(savings_value.text.toString())?.toLong()!!) {
+            df.parse(savings_value.text.toString())?.toLong()!!
+        ) {
             savings_icon?.imageTintList = colorRed
             savings_spendings?.setTextColor(colorRed)
         } else {
