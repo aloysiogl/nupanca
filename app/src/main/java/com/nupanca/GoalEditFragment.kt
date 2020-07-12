@@ -151,7 +151,7 @@ class GoalEditFragment : BaseFragment() {
                             val symb = DecimalFormatSymbols()
                             symb.decimalSeparator = ','
                             selectionValue = newGoal.totalAmount
-                            goal_final_value_text_edit.setText(DecimalFormat("#####0.00",
+                            goal_final_value_text_edit.setText(DecimalFormat("###,##0.00",
                                 symb).format(newGoal.totalAmount).toString())
                             // Date
                             goal_date_text_edit.text = SimpleDateFormat("dd/MM/yyyy",
@@ -218,6 +218,15 @@ class GoalEditFragment : BaseFragment() {
             toggleKeyboard(true)
             changeElementsToFocusMode(true)
         }
+
+        goal_final_value_text_edit.addTextChangedListener(
+            CurrencyOnChangeListener(goal_final_value_text_edit, {
+                if (it < 1e-6)
+                    goal_final_value_text_edit.setTextColor(resources.getColor(R.color.colorRed))
+                else
+                    goal_final_value_text_edit.setTextColor(resources.getColor(R.color.colorPrimary))
+            })
+        )
 
         goal_final_value_text_edit.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus){
@@ -477,16 +486,14 @@ class GoalEditFragment : BaseFragment() {
 
             // Validity check
             validValues = true
-            val pattern = Pattern.compile("^(\\d*\\,)?\\d+\$")
-            if (!pattern.matcher(goal_final_value_text_edit.text).matches() ||
-                goal_final_value_text_edit.text.toString()
-                    .replace(",", ".").toDouble() <= 0){
+            if (goal_final_value_text_edit.text.toString().replace(".", "")
+                    .replace(",", ".").toDouble() < 1e-6) {
                 validValues = false
                 goal_final_value_text_edit.setTextColor(resources.getColor(R.color.colorRed))
             }
             else {
                 selectionValue = goal_final_value_text_edit.text.
-                toString().replace(",", ".").toDouble()
+                toString().replace(".", "").replace(",", ".").toDouble()
                 goal_final_value_text_edit.setTextColor(resources.getColor(R.color.colorPrimary))
             }
             if (selectionCalendar.time < Calendar.getInstance().time){
