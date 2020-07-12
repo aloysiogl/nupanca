@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
+import java.lang.RuntimeException
 
 class MainActivity : AppCompatActivity() {
     var androidId: String? = null
@@ -18,7 +19,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
         val db = FirebaseDatabase.getInstance()
-        db.setPersistenceEnabled(true)
+        try {
+            db.setPersistenceEnabled(true)
+        } catch (e: RuntimeException) {}
     }
 
     override fun onBackPressed() {

@@ -142,6 +142,8 @@ class GoalEditFragment : BaseFragment() {
                     }
 
                     override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                        if (context == null) return
+
                         val newGoal = Goal.fromMap(dataSnapshot.value as HashMap<String, Any>)
                         goal = newGoal
                         if (view.context != null && newGoal.key == goalKey){

@@ -274,6 +274,8 @@ class ControlFragment : BaseFragment() {
     }
 
     fun updateIconsColors() {
+        if (context == null) return
+
         val colorGreen = ColorStateList.valueOf(resources.getColor(R.color.colorGreen))
         val colorRed = ColorStateList.valueOf(resources.getColor(R.color.colorRed))
         val colorWhite = ColorStateList.valueOf(resources.getColor(android.R.color.white))

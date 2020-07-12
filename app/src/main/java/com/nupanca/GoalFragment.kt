@@ -60,6 +60,8 @@ class GoalFragment : BaseFragment() {
 
             @SuppressLint("SetTextI18n")
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                if (context == null) return
+
                 val newGoal = Goal.fromMap(dataSnapshot.value as HashMap<String, Any>)
                 if (newGoal.key == goalKey){
                     goal = newGoal
