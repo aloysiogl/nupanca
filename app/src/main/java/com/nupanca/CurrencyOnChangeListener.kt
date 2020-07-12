@@ -87,7 +87,10 @@ class CurrencyOnChangeListener(
         val curL = input.text.length
 
         val sel: Int = when {
-            curL > prevL -> start + 2
+            curL > prevL -> {
+                if (prevText.length >= 2 && prevText[prevText.length - 2] == ',') start + 1
+                else start + 2
+            }
             curL < prevL -> {
                 if (!isInt && prevText.length >= 4 && prevText[prevText.length - 4] == ',') start
                 else if (prevText == "0" || (before == 0 && prevText[0] == '0')) 1
