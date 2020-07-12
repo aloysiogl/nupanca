@@ -196,7 +196,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/housing_value"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:digits="0123456789,"
                         android:fontFamily="@font/keep_calm_w01_book"
@@ -370,7 +370,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/transport_value"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:digits="0123456789,"
                         android:fontFamily="@font/keep_calm_w01_book"
@@ -544,7 +544,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/food_value"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:digits="0123456789,"
                         android:fontFamily="@font/keep_calm_w01_book"
@@ -718,7 +718,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/shopping_value"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:digits="0123456789,"
                         android:fontFamily="@font/keep_calm_w01_book"
@@ -892,7 +892,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/others_value"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:digits="0123456789,"
                         android:fontFamily="@font/keep_calm_w01_book"
@@ -1079,7 +1079,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/savings_value"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:digits="0123456789,"
                         android:fontFamily="@font/keep_calm_w01_book"
