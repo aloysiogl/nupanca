@@ -1,17 +1,13 @@
 package com.nupanca
 
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
@@ -23,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_planning.*
 import kotlinx.android.synthetic.main.fragment_planning_category.view.*
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import kotlin.math.abs
 
 
 /**
@@ -89,52 +84,47 @@ class PlanningFragment : BaseFragment() {
             textView.movementMethod = LinkMovementMethod.getInstance()
         }
 
-        class MyFocusChangeListener : OnFocusChangeListener {
-            override fun onFocusChange(v: View, hasFocus: Boolean) {
-                if (!hasFocus) {
-                    val imm =
-                        context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.windowToken, 0)
-                }
-            }
-        }
+//        class MyFocusChangeListener : OnFocusChangeListener {
+//            override fun onFocusChange(v: View, hasFocus: Boolean) {
+//                if (!hasFocus) {
+//                    val imm =
+//                        context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//                    imm.hideSoftInputFromWindow(v.windowToken, 0)
+//                }
+//            }
+//        }
+//
+//        val focusChangeListener: OnFocusChangeListener = MyFocusChangeListener()
 
-        val focusChangeListener: OnFocusChangeListener = MyFocusChangeListener()
-
-        fun configureEditText(input: EditText, updateFunc: (Long) -> Unit) {
-            fun updateDb(v: Double) {
-                updateFunc(v.toLong())
-                accountInfoRef?.setValue(accountInfo)
-            }
-            input.addTextChangedListener(
-                CurrencyOnChangeListener(input, ::updateDb, isInt = true)
-            )
-            input.onFocusChangeListener = focusChangeListener
-        }
+//        fun configureEditText(input: EditText, updateFunc: (Long) -> Unit) {
+//            fun updateDb(v: Double) {
+//                updateFunc(v.toLong())
+//                accountInfoRef?.setValue(accountInfo)
+//            }
+//            input.addTextChangedListener(
+//                CurrencyOnChangeListener(input, ::updateDb, isInt = true)
+//            )
+//            input.onFocusChangeListener = focusChangeListener
+//        }
+//        configureEditText(savings_category.value) { accountInfo.savingsPlan = it }
 
         savings_category.title.text = context?.getString(R.string.savings_title)
         savings_category.icon.setImageResource(R.drawable.ic_pig)
-        configureEditText(savings_category.value) { accountInfo.savingsPlan = it }
 
         housing_category.title.text = context?.getString(R.string.housing_title)
         housing_category.icon.setImageResource(R.drawable.ic_house)
-        configureEditText(housing_category.value) { accountInfo.housingPlan = it }
 
         transport_category.title.text = context?.getString(R.string.transport_title)
         transport_category.icon.setImageResource(R.drawable.ic_car)
-        configureEditText(transport_category.value) { accountInfo.transportPlan = it }
 
         food_category.title.text = context?.getString(R.string.food_title)
         food_category.icon.setImageResource(R.drawable.ic_fork)
-        configureEditText(food_category.value) { accountInfo.foodPlan = it }
 
         shopping_category.title.text = context?.getString(R.string.shopping_title)
         shopping_category.icon.setImageResource(R.drawable.ic_fashion)
-        configureEditText(shopping_category.value) { accountInfo.shoppingPlan = it }
 
         others_category.title.text = context?.getString(R.string.others_title)
         others_category.icon.setImageResource(R.drawable.ic_puzzle)
-        configureEditText(others_category.value) { accountInfo.othersPlan = it }
     }
 
     fun handleFirebase() {
@@ -147,34 +137,24 @@ class PlanningFragment : BaseFragment() {
                     shopping_category == null || others_category == null)
                     return
 
-                if (abs(df.parse(savings_category.value.text.toString())!!.toLong() -
-                            accountInfo.savingsPlan) > 1e-3)
-                    savings_category?.value?.setText(df.format(accountInfo.savingsPlan))
+//                if (abs(df.parse(savings_category.plan.text.toString())!!.toLong() -
+//                            accountInfo.savingsPlan) > 1e-3)
+                savings_category?.plan?.text = df.format(accountInfo.savingsPlan)
                 savings_category?.spendings?.text = df.format(accountInfo.savings30Days)
 
-                if (abs(df.parse(housing_category.value.text.toString())!!.toLong() -
-                            accountInfo.housingPlan) > 1e-3)
-                    housing_category?.value?.setText(df.format(accountInfo.housingPlan))
+                housing_category?.plan?.text = df.format(accountInfo.housingPlan)
                 housing_category?.spendings?.text = df.format(accountInfo.housing30Days)
 
-                if (abs(df.parse(transport_category.value.text.toString())!!.toLong() -
-                            accountInfo.transportPlan) > 1e-3)
-                    transport_category?.value?.setText(df.format(accountInfo.transportPlan))
+                transport_category?.plan?.text = df.format(accountInfo.transportPlan)
                 transport_category?.spendings?.text = df.format(accountInfo.transport30Days)
 
-                if (abs(df.parse(food_category.value.text.toString())!!.toLong() -
-                            accountInfo.foodPlan) > 1e-3)
-                    food_category?.value?.setText(df.format(accountInfo.foodPlan))
+                food_category?.plan?.text = df.format(accountInfo.foodPlan)
                 food_category?.spendings?.text = df.format(accountInfo.food30Days)
 
-                if (abs(df.parse(shopping_category.value.text.toString())!!.toLong() -
-                            accountInfo.shoppingPlan) > 1e-3)
-                    shopping_category?.value?.setText(df.format(accountInfo.shoppingPlan))
+                shopping_category?.plan?.text = df.format(accountInfo.shoppingPlan)
                 shopping_category?.spendings?.text = df.format(accountInfo.shopping30Days)
 
-                if (abs(df.parse(others_category.value.text.toString())!!.toLong() -
-                            accountInfo.othersPlan) > 1e-3)
-                    others_category?.value?.setText(df.format(accountInfo.othersPlan))
+                others_category?.plan?.text = df.format(accountInfo.othersPlan)
                 others_category?.spendings?.text = df.format(accountInfo.others30Days)
             }
 

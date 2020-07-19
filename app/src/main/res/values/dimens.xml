@@ -57,21 +57,24 @@
     <dimen name="goal_edit_fragment_dropdown_vertical_margin_down">0dp</dimen>
     <dimen name="goal_edit_fragment_dropdown_horizontal_margin">5dp</dimen>
 
-    <!--Control fragment-->
-    <dimen name="control_title_height">75dp</dimen>
+    <!--Planning fragment-->
+    <dimen name="planning_title_height">75dp</dimen>
     <dimen name="plans_title_font_size">30sp</dimen>
     <dimen name="plans_label_font_size">10sp</dimen>
     <dimen name="plans_value_font_size">22sp</dimen>
     <dimen name="savings_value_font_size_bold">28sp</dimen>
     <dimen name="labels_width">110dp</dimen>
     <dimen name="horizontal_margin">18dp</dimen>
-    <dimen name="categories_height">140dp</dimen>
+    <dimen name="categories_height">150dp</dimen>
     <dimen name="brl_val_margin">4dp</dimen>
     <dimen name="dividing_line_margin">20dp</dimen>
     <dimen name="savings_top_margin">20dp</dimen>
+    <dimen name="cards_margin_horizonal">16dp</dimen>
+    <dimen name="cards_margin_vertical">8dp</dimen>
+    <dimen name="cards_radius">5dp</dimen>
 
-    <!--Control start fragment-->
-    <dimen name="control_start_font_size">23sp</dimen>
+    <!--Planning start fragment-->
+    <dimen name="planning_start_font_size">23sp</dimen>
 
 </resources>
 

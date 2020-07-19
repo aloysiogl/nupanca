@@ -4,147 +4,170 @@
     android:id="@+id/layout_fragment_planning_category"
     android:layout_width="match_parent"
     android:layout_height="@dimen/categories_height"
-    android:background="@color/colorPrimary">
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/keep_calm_w01_book"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/plans_title_font_size"
-        app:layout_constraintBottom_toTopOf="@+id/data"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:background="@color/colorPrimaryDark">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/data"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/cards_margin_horizonal"
+        android:layout_marginVertical="@dimen/cards_margin_vertical"
+        android:background="@drawable/card_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground">
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_house"
-            android:tint="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guideline3"
-            app:layout_constraintStart_toStartOf="@id/guideline2"
+            android:fontFamily="@font/keep_calm_w01_book"
+            android:text="@string/category"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/plans_title_font_size"
+            app:layout_constraintBottom_toTopOf="@+id/data"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/spendings_label"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/data"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/keep_calm_w01_book"
-            android:text="@string/spendings_label"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/plans_label_font_size"
-            app:layout_constraintBottom_toBottomOf="@id/plan_label"
-            app:layout_constraintStart_toStartOf="@id/guideline1"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/brl_label1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/keep_calm_w01_book"
-            android:text="@string/brl"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/plans_value_font_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/spendings_label"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/title">
 
-        <TextView
-            android:id="@+id/spendings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/brl_val_margin"
-            android:fontFamily="@font/keep_calm_w01_book"
-            android:text="@string/spendings"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/plans_value_font_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/brl_label1"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/plan_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/keep_calm_w01_book"
-            android:text="@string/plan_label"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/plans_label_font_size"
-            app:layout_constraintStart_toStartOf="@+id/brl_label2"
-            app:layout_constraintTop_toTopOf="@+id/plan"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/brl_label2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/keep_calm_w01_book"
-            android:text="@string/brl"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/plans_value_font_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guideline4"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/plan"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/brl_label2"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/value"
+            <ImageView
+                android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:digits="0123456789,"
+                android:src="@drawable/ic_house"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guideline3"
+                app:layout_constraintStart_toStartOf="@id/guideline2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/plan_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/keep_calm_w01_book"
-                android:inputType="number"
-                android:text="@string/plan"
+                android:text="@string/plan_label"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/plans_label_font_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/brl_label2"
+                app:layout_constraintStart_toStartOf="@id/guideline1"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/brl_label2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/brl"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/plans_value_font_size"
-                android:theme="@style/AppTheme.PurpleScreen" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintStart_toStartOf="@id/guideline1"
+                app:layout_constraintTop_toBottomOf="@+id/plan_label"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/brl_val_margin"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/spendings"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/plans_value_font_size"
+                app:layout_constraintBottom_toBottomOf="@+id/brl_label2"
+                app:layout_constraintStart_toEndOf="@+id/brl_label2"
+                app:layout_constraintTop_toTopOf="@+id/brl_label2" />
+
+            <TextView
+                android:id="@+id/spendings_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/spendings_label"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/plans_label_font_size"
+                app:layout_constraintBottom_toTopOf="@id/brl_label1"
+                app:layout_constraintStart_toStartOf="@id/guideline4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/brl_label1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/brl"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/plans_value_font_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/spendings_label" />
+
+            <TextView
+                android:id="@+id/spendings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/brl_val_margin"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/spendings"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/plans_value_font_size"
+                app:layout_constraintBottom_toBottomOf="@+id/brl_label1"
+                app:layout_constraintStart_toEndOf="@+id/brl_label1"
+                app:layout_constraintTop_toTopOf="@+id/brl_label1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.46" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.54" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.64" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_arrowright" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline1"
+            android:id="@+id/guideline5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.1" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.46" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.54" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.64" />
+            app:layout_constraintGuide_percent="0.95" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
