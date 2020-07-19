@@ -95,9 +95,9 @@
     </fragment>
     <fragment
         android:id="@+id/ControlFragment"
-        android:name="com.nupanca.ControlFragment"
+        android:name="com.nupanca.PlanningFragment"
         android:label="fragment_control"
-        tools:layout="@layout/fragment_control" >
+        tools:layout="@layout/fragment_planning" >
         <action
             android:id="@+id/action_ControlFragment_to_MainFragment"
             app:destination="@id/MainFragment"
@@ -142,7 +142,7 @@
     </fragment>
     <fragment
         android:id="@+id/ControlStartFragment"
-        android:name="com.nupanca.ControlStartFragment"
+        android:name="com.nupanca.PlanningStartFragment"
         android:label="ControlStartFragment" >
         <action
             android:id="@+id/action_ControlStartFragment_to_ControlFragment"

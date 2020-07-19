@@ -98,6 +98,7 @@ class CurrencyOnChangeListener(
             }
             else -> if (before > 0) start else start + 1
         }
+        Log.d("TAG", sel.toString())
         input.setSelection(clamp(sel, 0, curL))
     }
 }
