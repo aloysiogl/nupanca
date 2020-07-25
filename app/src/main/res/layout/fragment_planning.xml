@@ -72,6 +72,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
+        android:id="@+id/layout_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/colorPrimary"

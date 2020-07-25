@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
@@ -54,10 +53,13 @@ class PlanningFragment : BaseFragment() {
         getView()?.let { ViewCompat.setTranslationZ(it, 4f) }
         handleFirebase()
 
+        layout_scroll.post { layout_scroll.scrollTo(0, (activity as MainActivity).planningScroll) }
+
         button_return.setOnClickListener {
             button_return.startAnimation(
                 AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
             )
+            (activity as MainActivity).planningScroll = 0
             findNavController().navigate(R.id.action_PlanningFragment_to_MainFragment)
         }
 
@@ -88,6 +90,9 @@ class PlanningFragment : BaseFragment() {
         fun listener(category: String) {
             val bundle = Bundle()
             bundle.putString("category", category)
+
+            (activity as MainActivity).planningScroll = layout_scroll.scrollY
+
             findNavController().navigate(
                 R.id.action_PlanningFragment_to_PlanningEditFragment,
                 bundle
@@ -130,8 +135,6 @@ class PlanningFragment : BaseFragment() {
                 )
                     return
 
-//                if (abs(df.parse(savings_category.plan.text.toString())!!.toLong() -
-//                            accountInfo.savingsPlan) > 1e-3)
                 savings_category?.plan?.text = df.format(accountInfo.savingsPlan)
                 savings_category?.spendings?.text = df.format(accountInfo.savings30Days)
 
