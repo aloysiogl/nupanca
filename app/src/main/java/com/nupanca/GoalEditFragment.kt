@@ -34,11 +34,20 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
 
-
 class GoalEditFragment : BaseFragment() {
 
     enum class FOCUS {
         DATE, PRIORITY, GOAL_MONEY, TITLE, NONE
+    }
+
+    enum class MODE (val value : Int) {
+        FROM_FIRST_GOAL(-2),
+        FROM_NEW_GOAL(-1),
+        FROM_EDIT_GOAL(0);
+
+        companion object {
+            fun from(findValue: Int): MODE = values().first { it.value == findValue }
+        }
     }
 
     private var displaySizeWithoutStatusBar: Int? = 0
@@ -48,7 +57,7 @@ class GoalEditFragment : BaseFragment() {
     private var isActionSelected: Boolean = false
     private var currentSelection: String = "Muito Baixa"
     private var disappearText: Boolean = false
-    private var fragmentMode = 0
+    private var fragmentMode = MODE.FROM_EDIT_GOAL
     private var validValues = true
     private var selectionValue = 0.0
     private var selectionCalendar: Calendar = Calendar.getInstance()
@@ -77,7 +86,7 @@ class GoalEditFragment : BaseFragment() {
         // Reading arguments
         arguments?.let {
             val safeArgs = GoalEditFragmentArgs.fromBundle(it)
-            fragmentMode = safeArgs.mode
+            fragmentMode = MODE.from(safeArgs.mode)
             goalKey = safeArgs.goalKey
         }
 
@@ -94,7 +103,7 @@ class GoalEditFragment : BaseFragment() {
 
         // Setting texts
         when(fragmentMode){
-            -2 -> {
+            MODE.FROM_FIRST_GOAL -> {
                 setupStrings("NOME DA SUA META",
                     "0,00", SimpleDateFormat("dd/MM/yyyy",
                         Locale.US).format(selectionCalendar.time))
@@ -109,7 +118,7 @@ class GoalEditFragment : BaseFragment() {
                     findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
                 }
             }
-            -1 -> {
+            MODE.FROM_NEW_GOAL -> {
                 setupStrings("NOME DA SUA META",
                     "0,00", SimpleDateFormat("dd/MM/yyyy",
                         Locale.US).format(selectionCalendar.time))
@@ -125,7 +134,7 @@ class GoalEditFragment : BaseFragment() {
                 }
             }
 
-            0 -> {
+            MODE.FROM_EDIT_GOAL -> {
                 title_goal_edit.setText("LOADING...")
 
                 val childEventListener = object : ChildEventListener {
@@ -310,7 +319,7 @@ class GoalEditFragment : BaseFragment() {
             // TODO predict end dates
             else if (validValues) {
                 when(fragmentMode){
-                    -2, -1 -> {
+                    MODE.FROM_NEW_GOAL, MODE.FROM_FIRST_GOAL -> {
                         val goal = Goal(
                             title = title_goal_edit.text.toString(),
                             totalAmount = selectionValue,
@@ -329,7 +338,7 @@ class GoalEditFragment : BaseFragment() {
                             R.id.action_GoalEditFragment_to_GoalsListFragment
                         )
                     }
-                    0 -> {
+                    MODE.FROM_EDIT_GOAL -> {
                         goal?.title = title_goal_edit.text.toString()
                         goal?.totalAmount = selectionValue
                         goal?.endDate = selectionCalendar.timeInMillis
@@ -508,8 +517,9 @@ class GoalEditFragment : BaseFragment() {
             if (validValues){
                 how_to_improve_button_text.setTextColor(resources.getColor(R.color.colorPrimary))
                 when(fragmentMode){
-                    -2, -1 -> how_to_improve_button_text.setText(R.string.add_goal_edit)
-                    0 -> how_to_improve_button_text.setText(R.string.modify_goal)
+                    MODE.FROM_FIRST_GOAL, MODE.FROM_NEW_GOAL ->
+                        how_to_improve_button_text.setText(R.string.add_goal_edit)
+                    MODE.FROM_EDIT_GOAL -> how_to_improve_button_text.setText(R.string.modify_goal)
                 }
             }
 
@@ -546,9 +556,9 @@ class GoalEditFragment : BaseFragment() {
         }
 
         when(fragmentMode) {
-            -2 -> findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
-            -1 -> findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
-            0 -> {
+            MODE.FROM_FIRST_GOAL -> findNavController().navigate(R.id.action_GoalEditFragment_to_MainFragment)
+            MODE.FROM_NEW_GOAL -> findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
+            MODE.FROM_EDIT_GOAL -> {
                 val bundle = Bundle()
                 bundle.putString("goal_key", goalKey)
                 findNavController().navigate(R.id.action_GoalEditFragment_to_GoalFragment,
