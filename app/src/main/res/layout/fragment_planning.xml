@@ -50,7 +50,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/keep_calm_medium"
                 android:gravity="center"
-                android:text="@string/control_title"
+                android:text="@string/planning_title"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/transfers_title_font_size" />

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/planning_edit.layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/planning_edit.layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimary"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintBottom_toBottomOf="@+id/planning_edit.guideline1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/planning_edit.button_return"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/main_toolbar_height"
+            android:layout_marginStart="@dimen/main_toolbar_horizontal_margin"
+            android:layout_marginTop="@dimen/main_toolbar_top_margin"
+            android:adjustViewBounds="true"
+            android:background="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_close"
+            android:tint="@android:color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/planning_edit.title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/keep_calm_medium"
+            android:text="@string/planning_edit.title"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/planning_edit.title_font_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/planning_edit.icon_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/circle_icon_background"
+        android:tint="@color/colorPrimarySaturated"
+        app:layout_constraintBottom_toBottomOf="@+id/planning_edit.layout_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/planning_edit.layout_top" />
+
+    <ImageView
+        android:id="@+id/planning_edit.icon"
+        android:layout_width="@dimen/planning_edit.icon_size"
+        android:layout_height="@dimen/planning_edit.icon_size"
+        android:src="@drawable/ic_house"
+        android:tint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/planning_edit.layout_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/planning_edit.layout_top" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/planning_edit.layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingHorizontal="@dimen/planning_edit.horizontal_margin"
+        app:layout_constraintBottom_toBottomOf="@+id/planning_edit.guideline3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/planning_edit.guideline2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/planning_edit.layout_plan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/planning_edit.layout_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/planning_edit.plan_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/planning_edit.plan_label"
+                android:textAllCaps="true"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/planning_edit.plan_label_font_size"
+                app:layout_constraintBottom_toTopOf="@+id/planning_edit.currency"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/planning_edit.currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/keep_calm_medium"
+                android:text="@string/money_sign"
+                android:textAllCaps="true"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/planning_edit.plan_font_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/planning_edit.plan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:layout_constraintBottom_toBottomOf="@+id/planning_edit.currency"
+                app:layout_constraintStart_toEndOf="@+id/planning_edit.currency"
+                app:layout_constraintTop_toTopOf="@+id/planning_edit.currency">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/planning_edit.value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:fontFamily="@font/keep_calm_medium"
+                    android:inputType="number"
+                    android:text="@string/planning_edit.plan"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/planning_edit.plan_font_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/planning_edit.layout_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/planning_edit.layout_plan">
+
+            <TextView
+                android:id="@+id/planning_edit.suggestion_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/planning_edit.info_vertical_margin"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/planning_edit.suggestion_label"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/planning_edit.info_font_size"
+                app:layout_constraintBottom_toTopOf="@+id/planning_edit.this_month_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/planning_edit.suggestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/planning_edit.currency_spacing"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/planning_edit.suggestion"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/planning_edit.info_font_size"
+                app:layout_constraintBottom_toBottomOf="@+id/planning_edit.suggestion_label"
+                app:layout_constraintStart_toEndOf="@+id/planning_edit.suggestion_label"
+                app:layout_constraintTop_toTopOf="@+id/planning_edit.suggestion_label" />
+
+            <ImageButton
+                android:id="@+id/planning_edit.button_info"
+                android:layout_width="@dimen/planning_edit.icon_info_size"
+                android:layout_height="@dimen/planning_edit.icon_info_size"
+                android:layout_marginTop="3dp"
+                android:adjustViewBounds="true"
+                android:background="@android:color/white"
+                android:backgroundTint="@android:color/white"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_information"
+                android:tint="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/planning_edit.suggestion_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/planning_edit.suggestion_label" />
+
+            <TextView
+                android:id="@+id/planning_edit.this_month_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/planning_edit.info_vertical_margin"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/planning_edit.spending_label"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/planning_edit.info_font_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/planning_edit.suggestion_label" />
+
+            <TextView
+                android:id="@+id/planning_edit.this_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/planning_edit.currency_spacing"
+                android:fontFamily="@font/keep_calm_w01_book"
+                android:text="@string/planning_edit.spending"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/planning_edit.info_font_size"
+                app:layout_constraintBottom_toBottomOf="@+id/planning_edit.this_month_label"
+                app:layout_constraintStart_toEndOf="@+id/planning_edit.this_month_label"
+                app:layout_constraintTop_toTopOf="@+id/planning_edit.this_month_label" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/planning_edit.guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/planning_edit.guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/planning_edit.guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
