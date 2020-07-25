@@ -125,7 +125,7 @@ class PlanningEditFragment : BaseFragment() {
             }
             "shopping" -> {
                 planning_edit_title.text = context?.getString(R.string.shopping_title)
-                planning_edit_icon.setImageResource(R.drawable.ic_fashion)
+                planning_edit_icon.setImageResource(R.drawable.ic_shopping)
             }
             "others" -> {
                 planning_edit_title.text = context?.getString(R.string.others_title)

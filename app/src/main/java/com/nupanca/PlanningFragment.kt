@@ -116,7 +116,7 @@ class PlanningFragment : BaseFragment() {
         food_category.layout_card.setOnClickListener { listener("food") }
 
         shopping_category.title.text = context?.getString(R.string.shopping_title)
-        shopping_category.icon.setImageResource(R.drawable.ic_fashion)
+        shopping_category.icon.setImageResource(R.drawable.ic_shopping)
         shopping_category.layout_card.setOnClickListener { listener("shopping") }
 
         others_category.title.text = context?.getString(R.string.others_title)
