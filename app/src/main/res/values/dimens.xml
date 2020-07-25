@@ -77,17 +77,19 @@
     <dimen name="planning_start_font_size">23sp</dimen>
 
     <!--Planning edit fragment-->
-    <dimen name="planning_edit.toolbar_height">150dp</dimen>
+    <dimen name="planning_edit.toolbar_height">140dp</dimen>
+    <dimen name="planning_edit.content_top_margin">60dp</dimen>
     <dimen name="planning_edit.title_font_size">26sp</dimen>
     <dimen name="planning_edit.circle_diameter">40dp</dimen>
     <dimen name="planning_edit.icon_size">20dp</dimen>
     <dimen name="planning_edit.horizontal_margin">30dp</dimen>
-    <dimen name="planning_edit.plan_label_font_size">18sp</dimen>
+    <dimen name="planning_edit.plan_label_font_size">16sp</dimen>
     <dimen name="planning_edit.plan_font_size">30sp</dimen>
-    <dimen name="planning_edit.info_font_size">22sp</dimen>
+    <dimen name="planning_edit.info_font_size">18sp</dimen>
     <dimen name="planning_edit.info_vertical_margin">5dp</dimen>
     <dimen name="planning_edit.icon_info_size">20dp</dimen>
     <dimen name="planning_edit.currency_spacing">5dp</dimen>
+    <dimen name="planning_edit.icon_info_spacing">10dp</dimen>
 
 </resources>
 

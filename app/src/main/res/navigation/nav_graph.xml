@@ -23,13 +23,13 @@
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay" />
         <action
-            android:id="@+id/action_MainFragment_to_ControlFragment"
-            app:destination="@id/ControlFragment"
+            android:id="@+id/action_MainFragment_to_PlanningFragment"
+            app:destination="@id/PlanningFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay" />
         <action
-            android:id="@+id/action_MainFragment_to_ControlStartFragment"
-            app:destination="@id/ControlStartFragment"
+            android:id="@+id/action_MainFragment_to_PlanningStartFragment"
+            app:destination="@id/PlanningStartFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/stay" />
         <action
@@ -94,15 +94,20 @@
             app:exitAnim="@anim/stay" />
     </fragment>
     <fragment
-        android:id="@+id/ControlFragment"
+        android:id="@+id/PlanningFragment"
         android:name="com.nupanca.PlanningFragment"
-        android:label="fragment_control"
-        tools:layout="@layout/fragment_planning" >
+        android:label="fragment_planning"
+        tools:layout="@layout/fragment_planning">
         <action
-            android:id="@+id/action_ControlFragment_to_MainFragment"
+            android:id="@+id/action_PlanningFragment_to_MainFragment"
             app:destination="@id/MainFragment"
             app:enterAnim="@anim/stay"
             app:exitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_PlanningFragment_to_PlanningEditFragment"
+            app:destination="@id/PlanningEditFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/stay"/>
     </fragment>
     <fragment
         android:id="@+id/GoalFragment"
@@ -128,29 +133,29 @@
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay" />
         <action
-            android:id="@+id/action_GoalFragment_to_ControlFragment"
-            app:destination="@id/ControlFragment"
+            android:id="@+id/action_GoalFragment_to_PlanningFragment"
+            app:destination="@id/PlanningFragment"
             app:popUpTo="@id/GoalFragment"
             app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay"/>
         <action
-            android:id="@+id/action_GoalFragment_to_ControlStartFragment"
-            app:destination="@id/ControlStartFragment"
+            android:id="@+id/action_GoalFragment_to_PlanningStartFragment"
+            app:destination="@id/PlanningStartFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay"/>
     </fragment>
     <fragment
-        android:id="@+id/ControlStartFragment"
+        android:id="@+id/PlanningStartFragment"
         android:name="com.nupanca.PlanningStartFragment"
-        android:label="ControlStartFragment" >
+        android:label="plnning_start_fragment">
         <action
-            android:id="@+id/action_ControlStartFragment_to_ControlFragment"
-            app:destination="@id/ControlFragment"
+            android:id="@+id/action_PlanningStartFragment_to_PlanningFragment"
+            app:destination="@id/PlanningFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/stay" />
         <action
-            android:id="@+id/action_ControlStartFragment_to_MainFragment"
+            android:id="@+id/action_PlanningStartFragment_to_MainFragment"
             app:destination="@id/MainFragment"
             app:enterAnim="@anim/stay"
             app:exitAnim="@anim/slide_out_right" />
@@ -198,5 +203,18 @@
             app:destination="@id/GoalFragment"
             app:enterAnim="@anim/stay"
             app:exitAnim="@anim/slide_out_down"/>
+    </fragment>
+    <fragment
+        android:id="@+id/PlanningEditFragment"
+        android:name="com.nupanca.PlanningEditFragment"
+        android:label="PlanningEditFragment" >
+        <action
+            android:id="@+id/action_PlanningEditFragment_to_PlanningFragment"
+            app:destination="@id/PlanningFragment"
+            app:enterAnim="@anim/stay"
+            app:exitAnim="@anim/slide_out_right"/>
+        <argument
+            android:name="category"
+            app:argType="string"/>
     </fragment>
 </navigation>

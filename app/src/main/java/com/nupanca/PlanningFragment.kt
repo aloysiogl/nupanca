@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
@@ -57,7 +58,7 @@ class PlanningFragment : BaseFragment() {
             button_return.startAnimation(
                 AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
             )
-            findNavController().navigate(R.id.action_ControlFragment_to_MainFragment)
+            findNavController().navigate(R.id.action_PlanningFragment_to_MainFragment)
         }
 
         button_info.setOnClickListener {
@@ -84,47 +85,38 @@ class PlanningFragment : BaseFragment() {
             textView.movementMethod = LinkMovementMethod.getInstance()
         }
 
-//        class MyFocusChangeListener : OnFocusChangeListener {
-//            override fun onFocusChange(v: View, hasFocus: Boolean) {
-//                if (!hasFocus) {
-//                    val imm =
-//                        context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//                    imm.hideSoftInputFromWindow(v.windowToken, 0)
-//                }
-//            }
-//        }
-//
-//        val focusChangeListener: OnFocusChangeListener = MyFocusChangeListener()
-
-//        fun configureEditText(input: EditText, updateFunc: (Long) -> Unit) {
-//            fun updateDb(v: Double) {
-//                updateFunc(v.toLong())
-//                accountInfoRef?.setValue(accountInfo)
-//            }
-//            input.addTextChangedListener(
-//                CurrencyOnChangeListener(input, ::updateDb, isInt = true)
-//            )
-//            input.onFocusChangeListener = focusChangeListener
-//        }
-//        configureEditText(savings_category.value) { accountInfo.savingsPlan = it }
+        fun listener(category: String) {
+            val bundle = Bundle()
+            bundle.putString("category", category)
+            findNavController().navigate(
+                R.id.action_PlanningFragment_to_PlanningEditFragment,
+                bundle
+            )
+        }
 
         savings_category.title.text = context?.getString(R.string.savings_title)
         savings_category.icon.setImageResource(R.drawable.ic_pig)
+        savings_category.layout_card.setOnClickListener { listener("savings") }
 
         housing_category.title.text = context?.getString(R.string.housing_title)
         housing_category.icon.setImageResource(R.drawable.ic_house)
+        housing_category.layout_card.setOnClickListener { listener("housing") }
 
         transport_category.title.text = context?.getString(R.string.transport_title)
         transport_category.icon.setImageResource(R.drawable.ic_car)
+        transport_category.layout_card.setOnClickListener { listener("transport") }
 
         food_category.title.text = context?.getString(R.string.food_title)
         food_category.icon.setImageResource(R.drawable.ic_fork)
+        food_category.layout_card.setOnClickListener { listener("food") }
 
         shopping_category.title.text = context?.getString(R.string.shopping_title)
         shopping_category.icon.setImageResource(R.drawable.ic_fashion)
+        shopping_category.layout_card.setOnClickListener { listener("shopping") }
 
         others_category.title.text = context?.getString(R.string.others_title)
         others_category.icon.setImageResource(R.drawable.ic_puzzle)
+        others_category.layout_card.setOnClickListener { listener("others") }
     }
 
     fun handleFirebase() {
@@ -134,7 +126,8 @@ class PlanningFragment : BaseFragment() {
 
                 if (context == null || savings_category == null || housing_category == null ||
                     transport_category == null || food_category == null ||
-                    shopping_category == null || others_category == null)
+                    shopping_category == null || others_category == null
+                )
                     return
 
 //                if (abs(df.parse(savings_category.plan.text.toString())!!.toLong() -

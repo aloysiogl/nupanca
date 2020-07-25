@@ -94,7 +94,7 @@
     <string name="transfers_info">É muito fácil transferir dinheiro da Nuconta para a Nupança!\n\nBasta clicar em \"Guardar dinheiro\" para pôr dinheiro na Nupança, ou \"Resgatar dinheiro\" para recuperar na Nuconta.</string>
     <string name="planning_info">Adicione metas para os seus gastos em cada categoria e, então, tente seguir seus planos!\n\nClicando em \"Exibir Sugestões\", você pode usar nossas sugestões personalizadas para te ajudar no seu planejamento. Estas sugestões são baseadas no seu perfil de gastos, comparado com pessoas de sua região.\n\nVeja mais dicas de como economizar no <a href="https://blog.nubank.com.br/tag/educacao-financeira/">blog da Nubank.</a></string>
     <string name="goalsList_info">Crie metas para atingir os seus sonhos de consumo! Em seguida, acompanhe-as e garanta que elas serão cumpridas à tempo.\n\nVeja mais dicas de como gerenciar metas no <a href="https://blog.nubank.com.br/tag/educacao-financeira/">blog da Nubank.</a></string>
-    <string name="suggestion_info">Este valor foi calculado para você com base nos seus gastos nos últimos meses e com base nas pessoas próximas de você e que possuem um perfil semelhante ao seu. Você pode utilizar ele como base para o seu plano desejado!</string>
+    <string name="suggestion_info"><u>Sugestão:</u> Este valor foi calculado para você com base nos seus gastos nos últimos meses e nas pessoas próximas de você que possuem um perfil semelhante ao seu. Você pode utilizar ele como base para o seu plano desejado!</string>
 
     <!--Default account values-->
     <string name="default_account_balance">3000.00</string>

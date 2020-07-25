@@ -7,6 +7,7 @@
     android:background="@color/colorPrimaryDark">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/cards_margin_horizonal"

@@ -2,7 +2,6 @@ package com.nupanca
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -94,8 +93,8 @@ class GoalFragment : BaseFragment() {
                         if (MainFragment.accountInfo.foodPlan < 1e-3 && MainFragment.accountInfo.housingPlan < 1e-3 &&
                             MainFragment.accountInfo.transportPlan < 1e-3 && MainFragment.accountInfo.shoppingPlan < 1e-3 &&
                             MainFragment.accountInfo.othersPlan < 1e-3 && MainFragment.accountInfo.savingsPlan < 1e-3)
-                            findNavController().navigate(R.id.action_GoalFragment_to_ControlStartFragment)
-                        else findNavController().navigate(R.id.action_GoalFragment_to_ControlFragment)
+                            findNavController().navigate(R.id.action_GoalFragment_to_PlanningStartFragment)
+                        else findNavController().navigate(R.id.action_GoalFragment_to_PlanningFragment)
                     }
 
                     when {

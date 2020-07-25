@@ -4,17 +4,17 @@
     android:id="@+id/planning_edit.layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:background="@android:color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/planning_edit.layout_top"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/planning_edit.toolbar_height"
         android:background="@color/colorPrimary"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        app:layout_constraintBottom_toBottomOf="@+id/planning_edit.guideline1"
+        app:layout_constraintBottom_toTopOf="@+id/planning_edit.layout_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -77,15 +77,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingHorizontal="@dimen/planning_edit.horizontal_margin"
-        app:layout_constraintBottom_toBottomOf="@+id/planning_edit.guideline3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/planning_edit.guideline2">
+        app:layout_constraintTop_toBottomOf="@+id/planning_edit.layout_top">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/planning_edit.layout_plan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/planning_edit.content_top_margin"
             app:layout_constraintBottom_toTopOf="@+id/planning_edit.layout_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -142,7 +143,6 @@
             android:id="@+id/planning_edit.layout_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/planning_edit.layout_plan">
@@ -177,7 +177,7 @@
                 android:id="@+id/planning_edit.button_info"
                 android:layout_width="@dimen/planning_edit.icon_info_size"
                 android:layout_height="@dimen/planning_edit.icon_info_size"
-                android:layout_marginTop="3dp"
+                android:layout_marginStart="@dimen/planning_edit.icon_info_spacing"
                 android:adjustViewBounds="true"
                 android:background="@android:color/white"
                 android:backgroundTint="@android:color/white"
@@ -185,7 +185,7 @@
                 android:src="@drawable/ic_information"
                 android:tint="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/planning_edit.suggestion_label"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/planning_edit.suggestion"
                 app:layout_constraintTop_toTopOf="@+id/planning_edit.suggestion_label" />
 
             <TextView
@@ -217,26 +217,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/planning_edit.guideline1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/planning_edit.guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/planning_edit.guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
