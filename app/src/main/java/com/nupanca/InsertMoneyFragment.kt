@@ -15,7 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.*
 import com.nupanca.db.AccountInfo
-import kotlinx.android.synthetic.main.fragment_control.*
+import kotlinx.android.synthetic.main.fragment_planning.*
 import kotlinx.android.synthetic.main.fragment_insert_money.*
 import kotlinx.android.synthetic.main.fragment_insert_money.button_return
 import java.text.DecimalFormat

@@ -33,7 +33,7 @@
             android:fontFamily="@font/keep_calm_w01_book"
             android:text="@string/start_goal"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/control_start_font_size"
+            android:textSize="@dimen/planning_start_font_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -260,7 +260,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/options_margin"
                 android:fontFamily="@font/keep_calm_w01_book"
-                android:text="@string/control_label"
+                android:text="@string/planning_label"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/options_font_size" />
         </LinearLayout>

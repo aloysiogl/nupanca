@@ -10,6 +10,8 @@ import java.lang.RuntimeException
 
 class MainActivity : AppCompatActivity() {
     var androidId: String? = null
+    var planningScroll: Int =
+        0 // FIXME: I couldn't figure out how to do this without using the activity
 
     @SuppressLint("HardwareIds")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,12 +23,14 @@ class MainActivity : AppCompatActivity() {
         val db = FirebaseDatabase.getInstance()
         try {
             db.setPersistenceEnabled(true)
-        } catch (e: RuntimeException) {}
+        } catch (e: RuntimeException) {
+        }
     }
 
     override fun onBackPressed() {
         val fragmentList = supportFragmentManager.findFragmentById(
-            R.id.nav_host_fragment)?.childFragmentManager?.fragments
+            R.id.nav_host_fragment
+        )?.childFragmentManager?.fragments
 
         if (fragmentList != null) {
             for (f in fragmentList)

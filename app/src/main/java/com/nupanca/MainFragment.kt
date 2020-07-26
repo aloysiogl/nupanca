@@ -1,7 +1,6 @@
 package com.nupanca
 
 import android.app.AlertDialog
-import android.graphics.Typeface
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -20,7 +19,6 @@ import com.nupanca.db.Goal
 import kotlinx.android.synthetic.main.fragment_main.*
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
@@ -81,8 +79,8 @@ class MainFragment : BaseFragment() {
             if (accountInfo.foodPlan < 1e-3 && accountInfo.housingPlan < 1e-3 &&
                 accountInfo.transportPlan < 1e-3 && accountInfo.shoppingPlan < 1e-3 &&
                 accountInfo.othersPlan < 1e-3 && accountInfo.savingsPlan < 1e-3)
-                findNavController().navigate(R.id.action_MainFragment_to_ControlStartFragment)
-            else findNavController().navigate(R.id.action_MainFragment_to_ControlFragment)
+                findNavController().navigate(R.id.action_MainFragment_to_PlanningStartFragment)
+            else findNavController().navigate(R.id.action_MainFragment_to_PlanningFragment)
         }
 
         pig_happiness.setOnTouchListener { _, _ -> true }
