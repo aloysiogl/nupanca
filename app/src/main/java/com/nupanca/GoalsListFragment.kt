@@ -203,7 +203,7 @@ class GoalsListFragment : BaseFragment() {
 
             val valueForCategory = HashMap<Int, Double>()
 
-            for (priority in 4 downTo 0){
+            for (priority in 2 downTo 0){
                 var valueForThisCategory = prioritiesVals[priority]
                 availableValue -= prioritiesVals[priority]
 
@@ -225,7 +225,7 @@ class GoalsListFragment : BaseFragment() {
                 prioritiesValsPerMonth[goal.priority] += goalValPerMonth[goal]!!
             }
 
-            for (priority in 4 downTo 0){
+            for (priority in 2 downTo 0){
                 var valueForThisCategoryPerMonth = prioritiesValsPerMonth[priority]
                 availableValuePerMonth -= prioritiesValsPerMonth[priority]
 
