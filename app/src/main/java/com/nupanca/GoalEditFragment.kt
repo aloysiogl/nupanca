@@ -54,7 +54,7 @@ class GoalEditFragment : BaseFragment() {
     private var focus = FOCUS.NONE
     private var transition: Transition? = null
     private var isActionSelected = false
-    private var currentSelection = "Baixa"
+    private var currentSelection = "Alta"
     private var disappearText = false
     private var keyboardDownCanEnableHomescreen = true
     private var fragmentMode = MODE.FROM_EDIT_GOAL
@@ -254,12 +254,15 @@ class GoalEditFragment : BaseFragment() {
                         val goalRef = FirebaseDatabase.getInstance()
                             .getReference("${(activity as MainActivity).androidId}/goal_list/$goalKey")
                         goalRef.setValue(goal)
+//                        GoalsListFragment.updateLazyRequest = true
+//                        findNavController().navigate(
+//                            R.id.action_GoalEditFragment_to_GoalsListFragment
+//                        )
                         val bundle = Bundle()
                         bundle.putString("goal_key", goalKey)
                         GoalsListFragment.updateLazyRequest = true
                         findNavController().navigate(R.id.action_GoalEditFragment_to_GoalFragment,
                             bundle)
-
                     }
                 }
             }
@@ -374,12 +377,13 @@ class GoalEditFragment : BaseFragment() {
                 }
 
                 button_delete.setOnClickListener {
+                    val goalRef = FirebaseDatabase.getInstance()
+                        .getReference("${(activity as MainActivity).androidId}/goal_list/$goalKey")
+                    GoalsListFragment.updateLazyRequest = true
+                    goalRef.removeValue()
                     button_delete.startAnimation(
                         AnimationUtils.loadAnimation(context, R.anim.alpha_reduction)
                     )
-                    val goalRef = FirebaseDatabase.getInstance()
-                        .getReference("${(activity as MainActivity).androidId}/goal_list/$goalKey")
-                    goalRef.removeValue()
                     findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
                 }
             }

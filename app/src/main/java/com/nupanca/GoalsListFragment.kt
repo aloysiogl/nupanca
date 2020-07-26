@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,10 +29,7 @@ import kotlin.collections.HashMap
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class GoalsListFragment : BaseFragment() {
-    private val mothInMillis = 2.628e+9
-    private var androidId :String? = null
     val goals = HashMap<String?, Goal>()
-    var accountInfo = AccountInfo()
     var db = FirebaseDatabase.getInstance()
     var dbRef: DatabaseReference? = null
     var accontInfoRef: DatabaseReference? = null
@@ -104,7 +100,7 @@ class GoalsListFragment : BaseFragment() {
 
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 if (updateLazyRequest)
-                    updateGoals(dataSnapshot)
+                    updateGoals(dataSnapshot, activity as MainActivity)
             }
         })
 
@@ -166,108 +162,116 @@ class GoalsListFragment : BaseFragment() {
         return true
     }
 
-    fun updateGoals(dataSnapshot: DataSnapshot) {
-        // Getting goals from snapshot
-        if (dataSnapshot.key != "goal_list") return
+    companion object {
+        var updateLazyRequest = false
+        var accountInfo = AccountInfo()
+        private val mothInMillis = 2.628e+9
 
-        updateLazyRequest = false
+        fun updateGoals(dataSnapshot: DataSnapshot, activity: MainActivity, targetGoalKey: String? = null) :Goal? {
+            // Getting goals from snapshot
+            if (dataSnapshot.key != "goal_list") return null
 
-        val goals = mutableListOf<Goal>()
+            updateLazyRequest = false
 
-        for (firebaseGoal in dataSnapshot.children){
-            val newGoal = Goal.fromMap(firebaseGoal.value as HashMap<String, Any>)
-            goals.add(newGoal)
-        }
-        val totalAmount = accountInfo.savingsBalance
-        val savingsPerMonth = (accountInfo.savings30Days.toDouble() +
-                accountInfo.savingsPlan.toDouble()) / 2.0
-        val prioritiesValsPerMonth = doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0)
-        val prioritiesVals = doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0)
+            val goals = mutableListOf<Goal>()
 
-        val goalValPerMonth = HashMap<Goal, Double>()
-        val goalPredictedEndDate = HashMap<Goal,Long>()
-        val goalTimeToFinish = HashMap<Goal,Double>()
-        val goalCurrentValue = HashMap<Goal, Double>()
-        val effectiveAmount = HashMap<Goal, Double>()
+            for (firebaseGoal in dataSnapshot.children){
+                val newGoal = Goal.fromMap(firebaseGoal.value as HashMap<String, Any>)
+                goals.add(newGoal)
+            }
+            val totalAmount = accountInfo.savingsBalance
+            val savingsPerMonth = (accountInfo.savings30Days.toDouble() +
+                    accountInfo.savingsPlan.toDouble()) / 2.0
+            val prioritiesValsPerMonth = doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0)
+            val prioritiesVals = doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0)
 
-        for (goal in goals) {
-            val startDate = goal.beginDate
-            val endDate = goal.endDate
-            goalTimeToFinish[goal] = endDate.toDouble() - startDate.toDouble()
-            prioritiesVals[goal.priority] += goal.totalAmount
-        }
+            val goalValPerMonth = HashMap<Goal, Double>()
+            val goalPredictedEndDate = HashMap<Goal,Long>()
+            val goalTimeToFinish = HashMap<Goal,Double>()
+            val goalCurrentValue = HashMap<Goal, Double>()
+            val effectiveAmount = HashMap<Goal, Double>()
 
-        var availableValuePerMonth = savingsPerMonth
-        var availableValue = totalAmount
-
-        val valueForCategory = HashMap<Int, Double>()
-
-        for (priority in 4 downTo 0){
-            var valueForThisCategory = prioritiesVals[priority]
-            availableValue -= prioritiesVals[priority]
-
-            if (availableValue < 0) {
-                valueForThisCategory += availableValue
-                if (valueForThisCategory <= 1e-13)
-                    valueForThisCategory = 0.0
+            for (goal in goals) {
+                val startDate = goal.beginDate
+                val endDate = goal.endDate
+                goalTimeToFinish[goal] = endDate.toDouble() - startDate.toDouble()
+                prioritiesVals[goal.priority] += goal.totalAmount
             }
 
-            valueForCategory[priority] = valueForThisCategory
+            var availableValuePerMonth = savingsPerMonth
+            var availableValue = totalAmount
 
-            for (goal in goals)
-                if (goal.priority == priority)
-                    effectiveAmount[goal] = goal.totalAmount - goal.totalAmount/prioritiesVals[priority]*valueForThisCategory
-        }
+            val valueForCategory = HashMap<Int, Double>()
 
-        for (goal in goals){
-            goalValPerMonth[goal] = effectiveAmount[goal]!! / goalTimeToFinish[goal]!!.toDouble() * mothInMillis
-            prioritiesValsPerMonth[goal.priority] += goalValPerMonth[goal]!!
-        }
+            for (priority in 4 downTo 0){
+                var valueForThisCategory = prioritiesVals[priority]
+                availableValue -= prioritiesVals[priority]
 
-        for (priority in 4 downTo 0){
-            var valueForThisCategoryPerMonth = prioritiesValsPerMonth[priority]
-            availableValuePerMonth -= prioritiesValsPerMonth[priority]
+                if (availableValue < 0) {
+                    valueForThisCategory += availableValue
+                    if (valueForThisCategory <= 1e-13)
+                        valueForThisCategory = 0.0
+                }
 
-            if (availableValuePerMonth < 0) {
-                valueForThisCategoryPerMonth += availableValuePerMonth
-                if (valueForThisCategoryPerMonth <= 1e-13)
-                    valueForThisCategoryPerMonth = 0.0
+                valueForCategory[priority] = valueForThisCategory
+
+                for (goal in goals)
+                    if (goal.priority == priority)
+                        effectiveAmount[goal] = goal.totalAmount - goal.totalAmount/prioritiesVals[priority]*valueForThisCategory
             }
 
             for (goal in goals){
-                if (goal.priority == priority){
-                    val goalGivenValuePerMonth = goalValPerMonth[goal]?.div(prioritiesValsPerMonth[priority])
-                        ?.times(valueForThisCategoryPerMonth)
+                goalValPerMonth[goal] = effectiveAmount[goal]!! / goalTimeToFinish[goal]!!.toDouble() * mothInMillis
+                prioritiesValsPerMonth[goal.priority] += goalValPerMonth[goal]!!
+            }
+
+            for (priority in 4 downTo 0){
+                var valueForThisCategoryPerMonth = prioritiesValsPerMonth[priority]
+                availableValuePerMonth -= prioritiesValsPerMonth[priority]
+
+                if (availableValuePerMonth < 0) {
+                    valueForThisCategoryPerMonth += availableValuePerMonth
+                    if (valueForThisCategoryPerMonth <= 1e-13)
+                        valueForThisCategoryPerMonth = 0.0
+                }
+
+                for (goal in goals){
+                    if (goal.priority == priority){
+                        val goalGivenValuePerMonth = goalValPerMonth[goal]?.div(prioritiesValsPerMonth[priority])
+                            ?.times(valueForThisCategoryPerMonth)
 //                    if(goalGivenValuePerMonth!! <= 1e-13){
 //                        goalPredictedEndDate[goal] = -1
 //                        goalCurrentValue[goal] = 0.0
 //                        continue
 //                    }
-                    goalPredictedEndDate[goal] = (effectiveAmount[goal]?.div((goalGivenValuePerMonth!! /mothInMillis))
-                            )!!.toLong() + goal.beginDate
-                    goalCurrentValue[goal] = goal.totalAmount/prioritiesVals[priority]* valueForCategory[priority]!!
-                    +effectiveAmount[goal]!! *(Calendar.getInstance().timeInMillis - goal.beginDate).toDouble()/
-                            (goalPredictedEndDate[goal]!! - goal.beginDate).toDouble()
+                        goalPredictedEndDate[goal] = (effectiveAmount[goal]?.div((goalGivenValuePerMonth!! /mothInMillis))
+                                )!!.toLong() + goal.beginDate
+                        goalCurrentValue[goal] = goal.totalAmount/prioritiesVals[priority]* valueForCategory[priority]!!
+                        +effectiveAmount[goal]!! *(Calendar.getInstance().timeInMillis - goal.beginDate).toDouble()/
+                                (goalPredictedEndDate[goal]!! - goal.beginDate).toDouble()
 
-                    Log.d("My", effectiveAmount.toString() + " goal " + goal.title)
+                        Log.d("My", effectiveAmount.toString() + " goal " + goal.title)
 //                    Log.d("My1", Date(goalPredictedEndDate[goal]!!).toString())
-                    Log.d("My2", goalCurrentValue[goal]!!.toString())
+                        Log.d("My2", goalCurrentValue[goal]!!.toString())
+                    }
                 }
+
             }
 
-        }
+            var targetGoal: Goal? = null
 
-        for (goal in goals){
-            val goalRef = FirebaseDatabase.getInstance()
-                .getReference("${(activity as MainActivity).androidId}/goal_list/${goal.key}")
-            val newGoal = goal.copy()
-            newGoal.predictedEndDate = goalPredictedEndDate[goal]!!
-            newGoal.currentAmount = goalCurrentValue[goal]!!
-            goalRef.setValue(newGoal)
-        }
-    }
+            for (goal in goals){
+                val goalRef = FirebaseDatabase.getInstance()
+                    .getReference("${activity.androidId}/goal_list/${goal.key}")
+                val newGoal = goal.copy()
+                newGoal.predictedEndDate = goalPredictedEndDate[goal]!!
+                newGoal.currentAmount = goalCurrentValue[goal]!!
+                if (targetGoalKey != null && newGoal.key == targetGoalKey)
+                    targetGoal = newGoal.copy()
+                goalRef.setValue(newGoal)
+            }
 
-    companion object {
-        var updateLazyRequest = false
+            return targetGoal
+        }
     }
 }

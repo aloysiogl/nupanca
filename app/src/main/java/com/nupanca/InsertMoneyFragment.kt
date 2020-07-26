@@ -28,11 +28,6 @@ class InsertMoneyFragment() : BaseFragment() {
     private var accountInfoRef: DatabaseReference? = null
     private var accountInfo: AccountInfo? = null
 
-    //TODO finish this method
-    private fun analyseCorrectness(): Boolean {
-        return valueInTextBox >= 0.01
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
