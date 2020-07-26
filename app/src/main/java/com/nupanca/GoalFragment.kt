@@ -164,23 +164,19 @@ class GoalFragment : BaseFragment() {
 
     companion object {
         fun priorityIntToString(priority: Int): String {
-            assert(priority in 0..4)
+            assert(priority in 0..2)
             when (priority){
-                0 -> return "Muito Baixa"
-                1 -> return "Baixa"
-                2 -> return "Média"
-                3 -> return "Alta"
-                4 -> return "Muito Alta"
+                0 -> return "Baixa"
+                1 -> return "Média"
+                2 -> return "Alta"
             }
             return ""
         }
         fun priorityStringToInt(priority: String): Int {
             when(priority){
-                "Muito Baixa" -> return 0
-                "Baixa" -> return 1
-                "Média" -> return 2
-                "Alta" -> return 3
-                "Muito Alta" -> return 4
+                "Baixa" -> return 0
+                "Média" -> return 1
+                "Alta" -> return 2
             }
             return -1
         }
