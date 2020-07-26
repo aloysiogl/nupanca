@@ -27,12 +27,12 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.*
 import com.nupanca.db.Goal
 import kotlinx.android.synthetic.main.fragment_goal_edit.*
+import kotlinx.android.synthetic.main.fragment_goal_edit.button_return
 import java.lang.System
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.regex.Pattern
 
 class GoalEditFragment : BaseFragment() {
 
@@ -51,12 +51,12 @@ class GoalEditFragment : BaseFragment() {
     }
 
     private var displaySizeWithoutStatusBar: Int? = 0
-    private var focus: FOCUS = FOCUS.NONE
-    private var isKeyboardSelected: Boolean  = false
+    private var focus = FOCUS.NONE
     private var transition: Transition? = null
-    private var isActionSelected: Boolean = false
-    private var currentSelection: String = "Muito Baixa"
-    private var disappearText: Boolean = false
+    private var isActionSelected = false
+    private var currentSelection = "Muito Baixa"
+    private var disappearText = false
+    private var keyboardDownCanEnableHomescreen = true
     private var fragmentMode = MODE.FROM_EDIT_GOAL
     private var validValues = true
     private var selectionValue = 0.0
@@ -101,6 +101,185 @@ class GoalEditFragment : BaseFragment() {
         view.display.getMetrics(metrics)
         displaySizeWithoutStatusBar = metrics.heightPixels - rectangle.top
 
+        // Clears all the selections in main view
+        fun clearFocusInMainView(){
+            view.clearFocus()
+            changeElementsToFocusMode(false)
+            layout_fragment_goal_edit.requestFocus();
+            focus = FOCUS.NONE
+        }
+
+        goal_priority.setOnClickListener {
+            focus = FOCUS.PRIORITY
+            changeElementsToFocusMode(true)
+        }
+
+        // Setting up goal title
+
+        title_goal_edit.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus){
+                focus = FOCUS.TITLE
+                changeElementsToFocusMode(true)
+            }
+        }
+
+        title_goal_edit.setOnKeyListener { _, keyCode, _ ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER)
+                button_confirm_edition.performClick()
+            false
+        }
+
+        // Setting up goal final value
+
+        goal_final_value.setOnClickListener {
+            focus = FOCUS.GOAL_MONEY
+            goal_final_value.requestFocus()
+            toggleKeyboard(true)
+            changeElementsToFocusMode(true)
+        }
+
+        goal_final_value_text_edit.addTextChangedListener(
+            CurrencyOnChangeListener(goal_final_value_text_edit, {
+                if (it < 1e-6)
+                    goal_final_value_text_edit.setTextColor(resources.getColor(R.color.colorRed))
+                else
+                    goal_final_value_text_edit.setTextColor(resources.getColor(R.color.colorPrimary))
+            })
+        )
+
+        goal_final_value_text_edit.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus){
+                focus = FOCUS.GOAL_MONEY
+                changeElementsToFocusMode(true)
+            }
+        }
+
+        goal_final_value_text_edit.setOnKeyListener { _, keyCode, _ ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER)
+                button_confirm_edition.performClick()
+            false
+        }
+
+        // Setting up goal_date
+
+        goal_end_date.setOnClickListener {
+            val date =
+            OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                selectionCalendar.set(Calendar.YEAR, year)
+                selectionCalendar.set(Calendar.MONTH, monthOfYear)
+                selectionCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                goal_date_text_edit.setText(SimpleDateFormat("dd/MM/yyyy", Locale.US)
+                    .format(selectionCalendar.time))
+                clearFocusInMainView()
+            }
+
+            val dialog = DatePickerDialog(
+                view.context, date, selectionCalendar
+                    .get(Calendar.YEAR), selectionCalendar.get(Calendar.MONTH),
+                selectionCalendar.get(Calendar.DAY_OF_MONTH)
+            )
+
+            dialog.setButton(
+                DialogInterface.BUTTON_NEGATIVE,
+                "cancel"
+            ) { _, which ->
+                if (which == DialogInterface.BUTTON_NEGATIVE)
+                    clearFocusInMainView()
+            }
+
+            dialog.show()
+
+            focus = FOCUS.DATE
+
+            // Changing view
+            changeElementsToFocusMode(true)
+        }
+
+        // Setting up goal_priority
+
+        val items = arrayOf<String?>("Muito Baixa", "Baixa", "Média", "Alta", "Muito Alta")
+
+        goal_priority_dropdown.adapter = ArrayAdapter(view.context, R.layout.dropdown_item, items)
+
+        goal_priority_dropdown?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                changeElementsToFocusMode(true)
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selected = parent?.getItemAtPosition(position).toString();
+                if (selected != currentSelection){
+                    currentSelection = selected
+                    clearFocusInMainView()
+                }
+            }
+        }
+
+        // Confirm button detection
+        button_confirm_edition.setOnClickListener {
+            if (isActionSelected){
+                toggleKeyboard(false)
+                changeElementsToFocusMode(false)
+            }
+            // TODO calculate current amount and make entries correct
+            // TODO predict end dates
+            else if (validValues) {
+                when(fragmentMode){
+                    MODE.FROM_NEW_GOAL, MODE.FROM_FIRST_GOAL -> {
+                        val goal = Goal(
+                            title = title_goal_edit.text.toString(),
+                            totalAmount = selectionValue,
+                            currentAmount = 1000.00,
+                            beginDate = System.currentTimeMillis(),
+                            endDate = selectionCalendar.timeInMillis,
+                            predictedEndDate = System.currentTimeMillis(),
+                            priority = GoalFragment.priorityStringToInt(currentSelection))
+
+                        // Adding to database
+                        val goalRef = database.push()
+                        goal.key = goalRef.key.toString()
+                        goalRef.setValue(goal)
+                        GoalsListFragment.updateLazyRequest = true
+                        findNavController().navigate(
+                            R.id.action_GoalEditFragment_to_GoalsListFragment
+                        )
+                    }
+                    MODE.FROM_EDIT_GOAL -> {
+                        goal?.title = title_goal_edit.text.toString()
+                        goal?.totalAmount = selectionValue
+                        goal?.endDate = selectionCalendar.timeInMillis
+                        goal?.priority = GoalFragment.priorityStringToInt(currentSelection)
+                        val goalRef = FirebaseDatabase.getInstance()
+                            .getReference("${(activity as MainActivity).androidId}/goal_list/$goalKey")
+                        goalRef.setValue(goal)
+                        val bundle = Bundle()
+                        bundle.putString("goal_key", goalKey)
+                        GoalsListFragment.updateLazyRequest = true
+                        findNavController().navigate(R.id.action_GoalEditFragment_to_GoalFragment,
+                            bundle)
+
+                    }
+                }
+            }
+        }
+
+        // Keyboard detection
+        view.addOnLayoutChangeListener { v, _, _, _, bottom, _, _, _, oldBottom ->
+            if (oldBottom > bottom) {
+                // Resetting guideline to keyboard size
+                val params = guideline_keyboard.layoutParams as ConstraintLayout.LayoutParams
+                params.guideBegin = bottom - layout_top.height - button_confirm_edition.height
+                guideline_keyboard.layoutParams = params
+            }
+            else if (oldBottom < bottom && bottom == displaySizeWithoutStatusBar ) {
+                if (keyboardDownCanEnableHomescreen)
+                     clearFocusInMainView()
+                else keyboardDownCanEnableHomescreen = true
+            }
+        }
+
         // Setting texts
         when(fragmentMode){
             MODE.FROM_FIRST_GOAL -> {
@@ -110,6 +289,9 @@ class GoalEditFragment : BaseFragment() {
 
                 button_delete.visibility = View.INVISIBLE
                 disappearText = true
+                keyboardDownCanEnableHomescreen = false
+                title_goal_edit.requestFocus()
+                toggleKeyboard(true)
 
                 button_return.setOnClickListener{
                     button_return.startAnimation(
@@ -125,6 +307,9 @@ class GoalEditFragment : BaseFragment() {
 
                 button_delete.visibility = View.INVISIBLE
                 disappearText = true
+                keyboardDownCanEnableHomescreen = false
+                title_goal_edit.requestFocus()
+                toggleKeyboard(true)
 
                 button_return.setOnClickListener{
                     button_return.startAnimation(
@@ -185,7 +370,7 @@ class GoalEditFragment : BaseFragment() {
                     val bundle = Bundle()
                     bundle.putString("goal_key", goalKey)
                     findNavController().navigate(R.id.action_GoalEditFragment_to_GoalFragment,
-                    bundle)
+                        bundle)
                 }
 
                 button_delete.setOnClickListener {
@@ -197,181 +382,6 @@ class GoalEditFragment : BaseFragment() {
                     goalRef.removeValue()
                     findNavController().navigate(R.id.action_GoalEditFragment_to_GoalsListFragment)
                 }
-            }
-        }
-
-        goal_priority.setOnClickListener {
-            focus = FOCUS.PRIORITY
-            changeElementsToFocusMode(true)
-        }
-
-
-        // Setting up goal title
-
-        title_goal_edit.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus){
-                focus = FOCUS.TITLE
-                changeElementsToFocusMode(true)
-            }
-        }
-
-        title_goal_edit.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER)
-                button_confirm_edition.performClick()
-            false
-        }
-
-        // Setting up goal final value
-
-        goal_final_value.setOnClickListener {
-            focus = FOCUS.GOAL_MONEY
-            goal_final_value.requestFocus()
-            toggleKeyboard(true)
-            changeElementsToFocusMode(true)
-        }
-
-        goal_final_value_text_edit.addTextChangedListener(
-            CurrencyOnChangeListener(goal_final_value_text_edit, {
-                if (it < 1e-6)
-                    goal_final_value_text_edit.setTextColor(resources.getColor(R.color.colorRed))
-                else
-                    goal_final_value_text_edit.setTextColor(resources.getColor(R.color.colorPrimary))
-            })
-        )
-
-        goal_final_value_text_edit.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus){
-                focus = FOCUS.GOAL_MONEY
-                changeElementsToFocusMode(true)
-            }
-        }
-
-        goal_final_value_text_edit.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER)
-                button_confirm_edition.performClick()
-            false
-        }
-
-        // Setting up goal_date
-
-        goal_end_date.setOnClickListener {
-            val date =
-            OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                selectionCalendar.set(Calendar.YEAR, year)
-                selectionCalendar.set(Calendar.MONTH, monthOfYear)
-                selectionCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-                goal_date_text_edit.setText(SimpleDateFormat("dd/MM/yyyy", Locale.US)
-                    .format(selectionCalendar.time))
-                changeElementsToFocusMode(false)
-            }
-
-            val dialog = DatePickerDialog(
-                view.context, date, selectionCalendar
-                    .get(Calendar.YEAR), selectionCalendar.get(Calendar.MONTH),
-                selectionCalendar.get(Calendar.DAY_OF_MONTH)
-            )
-
-            dialog.setButton(
-                DialogInterface.BUTTON_NEGATIVE,
-                "cancel"
-            ) { _, which ->
-                if (which == DialogInterface.BUTTON_NEGATIVE)
-                    changeElementsToFocusMode(false)
-            }
-
-            dialog.show()
-
-            focus = FOCUS.DATE
-
-            // Changing view
-            changeElementsToFocusMode(true)
-        }
-
-        // Setting up goal_priority
-
-        val items = arrayOf<String?>("Muito Baixa", "Baixa", "Média", "Alta", "Muito Alta")
-
-        goal_priority_dropdown.adapter = ArrayAdapter(view.context, R.layout.dropdown_item, items)
-
-        goal_priority_dropdown?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                changeElementsToFocusMode(true)
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selected = parent?.getItemAtPosition(position).toString();
-                if (selected != currentSelection){
-                    currentSelection = selected
-                    changeElementsToFocusMode(false)
-                }
-            }
-        }
-
-        // Confirm button detection
-        button_confirm_edition.setOnClickListener {
-            if (isActionSelected){
-                toggleKeyboard(false)
-                changeElementsToFocusMode(false)
-            }
-            // TODO calculate current amount and make entries correct
-            // TODO predict end dates
-            else if (validValues) {
-                when(fragmentMode){
-                    MODE.FROM_NEW_GOAL, MODE.FROM_FIRST_GOAL -> {
-                        val goal = Goal(
-                            title = title_goal_edit.text.toString(),
-                            totalAmount = selectionValue,
-                            currentAmount = 1000.00,
-                            beginDate = System.currentTimeMillis(),
-                            endDate = selectionCalendar.timeInMillis,
-                            predictedEndDate = System.currentTimeMillis(),
-                            priority = GoalFragment.priorityStringToInt(currentSelection))
-
-                        // Adding to database
-                        val goalRef = database.push()
-                        goal.key = goalRef.key.toString()
-                        goalRef.setValue(goal)
-                        GoalsListFragment.updateLazyRequest = true
-                        findNavController().navigate(
-                            R.id.action_GoalEditFragment_to_GoalsListFragment
-                        )
-                    }
-                    MODE.FROM_EDIT_GOAL -> {
-                        goal?.title = title_goal_edit.text.toString()
-                        goal?.totalAmount = selectionValue
-                        goal?.endDate = selectionCalendar.timeInMillis
-                        goal?.priority = GoalFragment.priorityStringToInt(currentSelection)
-                        val goalRef = FirebaseDatabase.getInstance()
-                            .getReference("${(activity as MainActivity).androidId}/goal_list/$goalKey")
-                        goalRef.setValue(goal)
-                        val bundle = Bundle()
-                        bundle.putString("goal_key", goalKey)
-                        GoalsListFragment.updateLazyRequest = true
-                        findNavController().navigate(R.id.action_GoalEditFragment_to_GoalFragment,
-                            bundle)
-
-                    }
-                }
-            }
-        }
-
-        // Keyboard detection
-        view.addOnLayoutChangeListener { v, _, _, _, bottom, _, _, _, oldBottom ->
-            if (oldBottom > bottom) {
-                isKeyboardSelected  = true
-
-                // Resetting guideline to keyboard size
-                val params = guideline_keyboard.layoutParams as ConstraintLayout.LayoutParams
-                params.guideBegin = bottom - layout_top.height - button_confirm_edition.height
-                guideline_keyboard.layoutParams = params
-            }
-            else if (oldBottom < bottom && bottom == displaySizeWithoutStatusBar) {
-                isKeyboardSelected  = false
-                v.clearFocus()
-                goal_edit_image.requestFocus()
-                changeElementsToFocusMode(false)
             }
         }
     }
