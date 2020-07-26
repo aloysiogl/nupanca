@@ -247,6 +247,7 @@ class GoalEditFragment : BaseFragment() {
                         )
                     }
                     MODE.FROM_EDIT_GOAL -> {
+                        goal?.key = goalKey
                         goal?.title = title_goal_edit.text.toString()
                         goal?.totalAmount = selectionValue
                         goal?.endDate = selectionCalendar.timeInMillis
