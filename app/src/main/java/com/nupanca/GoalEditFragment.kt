@@ -54,7 +54,7 @@ class GoalEditFragment : BaseFragment() {
     private var focus = FOCUS.NONE
     private var transition: Transition? = null
     private var isActionSelected = false
-    private var currentSelection = "Alta"
+    private var currentSelection = "Baixa"
     private var disappearText = false
     private var keyboardDownCanEnableHomescreen = true
     private var fragmentMode = MODE.FROM_EDIT_GOAL
