@@ -179,7 +179,7 @@ class MainFragment : BaseFragment() {
     }
 
     fun updatePigHappiness() {
-        var factor = 0.5
+        var factor = accountInfo.savingsBalance / 1000
 
         // Goals factor
         for (k in goals) {

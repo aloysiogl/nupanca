@@ -18,7 +18,7 @@
     <!--Strings used in the the main fragment-->
     <string name="total_amount_label">Dinheiro guardado</string>
     <string name="goals_label">Metas</string>
-    <string name="planning_label">Planejamento de gastos</string>
+    <string name="planning_label">Planejamento mensal</string>
     <string name="progress_bar_label">Felicidade do porquinho</string>
 
     <!--Strings used in the the transfers fragment-->
@@ -67,9 +67,10 @@
     <string name="placeholder_edit_text">NOME DA SUA META</string>
 
     <!--Strings used in the the planning fragment-->
-    <string name="planning_title">Planeje seus gastos</string>
+    <string name="planning_title">Planejamento mensal</string>
     <string name="plan_label">Plano</string>
     <string name="spendings_label">Gasto este mês</string>
+    <string name="savings_label">Salvo este mês</string>
     <string name="add_plan_label">Adicione uma meta de gastos!</string>
     <string name="brl">R$</string>
     <string name="category">Categoria</string>

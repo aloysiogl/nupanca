@@ -102,6 +102,7 @@ class PlanningFragment : BaseFragment() {
         savings_category.title.text = context?.getString(R.string.savings_title)
         savings_category.icon.setImageResource(R.drawable.ic_pig)
         savings_category.layout_card.setOnClickListener { listener("savings") }
+        savings_category.spendings_label.text = context?.getString(R.string.savings_label)
 
         housing_category.title.text = context?.getString(R.string.housing_title)
         housing_category.icon.setImageResource(R.drawable.ic_house)
